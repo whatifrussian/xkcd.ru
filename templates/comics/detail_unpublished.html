@@ -1,0 +1,16 @@
+{% extends "comics/base.html" %}
+
+{% block title %}ru_xkcd - {{comics.title}}{% endblock %}
+
+{% block content %}
+<tr><td><h1>Неопубликованное</h1>
+<tr><td><h2>{{comics.title}}</h2>
+<tr><td><a href="http://xkcd.com/{{comics.id}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
+
+<tr><td class="text"><div>{{comics.text}}</div>
+
+{% if comics.comment %}
+<tr><td class="comment"><div>{{comics.comment}}</div>
+{% endif %}
+
+{% endblock %}

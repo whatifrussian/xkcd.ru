@@ -1,0 +1,31 @@
+{% extends "comics/base.html" %}
+
+{% block title %}ru_xkcd - {{comics.title}}{% endblock %}
+
+{% block content %}
+<tr><td><h2>{{comics.title}}</h2>
+<tr><td>
+<ul class="nav">
+<li><a class="nav" href="{% ifnotequal first.id comics.id %}{{first.get_absolute_url}}{% else %}#{% endifnotequal %}">|&lt;</a>
+<li><a class="nav" href="{% if prev %}{{prev.get_absolute_url}}{% else %}#{% endif %}">&lt;туда</a>
+<li><a class="nav" href="{{random}}">наугад</a>
+<li><a class="nav" href="{% if next %}{{next.get_absolute_url}}{% else %}#{% endif %}">сюда&gt;</a>
+<li><a class="nav" href="{% ifnotequal last.id comics.id %}{{last.get_absolute_url}}{% else %}#{% endifnotequal %}">&gt;|</a>
+</ul>
+<tr><td><a href="http://xkcd.com/{{comics.id}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
+
+<tr><td class="text"><div>{{comics.text}}</div>
+
+{% if comics.comment %}
+<tr><td class="comment"><div>{{comics.comment}}</div>
+{% endif %}
+
+<tr><td>
+<ul class="nav">
+<li><a class="nav" href="{% ifnotequal first.id comics.id %}{{first.get_absolute_url}}{% else %}#{% endifnotequal %}">|&lt;</a>
+<li><a class="nav" href="{% if prev %}{{prev.get_absolute_url}}{% else %}#{% endif %}">&lt;туда</a>
+<li><a class="nav" href="{{random}}">наугад</a>
+<li><a class="nav" href="{% if next %}{{next.get_absolute_url}}{% else %}#{% endif %}">сюда&gt;</a>
+<li><a class="nav" href="{% ifnotequal last.id comics.id %}{{last.get_absolute_url}}{% else %}#{% endifnotequal %}">&gt;|</a>
+</ul>
+{% endblock %}

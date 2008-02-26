@@ -1,0 +1,6 @@
+<a href="http://xkcd.com/{{obj.id}}/" target=_blank><img border=0 alt="{{obj.title}}" src="{{obj.get_image_url}}"></a>
+<p>{{obj.text}}
+{% if obj.comment %}
+<hr>
+<p>{{obj.comment}}
+{% endif %}

@@ -1,0 +1,24 @@
+{% extends "comics/base.html" %}
+
+{% block title %}ru_xkcd - Список{% endblock %}
+
+{% block content %}
+<tr><td class="head"><h2>Список</h2>
+
+<tr><td class="list" align="center">
+{% if comics_list %}
+<table cellpadding=4 align="center"><tr>
+{% for comics in comics_list %}
+{% if comics.fake %}<td class="fake">{{comics.id}}
+{% else %}<td class="real"><a href="{{comics.get_absolute_url}}">{{comics.id}}</a>
+{% endif %}
+{% if comics.br %}
+</tr><tr>
+{% endif %}
+{% endfor %}
+</table>
+{% else %}
+   <p>No comics are available.</p>
+{% endif %}
+</td></tr>
+{% endblock %}

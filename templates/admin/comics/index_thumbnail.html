@@ -1,0 +1,20 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}ru_xkcd - Список{% endblock %}
+
+{% block content %}
+<tr><td class="head"><h2>Список</h2>
+
+<tr><td class="list" align="center">
+{% if comics_list %}
+{% for comics in comics_list %}
+<a href="{{comics.get_absolute_url}}"><img hspace=4 vspace=4 border=0 src="{{comics.get_thumbnail_url}}" width=48 height=48 title="{{comics.id}}: {{comics.title}}" alt="{{comics.title}}"></a>
+{% if comics.br %}
+</tr><tr>
+{% endif %}
+{% endfor %}
+{% else %}
+   <p>No comics are available.</p>
+{% endif %}
+</td></tr>
+{% endblock %}

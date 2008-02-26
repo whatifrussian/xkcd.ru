@@ -1,0 +1,7 @@
+#!/bin/sh
+PYTHONPATH=/home/django/misc:/usr/local/lib/python2.4/site-packages
+export PYTHONPATH
+python2.4 /home/django/misc/site/manage.py $@
+
+
+

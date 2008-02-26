@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+
+
+{% block title %}Preview: {{comics.title}}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+<h2>{{comics.title}}</h2>
+<p><a href="http://xkcd.com/{{comics.id}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
+
+<p>&laquo;{{comics.text}}&raquo;
+{% if comics.comment %}
+<p>{{comics.comment}}
+{% endif %}
+</div>
+{% endblock %}
