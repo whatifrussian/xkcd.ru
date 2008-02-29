@@ -3,5 +3,6 @@ media/colors
 media/fake_xkcd_img
 media/xkcd_img
 media/xkcd_thumb
+site/specific
 *~
 db

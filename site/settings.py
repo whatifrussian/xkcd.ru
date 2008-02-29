@@ -1,4 +1,5 @@
 # Django settings for xkcd project.
+from specific.settings import *
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -8,22 +9,6 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
-#DATABASE_ENGINE = 'mysql'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
-#DATABASE_NAME = 'comics'             # Or path to database file if using sqlite3.
-#DATABASE_USER = 'comics'             # Not used with sqlite3.
-#DATABASE_PASSWORD = 'djr01'         # Not used with sqlite3.
-#DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
-#DATABASE_PORT = '3306'             # Set to empty string for default. Not used with sqlite3.
-
-DATABASE_ENGINE = 'sqlite3'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
-DATABASE_NAME = '/home/davidov/my/misc/db/xkcd.db'             # Or path to database file if using sqlite3.
-#DATABASE_USER = ''             # Not used with sqlite3.
-#DATABASE_PASSWORD = ''         # Not used with sqlite3.
-#DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-#DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-
-FIXTURE_DIRS = ['/home/davidov/my/misc/db']
 
 # Local time zone for this installation. All choices can be found here:
 # http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
@@ -35,10 +20,6 @@ TIME_ZONE = 'Europe/Moscow'
 LANGUAGE_CODE = 'ru-ru'
 
 SITE_ID = 1
-
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/davidov/my/misc/media/'
 
 # URL that handles the media served from MEDIA_ROOT.
 # Example: "http://media.lawrence.com"
@@ -70,12 +51,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'urls'
-
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates".
-    # Always use forward slashes, even on Windows.
-    '/home/davidov/my/misc/templates',
-)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
