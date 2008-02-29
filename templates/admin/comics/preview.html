@@ -6,7 +6,7 @@
 {% block content %}
 <div id="content-main">
 <h2>{{comics.title}}</h2>
-<p><a href="http://xkcd.com/{{comics.id}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
+<p><a href="http://xkcd.com/{{comics.cid}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
 
 <p>&laquo;{{comics.text}}&raquo;
 {% if comics.comment %}

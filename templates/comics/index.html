@@ -9,8 +9,11 @@
 {% if comics_list %}
 <table cellpadding=4 align="center"><tr>
 {% for comics in comics_list %}
-{% if comics.fake %}<td class="fake">{{comics.id}}
-{% else %}<td class="real"><a href="{{comics.get_absolute_url}}">{{comics.id}}</a>
+{% if comics.fake %}
+<td class="fake">{{comics.cid}}
+{% else %}
+<td class="{% if comics.visible %}real{% else %}invisible{% endif %}">
+<a href="{{comics.get_absolute_url}}">{{comics.cid}}</a>
 {% endif %}
 {% if comics.br %}
 </tr><tr>

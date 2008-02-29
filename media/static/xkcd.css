@@ -1,10 +1,18 @@
 body {
   background:#96a8c8;
-  margin-top:20px;
+  margin:0;
+}
+
+div.main {
+  padding-top:20px;
 }
 
 td {
   text-align:center;
+}
+
+form table {
+  text-align:left;
 }
 
 ul.nav {
@@ -81,7 +89,17 @@ h2 {
 td.fake {
   color: #D0D0D0;
 }
-  
+
+td.invisible a{
+  color:#962828;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+img.invisible {
+  border: 1px dashed #962828;
+}
+
 td.real a{
   color:#96A8C8;
   font-weight:bold;
@@ -91,4 +109,28 @@ td.real a{
 td.comment div {
   border-top: 1px solid grey;
   padding-top: 15px;
+}
+
+.invisible {
+  color:#906060;
+}
+
+div.sys {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid black;
+  text-align: center;
+  font-family: monospace;
+  font-size:16px;
+  color: #000000;
+  word-spacing: 20px;
+}
+
+div.sys a {
+  color: black;
+  text-decoration: none;
+}
+
+p.code {
+  border: solid 1px black;
+  font-family: monospace;
 }

@@ -8,10 +8,8 @@
 <tr><td class="list" align="center">
 {% if comics_list %}
 {% for comics in comics_list %}
-<a href="{{comics.get_absolute_url}}"><img hspace=4 vspace=4 border=0 src="{{comics.get_thumbnail_url}}" width=48 height=48 title="{{comics.id}}: {{comics.title}}" alt="{{comics.title}}"></a>
-{% if comics.br %}
-</tr><tr>
-{% endif %}
+<a href="{{comics.get_absolute_url}}">
+<img {% if not comics.visible %}class="invisible"{% endif %} hspace=4 vspace=4 border=0 src="{{comics.get_thumbnail_url}}" width=48 height=48 title="{{comics.cid}}: {{comics.title}}" alt="{{comics.title}}"></a>
 {% endfor %}
 {% else %}
    <p>No comics are available.</p>

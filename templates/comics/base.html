@@ -7,8 +7,15 @@
 <link rel="alternate" title="New on ru_xkcd" href="/feeds/xkcd" type="application/rss+xml">
 </head>
 <body>
+{% if user.is_authenticated %}
+<div class="sys">
+<a href="{% url comics.views.add %}">add</a>
+<a href="{% url comics.views.index_unpublished %}">unpublished</a>
+<a href="{% url logout %}">logout</a>
+</div>
+{% endif %}
 
-<div align="center">
+<div class="main" align="center">
 <table id="global" cellpadding=5>
 
 <tr><td>
@@ -22,13 +29,15 @@
 <li><a rel="license" href="http://creativecommons.org/licenses/by-nc/2.5/">CC-2.5</a>
 </ul>
 
+
 {% block content %}<tr><td></td></tr>{% endblock %}
 </table></div>
+<!--
 <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
 </script>
 <script type="text/javascript">
 _uacct = "UA-2617140-1";
 urchinTracker();
-</script>
+</script-->
 </body>
 </html>

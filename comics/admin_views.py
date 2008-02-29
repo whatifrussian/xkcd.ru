@@ -8,7 +8,7 @@ from django.template import RequestContext
 
 def preview(request, comics_id):
     comics_id=int(comics_id)
-    this = get_object_or_404(Comics,id=comics_id)
+    this = get_object_or_404(Comics,cid=comics_id)
     return render_to_response('admin/comics/preview.html',
                               {'comics': this},
                               RequestContext(request, {}))

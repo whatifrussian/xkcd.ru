@@ -5,7 +5,7 @@
 {% block content %}
 <tr><td><h1>Неопубликованное</h1>
 <tr><td><h2>{{comics.title}}</h2>
-<tr><td><a href="http://xkcd.com/{{comics.id}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
+<tr><td><a href="http://xkcd.com/{{comics.cid}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
 
 <tr><td class="text"><div>{{comics.text}}</div>
 
@@ -13,4 +13,11 @@
 <tr><td class="comment"><div>{{comics.comment}}</div>
 {% endif %}
 
+{% ifequal comics.author user %}
+<tr><td>
+<form action="{% url comics.views.edit comics.cid %}">
+<input type="submit" name="edit" value="Редактировать">
+<input type="submit" name="publish" value="Опубликовать">
+</form>
+{% endifequal %}
 {% endblock %}
