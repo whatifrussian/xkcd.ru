@@ -1,0 +1,29 @@
+{% extends "comics/base.html" %}
+
+{% block title %}
+ru_xkcd - 
+{% if comics %}
+{{comics.title}}
+{% else %}
+Добавить
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<h1>
+{% if comics %}
+Редактировать
+{% else %}
+Добавить
+{% endif %}
+</h1>
+
+<form enctype="multipart/form-data" method="post" action="">
+<table align="center">{{ form }}</table>
+<input type="submit" value="Сохранить">
+</form>
+{% if comics %}
+<img border=0 alt="Thumbnail"src="{{comics.get_thumbnail_url}}"><br>
+<img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}">
+{% endif %}
+{% endblock %}

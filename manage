@@ -1,7 +1,0 @@
-#!/bin/sh
-PYTHONPATH=$HOME/tmp/dj/:/home/davidov/my/misc/:/usr/lib/python2.5/site-packages/
-export PYTHONPATH
-python /home/davidov/my/misc/site/manage.py $@
-
-
-

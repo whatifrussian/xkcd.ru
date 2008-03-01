@@ -1,0 +1,22 @@
+{% extends "comics/base.html" %}
+
+{% block title %}ru_xkcd - Список неопубликованных{% endblock %}
+
+{% block content %}
+<h1>Неопубликованное</h1>
+
+{% if comics_list %}
+<ul class="unpublished_list">
+{% for comics in comics_list %}
+<li>
+<a href="{{comics.get_absolute_url}}">
+<img border=0 src="{{comics.get_thumbnail_url}}" width=48 height=48 title="{{comics.cid}}: {{comics.title}}" alt="{{comics.title}}">
+ {{comics.cid}}: {{comics.title}}</a>
+
+
+{% endfor %}
+</ul>
+{% else %}
+   <p>No comics are available.</p>
+{% endif %}
+{% endblock %}
