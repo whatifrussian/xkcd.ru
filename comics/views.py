@@ -5,7 +5,6 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-#from django.contrib.sites.models import Site
 from django.contrib.auth.decorators import login_required
 
 
@@ -92,14 +91,14 @@ def random(request,comics_id=-1):
 
 #Auth users methods
 
+@login_required
 def index_unpublished(request):
     comics_list=Comics.objects.filter(visible=False).order_by('pub_date')
     return render_to_response('comics/index_unpublished.html',
                               {'comics_list': comics_list},
                               context_instance=RequestContext(request))
     
-index_unpublished = login_required(index_unpublished);
-
+@login_required
 def edit(request, comics_id):
     comics_id=int(comics_id)
     this = get_object_or_404(Comics, cid=comics_id)
@@ -121,8 +120,7 @@ def edit(request, comics_id):
                                'form': form},
                               context_instance=RequestContext(request))
 
-edit = login_required(edit)
-
+@login_required
 def add(request):
     if request.method == 'POST':
         this = Comics(author=request.user)
@@ -136,5 +134,4 @@ def add(request):
                               {'form': form},
                               context_instance=RequestContext(request))
 
-add = login_required(add);
 

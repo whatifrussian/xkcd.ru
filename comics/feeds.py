@@ -10,4 +10,4 @@ class LatestComics(Feed):
         return Comics.objects.filter(visible=True).order_by('-pub_date')[:10]
 
     def item_pubdate(self,item):
-	return item.updated
+        return item.updated

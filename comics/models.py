@@ -20,17 +20,12 @@ class Comics(models.Model):
     def __unicode__(self):
         return "%s: %s" % (self.cid, self.title)
     
-    #def image_view(self):
-    #    return "<img src='%s' alt=''/>" % (self.get_image_url())
-
-    #image_view.allow_tags = True
+	@permalink
     def get_absolute_url(self):
         if self.visible: 
             return ('comics.views.detail', [str(self.cid)])
         else:
             return ('comics.views.detail_unpublished', [str(self.cid), self.pub_date.strftime('%s')])
-
-    get_absolute_url = permalink(get_absolute_url)
 
     def image_preview(self):
         return '<a href="%s" title="%d: %s"><img border=0 src="%s" alt="%s"></a>' % (self.get_absolute_url(), self.cid, self.title, self.get_thumbnail_url(), self.title)
@@ -39,14 +34,9 @@ class Comics(models.Model):
     image_preview.short_description = 'Preview'
 
     class Admin:
-	#fields = (
-        #    (None, {'fields': ('id', 'title', 'image', 'text', 'comment', 'image_preview')}),
-        #)
         list_display = ('cid', 'title', 'image_preview', 'visible')
-        #list_display = ('cid', 'title', 'visible')
         ordering = ('visible', )
         list_per_page = 10
-        #pass
 
 class ComicsForm(ModelForm):
     class Meta:
