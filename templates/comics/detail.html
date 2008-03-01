@@ -5,13 +5,7 @@
 {% block content %}
 <h1>{{comics.title}}</h1>
 
-<ul class="nav">
-<li><a class="nav" href="{% ifnotequal first.cid comics.cid %}{{first.get_absolute_url}}{% else %}#{% endifnotequal %}">|&lt;</a>
-<li><a class="nav" href="{% if prev %}{{prev.get_absolute_url}}{% else %}#{% endif %}">&lt;туда</a>
-<li><a class="nav" href="{{random}}">наугад</a>
-<li><a class="nav" href="{% if next %}{{next.get_absolute_url}}{% else %}#{% endif %}">сюда&gt;</a>
-<li><a class="nav" href="{% ifnotequal last.cid comics.cid %}{{last.get_absolute_url}}{% else %}#{% endifnotequal %}">&gt;|</a>
-</ul>
+{% include "comics/navigation.html" %}
 <div class="clearer"></div>
 
 {% if code %}
@@ -47,12 +41,6 @@
 {% endifequal %}
 
 
-<ul class="nav">
-<li><a class="nav" href="{% ifnotequal first.cid comics.cid %}{{first.get_absolute_url}}{% else %}#{% endifnotequal %}">|&lt;</a>
-<li><a class="nav" href="{% if prev %}{{prev.get_absolute_url}}{% else %}#{% endif %}">&lt;туда</a>
-<li><a class="nav" href="{{random}}">наугад</a>
-<li><a class="nav" href="{% if next %}{{next.get_absolute_url}}{% else %}#{% endif %}">сюда&gt;</a>
-<li><a class="nav" href="{% ifnotequal last.cid comics.cid %}{{last.get_absolute_url}}{% else %}#{% endifnotequal %}">&gt;|</a>
-</ul>
+{% include "comics/navigation.html" %}
 <div class="clearer"></div>
 {% endblock %}
