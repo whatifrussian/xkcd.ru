@@ -128,16 +128,10 @@ ul.nav li a:hover{
 
 /* Comics */
 
-/*div.comics_text {
-  border: 1px dashed black;
-  padding: 4px;
-  display: inline-block;
-  width: 50%;
-  margin-right: auto;
-  margin-left: auto;
+div.comics_text {
   margin-top: 1em;
   margin-bottom: 1em;
-}*/
+}
 
 div.comment {
   border-top: 1px solid grey;
