@@ -126,8 +126,8 @@ def edit(request, comics_id):
         elif request.method == 'POST':
             form = ComicsForm(request.POST, request.FILES, instance=this)
             if form.is_valid():
-                form.save()
-                return HttpResponseRedirect(reverse(index_unpublished))
+                this=form.save()
+                return HttpResponseRedirect(this.get_absolute_url())
         else:
             form = ComicsForm(instance = this)
     except IntegrityError:

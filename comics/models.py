@@ -46,6 +46,10 @@ class ComicsForm(ModelForm):
         exclude = ('pub_date', 'updated', 'visible', 'author')
     def clean_thumbnail(self):
         thumbnail = self.cleaned_data['thumbnail']
-        image = Image.open(StringIO(thumbnail.content))
-        if image.size != (48, 48):
-            raise ValidationError(u'Должно быть 48x48.')
+        try:
+            image = Image.open(StringIO(thumbnail.content))
+            if image.size != (48, 48):
+                raise ValidationError(u'Должно быть 48x48.')
+        # This means that image is string.
+        except AttributeError:
+            return
