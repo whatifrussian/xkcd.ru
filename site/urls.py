@@ -10,8 +10,6 @@ urlpatterns = patterns('',
 # Example:
 #     (r'^xkcd/', include('xkcd.apps.foo.urls.foo')),
 # Uncomment this for admin:
-(r'^admin/comics/preview/(?P<comics_id>\d+)/$', 'comics.admin_views.preview'),
-(r'^admin/comics/index_thumbnail/$', 'comics.admin_views.index_thumbnail'),
 (r'^admin/', include('django.contrib.admin.urls')),
 (r'^xkcd/$', 'comics.views.index'),
 (r'^xkcd/img/$', 'comics.views.index_thumbnail'),
@@ -27,5 +25,3 @@ url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/xkcd/'}, n
 (r'^xkcd/(?P<comics_id>\d+)/edit/$', 'comics.views.edit'),
 (r'^xkcd/add/$', 'comics.views.add'),
 )+specific.urls.urlpatterns
-
-
