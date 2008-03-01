@@ -203,10 +203,11 @@ div.sys a {
 }
 
 div.code {
-  width: 30em;
+  width: 40em;
   border: solid 1px black;
   font-family: monospace;
   margin: 10px;
+  padding: 5px;
 }
 
 .me {

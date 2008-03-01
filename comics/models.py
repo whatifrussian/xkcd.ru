@@ -50,6 +50,7 @@ class ComicsForm(ModelForm):
             image = Image.open(StringIO(thumbnail.content))
             if image.size != (48, 48):
                 raise ValidationError(u'Должно быть 48x48.')
+            return thumbnail
         # This means that image is string.
         except AttributeError:
             return
