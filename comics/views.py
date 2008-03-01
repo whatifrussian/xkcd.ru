@@ -33,9 +33,9 @@ def index(request):
 
 def index_thumbnail(request):
     if request.user.is_authenticated():
-        comics_list=Comics.objects.order_by('-pub_date')
+        comics_list=Comics.objects.order_by('cid')
     else:
-        comics_list=Comics.objects.filter(visible=True).order_by('-pub_date')
+        comics_list=Comics.objects.filter(visible=True).order_by('-cid')
         
     return render_to_response('comics/index_thumbnail.html',
                               {'comics_list': comics_list},
