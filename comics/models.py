@@ -15,7 +15,7 @@ class Comics(models.Model):
     visible = models.BooleanField("Виден", default=False)
     pub_date = models.DateTimeField('Опубликованно',auto_now_add=True)
     updated = models.DateTimeField('Обновлено', auto_now=True)
-    author = models.ForeignKey('Автор', User)
+    author = models.ForeignKey(User)
     
     def __unicode__(self):
         return "%s: %s" % (self.cid, self.title)
