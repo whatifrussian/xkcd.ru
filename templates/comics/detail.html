@@ -23,18 +23,6 @@
 </div>
 {% endif %}
 
-
-<a href="http://xkcd.com/{{comics.cid}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
-
-<div class="comics_text">{{ comics.text|safe }}</div>
-
-{% if comics.comment %}
-<div class="comment">
-{{ comics.comment|safe }}
-</div>
-{% endif %}
-
-
 {% ifequal comics.author user %}
 <div class="buttons">
 <form action="{% url comics.views.edit comics.cid %}" method="post">
@@ -48,6 +36,19 @@
 </form>
 </div>
 {% endifequal %}
+
+
+
+<a href="http://xkcd.com/{{comics.cid}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
+
+<div class="comics_text">{{ comics.text|safe }}</div>
+
+{% if comics.comment %}
+<div class="comment">
+{{ comics.comment|safe }}
+</div>
+{% endif %}
+
 
 
 {% include "comics/navigation.html" %}
