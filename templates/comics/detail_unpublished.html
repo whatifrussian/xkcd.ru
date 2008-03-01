@@ -3,14 +3,18 @@
 {% block title %}ru_xkcd - {{comics.title}}{% endblock %}
 
 {% block content %}
-<tr><td><h1>Неопубликованное</h1>
-<tr><td><h2>{{comics.title}}</h2>
-<tr><td><a href="http://xkcd.com/{{comics.cid}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
+<h1>Неопубликованное</h1>
+<h1>{{comics.title}}</h1>
 
-<tr><td class="text"><div>{{comics.text}}</div>
+
+<a href="http://xkcd.com/{{comics.cid}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
+
+<div class="comics_text">{{ comics.text|safe }}</div>
 
 {% if comics.comment %}
-<tr><td class="comment"><div>{{comics.comment}}</div>
+<div class="comment">
+{{ comics.comment|safe }}
+</div>
 {% endif %}
 
 {% ifequal comics.author user %}
@@ -20,4 +24,6 @@
 <input type="submit" name="publish" value="Опубликовать">
 </form>
 {% endifequal %}
+
+<div class="clearer"></div>
 {% endblock %}

@@ -7,12 +7,11 @@
 </h2>
 <p>{{original.title}}
 <p>
-{% filter force_escape %}
-<a href="http://xkcd.com/{{original.cid}}/" target="_blank"><img src="{{original.get_image_url}}" border="0" alt="{{original.title}}"></a>
-<p>{{original.text}}
+{% filter escape %}
+<a href="http://xkcd.com/{{original.id}}/" target="_blank"><img src="{{original.get_image_url}}" border="0" alt="{{original.title}}"></a>
+<p>&laquo;{{original.text}}&raquo;
 {% if original.comment %}
 <p><lj-cut text="дополнительная информация">
-<hr size=1 width="80%">
 <p>{{original.comment}}
 </lj-cut>
 {% endif %}

@@ -1,64 +1,45 @@
 body {
-  background:#96a8c8;
-  margin:0;
+  background: #96a8c8;
+  margin: 0;
+  text-align: center;
 }
 
 div.main {
-  padding-top:20px;
+  background:#ffffff;
+  border:1px solid #000000;
+  margin-bottom:70px;
+  margin-top:50px;
+  width:48em;
+  margin-right: auto;
+  margin-left: auto;
+	padding: 7px 7px 30px 7px;
 }
 
-td {
-  text-align:center;
+h1 {
+  font-size: 1.2em;
+  font-variant:small-caps;
+  font-family:Lucida,sans-serif;
+  font-weight:800;
+  margin-bottom:15px;
+  margin-top:15px;
 }
 
-form table {
-  text-align:left;
-}
-
-ul.nav {
-	margin:auto;
-	padding:20px;
-	list-style-type:none;
-	width:400px;
-}
-
-ul.nav li{
-	float:left;
-}
-
-ul.nav li a{
-	display:block;
-	margin:0px 4px 0px 4px;
-	width:70px;
-	border:1px solid black;
-	background-color:#6E7B91;	
-	color:#FFF;
-	text-decoration:none;
-	font-size:16px;
-	font-variant:small-caps;	
-	font-family:Lucida, sans-serif;
-	font-weight:600;
-}
-
-ul.nav li a:hover{
-	background-color:#FFF;
-	color:#6E7B91;
-}
+/* Header Links */
 
 ul.lnk {
-  margin:auto;
-  list-style-type:none;
-  width:590px;
+  margin: auto;
+  padding: 0px;
+  list-style-type: none;
+  width:560px;
 }
 
-ul.lnk li{
-  float:left;
+ul.lnk li {
+  display: block;
+  width: 80px;
+  float: left;
 }
 
-ul.lnk li a{
-  display:block;
-  margin:0px 4px 0px 4px;
-  width:70px;
+ul.lnk li a {
   color:black;
   text-decoration:underline;
   font-size:1.3em;
@@ -68,61 +49,158 @@ ul.lnk li a{
   text-transform:capitalize;
 }
 
-#global {
-  background:#ffffff;
-  border:1px solid #000000;
-  margin-bottom:70px;
-  margin-top:30px;
-  width:777px;
-  text-align:center;
+/* Comics List */
+
+div.list {
+  margin: 0;
+  padding: 0;
+  vertical-align: bottom;
 }
 
-h2 {
-  font-size:1.2em;
-  font-variant:small-caps;
-  font-family:Lucida,sans-serif;
-  font-weight:800;
-  margin-bottom:0;
-  margin-top:15px;
+ul.list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 44em;
+	text-align: center;
 }
 
-td.fake {
+li.real, li.fake, li.invisible {
+  display: block;
+  float: left;
+  width: 2em;
+  height: 1.7em;
+  margin: 0.1em;
+  line-height: 1.7em;
+}
+
+li.fake {
   color: #D0D0D0;
 }
-
-td.invisible a{
-  color:#962828;
-  font-weight:bold;
-  text-decoration:none;
-}
-
-img.invisible {
-  border: 1px dashed #962828;
-}
-
-td.real a{
+  
+li.real a {
   color:#96A8C8;
   font-weight:bold;
   text-decoration:none;
 }
 
-td.comment div {
+li.invisible a {
+  color:  #962020;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+/* Comics Nav */
+
+ul.nav {
+  margin:auto;
+  padding: 1em;
+  list-style-type:none;
+  width:400px;
+  text-align: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+ul.nav li{
+  display:block;
+  float: left;
+}
+
+ul.nav li a{
+  display: block;
+  margin: 0px 4px 0px 4px;
+  width:70px;
+  border:1px solid black;
+  background-color:#6E7B91;	
+  color:#FFF;
+  text-decoration:none;
+  font-size:16px;
+  font-variant:small-caps;	
+  font-family:Lucida, sans-serif;
+  font-weight:600;
+}
+
+ul.nav li a:hover{
+	background-color:#FFF;
+	color:#6E7B91;
+}
+
+/* Comics */
+
+/*div.comics_text {
+  border: 1px dashed black;
+  padding: 4px;
+  display: inline-block;
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}*/
+
+div.comment {
   border-top: 1px solid grey;
   padding-top: 15px;
 }
 
-.invisible {
-  color:#906060;
+
+
+/* Utility */
+
+div.clearer {
+  clear: left;
+  height: 1px;
+}
+
+/* Unpublished Comics */
+
+ul.unpublished_list li {
+  list-style: none;
+  width: 30em;
+  text-align: left;
+  line-height: 50px;
+}
+
+ul.unpublished_list li img {
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+ul.unpublished_list li a {
+  text-decoration: none;
+  color: black;
+}
+
+img.thumb {
+  padding: 1px;
+}
+
+img.invisible {
+  border: 1px dashed #962020;
 }
 
 div.sys {
-  background-color: #FFFFFF;
+  background-color: white;
   border-bottom: 1px solid black;
   text-align: center;
   font-family: monospace;
   font-size:16px;
   color: #000000;
-  word-spacing: 20px;
+}
+
+div.sys ul {
+  margin: auto;
+  padding: 0px;
+  list-style-type: none;
+  align: center;
+}
+
+div.sys ul li {
+  display: block;
+  padding-left: 10px;
+  padding-right: 10px;
+  float: left;
 }
 
 div.sys a {
@@ -130,7 +208,8 @@ div.sys a {
   text-decoration: none;
 }
 
-p.code {
+div.code {
+  width: 30em;
   border: solid 1px black;
   font-family: monospace;
 }

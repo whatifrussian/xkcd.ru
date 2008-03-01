@@ -3,25 +3,17 @@
 {% block title %}ru_xkcd - Список{% endblock %}
 
 {% block content %}
-<tr><td class="head"><h2>Список</h2>
-
-<tr><td class="list" align="center">
+<h1>Список</h2>
 {% if comics_list %}
-<table cellpadding=4 align="center"><tr>
+<ul class="list">
 {% for comics in comics_list %}
-{% if comics.fake %}
-<td class="fake">{{comics.cid}}
-{% else %}
-<td class="{% if comics.visible %}real{% else %}invisible{% endif %}">
-<a href="{{comics.get_absolute_url}}">{{comics.cid}}</a>
-{% endif %}
-{% if comics.br %}
-</tr><tr>
+{% if comics.fake %}<li class="fake">{{comics.cid}}</li>
+{% else %}<li class="{% if comics.visible %}real{% else %}invisible{% endif %}"><a href="{{comics.get_absolute_url}}">{{comics.cid}}</a></li>
 {% endif %}
 {% endfor %}
-</table>
+</ul>
+<div class="clearer"></div>
 {% else %}
    <p>No comics are available.</p>
 {% endif %}
-</td></tr>
 {% endblock %}

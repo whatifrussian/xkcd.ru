@@ -3,8 +3,8 @@
 {% block title %}ru_xkcd - {{comics.title}}{% endblock %}
 
 {% block content %}
-<tr><td><h2>{{comics.title}}</h2>
-<tr><td>
+<h1>{{comics.title}}</h1>
+
 <ul class="nav">
 <li><a class="nav" href="{% ifnotequal first.cid comics.cid %}{{first.get_absolute_url}}{% else %}#{% endifnotequal %}">|&lt;</a>
 <li><a class="nav" href="{% if prev %}{{prev.get_absolute_url}}{% else %}#{% endif %}">&lt;туда</a>
@@ -12,10 +12,10 @@
 <li><a class="nav" href="{% if next %}{{next.get_absolute_url}}{% else %}#{% endif %}">сюда&gt;</a>
 <li><a class="nav" href="{% ifnotequal last.cid comics.cid %}{{last.get_absolute_url}}{% else %}#{% endifnotequal %}">&gt;|</a>
 </ul>
-
+<div class="clearer"></div>
 
 {% if code %}
-<tr><td><p class="code">
+<div class="code">
 {% filter force_escape %}
 <a href="http://xkcd.com/{{comics.cid}}/" target="_blank"><img src="{{comics.get_image_url}}" border="0" alt="{{comics.title}}"></a>
 <p>{{comics.text}}
@@ -26,24 +26,27 @@
 </lj-cut>
 {% endif %}
 {% endfilter %}
+</div>
 {% endif %}
 
-<tr><td><a href="http://xkcd.com/{{comics.cid}}/" target=_blank><img border=0 alt="{{comics.title}}" src="{{comics.get_image_url}}"></a>
 
-<tr><td class="text"><div>{{ comics.text|safe }}</div>
+<a href="http://xkcd.com/{{comics.cid}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
+
+<div class="comics_text">{{ comics.text|safe }}</div>
 
 {% if comics.comment %}
-<tr><td class="comment"><div>{{ comics.comment|safe }}</div>
+<div class="comment">
+{{ comics.comment|safe }}
+</div>
 {% endif %}
 
 {% ifequal comics.author user %}
-<tr><td>
 <form action="{% url comics.views.edit comics.cid %}">
 <input type="submit" name="edit" value="Редактировать">
 </form>
 {% endifequal %}
 
-<tr><td>
+
 <ul class="nav">
 <li><a class="nav" href="{% ifnotequal first.cid comics.cid %}{{first.get_absolute_url}}{% else %}#{% endifnotequal %}">|&lt;</a>
 <li><a class="nav" href="{% if prev %}{{prev.get_absolute_url}}{% else %}#{% endif %}">&lt;туда</a>
@@ -51,4 +54,5 @@
 <li><a class="nav" href="{% if next %}{{next.get_absolute_url}}{% else %}#{% endif %}">сюда&gt;</a>
 <li><a class="nav" href="{% ifnotequal last.cid comics.cid %}{{last.get_absolute_url}}{% else %}#{% endifnotequal %}">&gt;|</a>
 </ul>
+<div class="clearer"></div>
 {% endblock %}
