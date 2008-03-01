@@ -219,4 +219,21 @@ div.buttons {
 
 div.buttons form {
   display: inline;
-} 
+}
+
+form.edit table {
+  width: 100%;
+  text-align: left;
+}
+
+form.edit table tr {
+  border: 1px solid grey;
+}
+
+form.edit table th {
+  vertical-align: top;
+}
+
+form.edit textarea {
+  width: 80%;
+}
