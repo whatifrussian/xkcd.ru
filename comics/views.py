@@ -75,10 +75,18 @@ def detail(request, comics_id):
 def detail_unpublished(request, comics_id, timestamp):
     comics_id=int(comics_id)
     this = get_object_or_404(Comics,visible=False,cid=comics_id)
+    if this.author == request.user:
+        if request.POST.has_key('no'):
+            return HttpResponseRedirect(this.get_absolute_url())
+        elif request.POST.has_key('publish'):
+            return HttpResponseRedirect(this.get_absolute_url()+'?publish')
     if this.pub_date.strftime('%s')!=timestamp:
         raise Http404
     return render_to_response('comics/detail_unpublished.html',
-                              {'comics': this},
+                              {'comics': this,
+                               'publish': True if \
+                                   request.GET.has_key('publish') \
+                                   else False},
                               context_instance=RequestContext(request))
 
 def random(request,comics_id=-1):

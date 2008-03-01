@@ -7,10 +7,22 @@
 
 {% ifequal comics.author user %}
 <div class="buttons">
+{% if publish %}
+Вы уверены, что хотите опубликовать?<br>
+<form action="{% url comics.views.edit comics.cid %}" method="post">
+<input type="submit" name="publish" value="Да">
+</form>
+<form action="" method="posе">
+<input type="submit" name="no" value="Нет">
+</form>
+{% else %}
 <form action="{% url comics.views.edit comics.cid %}" method="post">
 <input type="submit" name="edit" value="Редактировать">
+</form>
+<form action="" method="post">
 <input type="submit" name="publish" value="Опубликовать">
 </form>
+{% endif %}
 <div>
 {% endifequal %}
 
