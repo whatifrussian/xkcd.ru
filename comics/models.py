@@ -20,7 +20,7 @@ class Comics(models.Model):
     def __unicode__(self):
         return "%s: %s" % (self.cid, self.title)
     
-	@permalink
+    @permalink
     def get_absolute_url(self):
         if self.visible: 
             return ('comics.views.detail', [str(self.cid)])
