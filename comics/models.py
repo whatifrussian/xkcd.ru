@@ -2,7 +2,9 @@
 from django.db import models
 from django.db.models import permalink
 from django.contrib.auth.models import User
-from django.newforms import ModelForm
+from django.newforms import ModelForm, ValidationError
+from PIL import Image
+from cStringIO import StringIO
 
 # Create your models here.
 class Comics(models.Model):
@@ -42,3 +44,8 @@ class ComicsForm(ModelForm):
     class Meta:
         model = Comics
         exclude = ('pub_date', 'updated', 'visible', 'author')
+    def clean_thumbnail(self):
+        thumbnail = self.cleaned_data['thumbnail']
+        image = Image.open(StringIO(thumbnail.content))
+        if image.size != (48, 48):
+            raise ValidationError(u'Должно быть 48x48.')

@@ -255,6 +255,10 @@ td.save {
   text-align: right;
 }
 
+input,textarea {
+  border: 1px solid #888;
+}
+
 ul.errorlist {
   float: right;
   color: red;

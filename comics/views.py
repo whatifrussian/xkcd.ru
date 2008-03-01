@@ -1,3 +1,4 @@
+# *- coding: utf-8 *-
 from django.template import RequestContext, loader
 from comics.models import Comics, ComicsForm
 from django.http import HttpResponse, Http404
