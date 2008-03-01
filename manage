@@ -1,2 +1,2 @@
 #!/bin/sh
-site/specific/manage $@
+`dirname $0`/site/specific/manage $@
