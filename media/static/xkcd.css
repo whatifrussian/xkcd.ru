@@ -235,6 +235,9 @@ form.edit table th {
   border: 1px solid #CCC;
   border-right: 0;
   padding: 5px;
+  font-size: 0.8em;
+  width: 10em;
+  font-weight: normal;
 }
 
 form.edit table td {
@@ -245,7 +248,7 @@ form.edit table td {
 
 form.edit textarea {
   width: 100%;
-  height: 5em;
+  height: 8em;
 }
 
 td.save {
@@ -257,4 +260,8 @@ ul.errorlist {
   color: red;
   list-style: none;
   margin: 0;
+}
+
+#id_cid {
+  width: 3em;
 }
