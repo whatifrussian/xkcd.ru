@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-
+from django.db import IntegrityError
 
 # Create your views here.
 def index(request):
@@ -44,6 +44,8 @@ def index_thumbnail(request):
 def detail(request, comics_id):
     comics_id=int(comics_id)
     this = get_object_or_404(Comics,cid=comics_id,visible=True)
+    if this.author == request.user and request.POST.has_key('code'):
+            return HttpResponseRedirect(this.get_absolute_url()+'?code')
     first = Comics.objects.filter(visible=True).order_by('cid')[0]
     last = Comics.objects.filter(visible=True).order_by('-cid')[0]
     try:
@@ -66,7 +68,7 @@ def detail(request, comics_id):
                                'prev': prev,
                                'next': next,
                                'code': True if request.GET.has_key('code')\
-                                   else False,
+                                   and this.author == request.user else False,
                                'random': random},
                                context_instance=RequestContext(request))
 
@@ -75,7 +77,6 @@ def detail_unpublished(request, comics_id, timestamp):
     this = get_object_or_404(Comics,visible=False,cid=comics_id)
     if this.pub_date.strftime('%s')!=timestamp:
         raise Http404
-
     return render_to_response('comics/detail_unpublished.html',
                               {'comics': this},
                               context_instance=RequestContext(request))
@@ -102,21 +103,29 @@ def index_unpublished(request):
 def edit(request, comics_id):
     comics_id=int(comics_id)
     this = get_object_or_404(Comics, cid=comics_id)
-    if request.user != this.author:
-        raise Http404
-    if request.GET.has_key('publish'):
-        this.visible = True
-        this.save()
-        return HttpResponseRedirect(this.get_absolute_url()+'?code')
-    elif request.method == 'POST':
-        form = ComicsForm(request.POST, request.FILES, instance=this)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse(index_unpublished))
+    try:
+        if request.user != this.author:
+            raise Http404
+        elif request.POST.has_key('edit'):
+            return HttpResponseRedirect(reverse(edit, args=(this.cid,)))
+        elif request.POST.has_key('publish'):
+            this.visible = True
+            this.save()
+            return HttpResponseRedirect(this.get_absolute_url()+'?code')
+        elif request.method == 'POST':
+            form = ComicsForm(request.POST, request.FILES, instance=this)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse(index_unpublished))
+        else:
+            form = ComicsForm(instance = this)
+    except IntegrityError:
+        error = 'exists'
     else:
-        form = ComicsForm(instance = this)
+        error = None
     return render_to_response('comics/edit_form.html',
                               {'comics': this,
+                               'error': error,
                                'form': form},
                               context_instance=RequestContext(request))
 

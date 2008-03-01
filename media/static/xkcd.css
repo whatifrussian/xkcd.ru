@@ -206,9 +206,17 @@ div.code {
   width: 30em;
   border: solid 1px black;
   font-family: monospace;
+  margin: 10px;
 }
 
-span.me {
+.me {
   font-weight:bold;
 }
-  
+
+div.buttons {
+  margin: 5px;
+}
+
+div.buttons form {
+  display: inline;
+} 

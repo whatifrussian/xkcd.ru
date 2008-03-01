@@ -34,10 +34,19 @@
 </div>
 {% endif %}
 
+
 {% ifequal comics.author user %}
-<form action="{% url comics.views.edit comics.cid %}">
+<div class="buttons">
+<form action="{% url comics.views.edit comics.cid %}" method="post">
 <input type="submit" name="edit" value="Редактировать">
 </form>
+{% if not code %}
+<form action="" method="post">
+<input type="submit" name="code" value="Показать код">
+</form>
+{% endif %}
+</form>
+</div>
 {% endifequal %}
 
 

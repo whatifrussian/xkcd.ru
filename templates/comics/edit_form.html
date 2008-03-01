@@ -17,6 +17,9 @@ ru_xkcd -
 Добавить
 {% endif %}
 </h1>
+{% ifequal error "exists" %}
+Перевод с таким номером уже существует.
+{% endifequal %}
 
 <form enctype="multipart/form-data" method="post" action="">
 <table align="center">{{ form }}</table>
