@@ -114,6 +114,8 @@ def edit(request, comics_id):
     try:
         if request.user != this.author:
             raise Http404
+        elif request.POST.has_key('cancel'):
+            return HttpResponseRedirect(this.get_absolute_url())
         elif request.POST.has_key('edit'):
             return HttpResponseRedirect(reverse(edit, args=(this.cid,)))
         elif request.POST.has_key('publish'):
@@ -140,6 +142,8 @@ def edit(request, comics_id):
 @login_required
 def add(request):
     if request.method == 'POST':
+        if request.POST.has_key('cancel'):
+            return HttpResponseRedirect(reverse(index_unpublished))
         this = Comics(author=request.user)
         form = ComicsForm(request.POST, request.FILES, instance=this)
         if form.is_valid():

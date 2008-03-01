@@ -222,18 +222,39 @@ div.buttons form {
 }
 
 form.edit table {
-  width: 100%;
+  width: 90%;
   text-align: left;
-}
-
-form.edit table tr {
-  border: 1px solid grey;
+  border-collapse: collapse;
 }
 
 form.edit table th {
   vertical-align: top;
 }
 
+form.edit table th {
+  border: 1px solid #CCC;
+  border-right: 0;
+  padding: 5px;
+}
+
+form.edit table td {
+  border: 1px solid #CCC;
+  border-left: 0;
+  padding: 5px;
+}
+
 form.edit textarea {
-  width: 80%;
+  width: 100%;
+  height: 5em;
+}
+
+td.save {
+  text-align: right;
+}
+
+ul.errorlist {
+  float: right;
+  color: red;
+  list-style: none;
+  margin: 0;
 }

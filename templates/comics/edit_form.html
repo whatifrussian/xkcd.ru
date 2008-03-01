@@ -22,11 +22,12 @@ ru_xkcd -
 {% endifequal %}
 
 <form class="edit" enctype="multipart/form-data" method="post" action="">
-<table align="center">{{ form }}</table>
+<table cellspacing=0 align="center">{{ form }}
+<tr><th></th><td class="save">
+<input type="submit" name="cancel" value="Отменить">
 <input type="submit" value="Сохранить">
+</td></tr>
+</table>
 </form>
-{% if comics %}
-<img border=0 alt="Thumbnail"src="{{comics.get_thumbnail_url}}"><br>
-<img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}">
-{% endif %}
+
 {% endblock %}

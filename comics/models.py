@@ -8,7 +8,7 @@ from django.newforms import ModelForm
 class Comics(models.Model):
     cid = models.IntegerField("Номер", unique=True)
     title = models.CharField("Название", max_length=255)
-    image = models.ImageField("Изображение",upload_to='xkcd_img/')
+    image = models.ImageField("Изображение", upload_to='xkcd_img/')
     thumbnail = models.ImageField("Миниатюра", upload_to='xkcd_thumb/')
     text = models.TextField("Подпись")
     comment = models.TextField("Комментарий", blank=True)
