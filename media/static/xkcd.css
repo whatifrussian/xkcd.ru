@@ -12,7 +12,7 @@ div.main {
   width:48em;
   margin-right: auto;
   margin-left: auto;
-	padding: 7px 7px 30px 7px;
+  padding: 7px 7px 30px 7px;
 }
 
 h1 {
@@ -58,11 +58,11 @@ div.list {
 }
 
 ul.list {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	width: 44em;
-	text-align: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 44em;
+  text-align: center;
 }
 
 li.real, li.fake, li.invisible {
@@ -207,3 +207,8 @@ div.code {
   border: solid 1px black;
   font-family: monospace;
 }
+
+span.me {
+  font-weight:bold;
+}
+  
