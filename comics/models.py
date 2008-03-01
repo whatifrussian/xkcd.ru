@@ -13,13 +13,11 @@ class Comics(models.Model):
     text = models.TextField("Подпись")
     comment = models.TextField("Комментарий", blank=True)
     visible = models.BooleanField("Виден", default=False)
-    pub_date = models.DateTimeField('date published',auto_now_add=True)
-    updated = models.DateTimeField('date updated', auto_now=True)
-    author = models.ForeignKey(User)
+    pub_date = models.DateTimeField('Опубликованно',auto_now_add=True)
+    updated = models.DateTimeField('Обновлено', auto_now=True)
+    author = models.ForeignKey('Автор', User)
     
-    #def __unicode__(self):
-    #    return self.title
-    def __str__(self):
+    def __unicode__(self):
         return "%s: %s" % (self.cid, self.title)
     
     #def image_view(self):
