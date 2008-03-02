@@ -28,15 +28,7 @@
 
 <h1>{{comics.title}}</h1>
 
-<a href="http://xkcd.com/{{comics.cid}}/" target=_blank><img border=0 alt="{{comics.title}}"src="{{comics.get_image_url}}"></a>
-
-<div class="comics_text">{{ comics.text|safe }}</div>
-
-{% if comics.comment %}
-<div class="comment">
-{{ comics.comment|safe }}
-</div>
-{% endif %}
+{% include "comics/comics.html" %}
 
 <div class="clearer"></div>
 {% endblock %}

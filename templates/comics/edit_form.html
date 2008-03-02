@@ -10,24 +10,34 @@ ru_xkcd -
 {% endblock %}
 
 {% block content %}
-<h1>
+<h1><a name="edit">
 {% if comics %}
 Редактировать
 {% else %}
 Добавить
 {% endif %}
-</h1>
+</a></h1>
 {% ifequal error "exists" %}
 Перевод с таким номером уже существует.
 {% endifequal %}
 
-<form class="edit" enctype="multipart/form-data" method="post" action="">
+<form class="edit" enctype="multipart/form-data" method="post" action="#preview">
 <table cellspacing=0 align="center">{{ form }}
 <tr><th></th><td class="save">
-<!-- input type="submit" name="cancel" value="Отменить" -->
+<input type="submit" name="continue" value="Сохранить и продолжить">
 <input type="submit" value="Сохранить">
 </td></tr>
 </table>
 </form>
+
+{% if comics %}
+<h1><a {% if form.is_valid %}name="preview"{% endif %}>
+Предварительный просмотр
+</a></h1>
+<h1>{{ comics.title }}</h1>
+{% include "comics/comics.html" %}
+{% endif %}
+
+<hr><a href="#edit">Продолжить редактирование</a>
 
 {% endblock %}

@@ -127,7 +127,11 @@ def edit(request, comics_id):
             form = ComicsForm(request.POST, request.FILES, instance=this)
             if form.is_valid():
                 this=form.save()
-                return HttpResponseRedirect(this.get_absolute_url())
+                if not request.POST.has_key('continue'):
+                    if this.visible:
+                        return HttpResponseRedirect(this.get_absolute_url()+'?code')
+                    else:
+                        return HttpResponseRedirect(this.get_absolute_url())
         else:
             form = ComicsForm(instance = this)
     except IntegrityError:
