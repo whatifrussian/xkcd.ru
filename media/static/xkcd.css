@@ -271,3 +271,7 @@ ul.errorlist {
 #id_cid {
   width: 3em;
 }
+
+div.preview {
+  border: 1px solid grey;
+}

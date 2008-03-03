@@ -25,8 +25,8 @@
 
 {% ifequal comics.author user %}
 <div class="buttons">
-<form action="{% url comics.views.edit comics.cid %}" method="post">
-<input type="submit" name="edit" value="Редактировать">
+<form action="{% url comics.views.edit comics.cid %}" method="get">
+<input type="submit" value="Редактировать">
 </form>
 {% if not code %}
 <form action="" method="post">

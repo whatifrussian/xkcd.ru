@@ -9,15 +9,15 @@
 <div class="buttons">
 {% if publish %}
 Вы уверены, что хотите опубликовать?<br>
-<form action="{% url comics.views.edit comics.cid %}" method="post">
+<form action="{% url comics.views.publish comics.cid %}" method="post">
 <input type="submit" name="publish" value="Да">
 </form>
-<form action="" method="posе">
+<form action="" method="post">
 <input type="submit" name="no" value="Нет">
 </form>
 {% else %}
-<form action="{% url comics.views.edit comics.cid %}" method="post">
-<input type="submit" name="edit" value="Редактировать">
+<form action="{% url comics.views.edit comics.cid %}" method="get">
+<input type="submit" value="Редактировать">
 </form>
 <form action="" method="post">
 <input type="submit" name="publish" value="Опубликовать">

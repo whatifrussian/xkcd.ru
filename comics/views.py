@@ -1,6 +1,5 @@
 # *- coding: utf-8 *-
 from django.template import RequestContext, loader
-from comics.models import Comics, ComicsForm
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
@@ -8,6 +7,8 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.utils.datastructures import MultiValueDictKeyError
+from comics.models import Comics, ComicsForm, Preview
 
 # Create your views here.
 def index(request):
@@ -107,31 +108,56 @@ def index_unpublished(request):
     return render_to_response('comics/index_unpublished.html',
                               {'comics_list': comics_list},
                               context_instance=RequestContext(request))
-    
+
+@login_required
+def publish(request, comics_id):
+    this = get_object_or_404(Comics, cid=comics_id)
+    if request.user != this.author:
+        raise Http404
+    else:
+        this.visible = True
+        this.save()
+        return HttpResponseRedirect(this.get_absolute_url()+'?code')
+
 @login_required
 def edit(request, comics_id):
+    image = None
     comics_id=int(comics_id)
     this = get_object_or_404(Comics, cid=comics_id)
     try:
         if request.user != this.author:
             raise Http404
-        elif request.POST.has_key('cancel'):
-            return HttpResponseRedirect(this.get_absolute_url())
-        elif request.POST.has_key('edit'):
-            return HttpResponseRedirect(reverse(edit, args=(this.cid,)))
-        elif request.POST.has_key('publish'):
-            this.visible = True
-            this.save()
-            return HttpResponseRedirect(this.get_absolute_url()+'?code')
         elif request.method == 'POST':
             form = ComicsForm(request.POST, request.FILES, instance=this)
             if form.is_valid():
-                this=form.save()
-                if not request.POST.has_key('continue'):
+                preview = Preview()
+                try:
+                    preview.set_images(form.cleaned_data['image'],
+                                       form.cleaned_data['thumbnail'],
+                                       request.POST['preview_id'])
+                except MultiValueDictKeyError:
+                    preview.set_images(form.cleaned_data['image'],
+                                       form.cleaned_data['thumbnail'])
+                if request.POST.has_key('preview'):
+                    preview.save()
+                    print preview.get_image_url()
+                    return render_to_response('comics/edit_form.html',
+                                              {'comics': this,
+                                               'preview': preview,
+                                               'form': form},
+                                              context_instance=
+                                              RequestContext(request))
+		else:
+                    this = form.save()
+                    this.image = preview.image
+                    this.thumbnail = preview.thumbnail
+                    this.save()
                     if this.visible:
-                        return HttpResponseRedirect(this.get_absolute_url()+'?code')
+                        return HttpResponseRedirect(this.get_absolute_url()
+                                                    +'?code')
                     else:
-                        return HttpResponseRedirect(this.get_absolute_url())
+                        return HttpResponseRedirect(this.
+                                                    get_absolute_url())
         else:
             form = ComicsForm(instance = this)
     except IntegrityError:
@@ -141,6 +167,10 @@ def edit(request, comics_id):
     return render_to_response('comics/edit_form.html',
                               {'comics': this,
                                'error': error,
+                               'image': image,
+                               'preview_id': request.POST['preview_id'] if \
+                               request.has_key('preview_id') else
+                               None,
                                'form': form},
                               context_instance=RequestContext(request))
 

@@ -10,6 +10,29 @@ ru_xkcd -
 {% endblock %}
 
 {% block content %}
+{% if preview %}
+<h1>Предварительный просмотр</h1>
+<div class="preview">
+{% with form.cleaned_data as comics %}
+<img alt="thumbnail" src="{{ preview.get_thumbnail_url }}" align="right">
+<h1>{{ comics.title }}</h1>
+<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>
+<img border=0 alt="{{comics.title}}"src="{{ preview.get_image_url }}">
+</a>
+
+<div class="comics_text">{{ comics.text|safe }}</div>
+
+{% if comics.comment %}
+<div class="comment">
+{{ comics.comment|safe }}
+</div>
+{% endif %}
+
+{% endwith %}
+</div>
+{% endif %}
+
+
 <h1><a name="edit">
 {% if comics %}
 Редактировать
@@ -21,23 +44,20 @@ ru_xkcd -
 Перевод с таким номером уже существует.
 {% endifequal %}
 
-<form class="edit" enctype="multipart/form-data" method="post" action="#preview">
+<form class="edit" enctype="multipart/form-data" method="post" action="">
 <table cellspacing=0 align="center">{{ form }}
 <tr><th></th><td class="save">
-<input type="submit" name="continue" value="Сохранить и продолжить">
+<input type="submit" name="preview" value="Предпросмотр">
 <input type="submit" value="Сохранить">
 </td></tr>
 </table>
+{% if preview %}
+<input type="hidden" name="preview_id" value="{{ preview.id }}">
+{% endif %}
+{% if preview_id %}
+<input type="hidden" name="preview_id" value="{{ preview_id }}">
+{% endif %}
 </form>
 
-{% if comics %}
-<h1><a {% if form.is_valid %}name="preview"{% endif %}>
-Предварительный просмотр
-</a></h1>
-<h1>{{ comics.title }}</h1>
-{% include "comics/comics.html" %}
-{% endif %}
-
-<hr><a href="#edit">Продолжить редактирование</a>
 
 {% endblock %}

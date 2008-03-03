@@ -3,8 +3,11 @@ from django.db import models
 from django.db.models import permalink
 from django.contrib.auth.models import User
 from django.newforms import ModelForm, ValidationError
+from django.shortcuts import render_to_response, get_object_or_404
 from PIL import Image
 from cStringIO import StringIO
+from django.newforms.fields import UploadedFile
+
 
 # Create your models here.
 class Comics(models.Model):
@@ -18,6 +21,7 @@ class Comics(models.Model):
     pub_date = models.DateTimeField('Опубликованно',auto_now_add=True)
     updated = models.DateTimeField('Обновлено', auto_now=True)
     author = models.ForeignKey(User)
+
     
     def __unicode__(self):
         return "%s: %s" % (self.cid, self.title)
@@ -53,4 +57,33 @@ class ComicsForm(ModelForm):
             return thumbnail
         # This means that image is string.
         except AttributeError:
-            return
+            return thumbnail
+
+class Preview(models.Model):
+    image = models.ImageField("Изображение", upload_to='xkcd_img/')
+    thumbnail = models.ImageField("Миниатюра", upload_to='xkcd_thumb/')
+    pub_date = models.DateTimeField('Создано',auto_now_add=True)
+
+
+    def set_images(self, image, thumbnail, preview_id=None):
+        if preview_id:
+            preview = get_object_or_404(Preview, id=preview_id)
+
+        if isinstance(image, UploadedFile):
+            self.save_image_file(image.filename, image.content)
+        elif preview_id:
+            self.image = preview.image
+        else:
+            self.image = image
+
+        if isinstance(thumbnail, UploadedFile):
+            self.save_thumbnail_file(thumbnail.filename, thumbnail.content)
+        elif preview_id:
+            self.thumbnail = preview.thumbnail
+        else:
+            self.thumbnail = thumbnail
+                    
+
+    class Admin:
+        pass
+

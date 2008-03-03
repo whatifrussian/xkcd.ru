@@ -23,5 +23,6 @@ urlpatterns = patterns('',
 url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/xkcd/'}, name='logout'),
 (r'^xkcd/unpublished/$', 'comics.views.index_unpublished'),
 (r'^xkcd/(?P<comics_id>\d+)/edit/$', 'comics.views.edit'),
+(r'^xkcd/(?P<comics_id>\d+)/publish/$', 'comics.views.publish'),
 (r'^xkcd/add/$', 'comics.views.add'),
 )+specific.urls.urlpatterns
