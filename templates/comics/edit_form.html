@@ -1,9 +1,9 @@
 {% extends "comics/base.html" %}
 
 {% block title %}
-ru_xkcd - 
-{% if comics %}
-{{comics.title}}
+ru_xkcd -
+{% if edit %}
+Редактировать
 {% else %}
 Добавить
 {% endif %}
@@ -34,7 +34,7 @@ ru_xkcd -
 
 
 <h1><a name="edit">
-{% if comics %}
+{% if edit %}
 Редактировать
 {% else %}
 Добавить
@@ -51,12 +51,6 @@ ru_xkcd -
 <input type="submit" value="Сохранить">
 </td></tr>
 </table>
-{% if preview %}
-<input type="hidden" name="preview_id" value="{{ preview.id }}">
-{% endif %}
-{% if preview_id %}
-<input type="hidden" name="preview_id" value="{{ preview_id }}">
-{% endif %}
 </form>
 
 

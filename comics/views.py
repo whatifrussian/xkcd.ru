@@ -128,30 +128,19 @@ def edit(request, comics_id):
         if request.user != this.author:
             raise Http404
         elif request.method == 'POST':
-            form = ComicsForm(request.POST, request.FILES, instance=this)
+            form = ComicsForm(request.POST, request.FILES,
+                                         instance=this)
             if form.is_valid():
-                preview = Preview()
-                try:
-                    preview.set_images(form.cleaned_data['image'],
-                                       form.cleaned_data['thumbnail'],
-                                       request.POST['preview_id'])
-                except MultiValueDictKeyError:
-                    preview.set_images(form.cleaned_data['image'],
-                                       form.cleaned_data['thumbnail'])
+                preview = form.create_preview()
                 if request.POST.has_key('preview'):
-                    preview.save()
-                    print preview.get_image_url()
                     return render_to_response('comics/edit_form.html',
-                                              {'comics': this,
+                                              {'edit': True,
                                                'preview': preview,
                                                'form': form},
                                               context_instance=
                                               RequestContext(request))
 		else:
-                    this = form.save()
-                    this.image = preview.image
-                    this.thumbnail = preview.thumbnail
-                    this.save()
+                    form.save()
                     if this.visible:
                         return HttpResponseRedirect(this.get_absolute_url()
                                                     +'?code')
@@ -165,25 +154,41 @@ def edit(request, comics_id):
     else:
         error = None
     return render_to_response('comics/edit_form.html',
-                              {'comics': this,
+                              {'edit': True,
                                'error': error,
                                'image': image,
-                               'preview_id': request.POST['preview_id'] if \
-                               request.has_key('preview_id') else
-                               None,
                                'form': form},
                               context_instance=RequestContext(request))
 
 @login_required
 def add(request):
     if request.method == 'POST':
-        if request.POST.has_key('cancel'):
-            return HttpResponseRedirect(reverse(index_unpublished))
         this = Comics(author=request.user)
-        form = ComicsForm(request.POST, request.FILES, instance=this)
+        form = ComicsForm(request.POST, request.FILES,
+                                     instance=this)
+        try:
+            preview = Preview.objects.get(id=form.data['preview_id'])
+            print 'gotpreview'
+            this.image = preview.image
+            this.thumbnail = preview.thumbnail
+            form = ComicsForm(request.POST, request.FILES,
+                              instance=this)
+            
+        except (AttributeError,ObjectDoesNotExist):
+            pass
+
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse(index_unpublished))
+            preview = form.create_preview()
+            if request.POST.has_key('preview'):
+                
+                return render_to_response('comics/edit_form.html',
+                                          {'preview': preview,
+                                           'form': form},
+                                          context_instance=
+                                          RequestContext(request))
+            else:
+                this = form.save()
+                return HttpResponseRedirect(this.get_absolute_url())
     else:            
         form = ComicsForm()
     return render_to_response('comics/edit_form.html',

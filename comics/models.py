@@ -2,12 +2,13 @@
 from django.db import models
 from django.db.models import permalink
 from django.contrib.auth.models import User
-from django.newforms import ModelForm, ValidationError
+from django import newforms as forms
 from django.shortcuts import render_to_response, get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
 from PIL import Image
 from cStringIO import StringIO
 from django.newforms.fields import UploadedFile
-
+from os.path import basename
 
 # Create your models here.
 class Comics(models.Model):
@@ -44,30 +45,60 @@ class Comics(models.Model):
         ordering = ('visible', )
         list_per_page = 10
 
-class ComicsForm(ModelForm):
+class ComicsForm(forms.ModelForm):
+    preview_id = forms.IntegerField(required=False, widget=forms.HiddenInput)
+    
     class Meta:
         model = Comics
         exclude = ('pub_date', 'updated', 'visible', 'author')
+
     def clean_thumbnail(self):
         thumbnail = self.cleaned_data['thumbnail']
         try:
             image = Image.open(StringIO(thumbnail.content))
             if image.size != (48, 48):
-                raise ValidationError(u'Должно быть 48x48.')
+                raise forms.ValidationError(u'Должно быть 48x48.')
             return thumbnail
         # This means that image is string.
         except AttributeError:
             return thumbnail
 
+
+    def create_preview(self):
+        preview = Preview()
+        
+        preview.set_images(self.cleaned_data['image'],
+                           self.cleaned_data['thumbnail'],
+                           self.cleaned_data['preview_id'])
+        preview.save()
+        self.data['preview_id'] = preview.id
+        #self.cleaned_data['preview_id'] = preview.id
+        self.cleaned_data['image'] = preview.image
+        self.cleaned_data['thumbnail'] = preview.thumbnail
+        
+        return preview
+
+
+    def save(self, commit=True):
+        print 'save: %s' % str(self.cleaned_data)
+        this = forms.ModelForm.save(self, False)
+        this.image = self.cleaned_data['image']
+        this.thumbnail = self.cleaned_data['thumbnail']
+        if commit:
+            this.save()
+        return this
+
 class Preview(models.Model):
-    image = models.ImageField("Изображение", upload_to='xkcd_img/')
-    thumbnail = models.ImageField("Миниатюра", upload_to='xkcd_thumb/')
+    image = models.ImageField("Изображение", upload_to='xkcd_preview/')
+    thumbnail = models.ImageField("Миниатюра", upload_to='xkcd_preview/')
     pub_date = models.DateTimeField('Создано',auto_now_add=True)
 
 
     def set_images(self, image, thumbnail, preview_id=None):
-        if preview_id:
-            preview = get_object_or_404(Preview, id=preview_id)
+        try:
+            preview = Preview.objects.get(id=preview_id)
+        except ObjectDoesNotExist:
+            preview_id = None
 
         if isinstance(image, UploadedFile):
             self.save_image_file(image.filename, image.content)
