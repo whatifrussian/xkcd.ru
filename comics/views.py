@@ -7,7 +7,6 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.utils.datastructures import MultiValueDictKeyError
 from comics.models import Comics, ComicsForm, Preview
 
 # Create your views here.
@@ -130,6 +129,14 @@ def edit(request, comics_id):
         elif request.method == 'POST':
             form = ComicsForm(request.POST, request.FILES,
                                          instance=this)
+            try:
+                preview = form.get_preview()
+                this.image = preview.image
+                this.thumbnail = preview.thumbnail
+                form = ComicsForm(request.POST, request.FILES,
+                                  instance=this)
+            except ObjectDoesNotExist:
+                pass
             if form.is_valid():
                 preview = form.create_preview()
                 if request.POST.has_key('preview'):
@@ -162,37 +169,42 @@ def edit(request, comics_id):
 
 @login_required
 def add(request):
-    if request.method == 'POST':
-        this = Comics(author=request.user)
-        form = ComicsForm(request.POST, request.FILES,
-                                     instance=this)
-        try:
-            preview = Preview.objects.get(id=form.data['preview_id'])
-            print 'gotpreview'
-            this.image = preview.image
-            this.thumbnail = preview.thumbnail
+    try:
+        if request.method == 'POST':
+            this = Comics(author=request.user)
             form = ComicsForm(request.POST, request.FILES,
-                              instance=this)
-            
-        except (AttributeError,ObjectDoesNotExist):
-            pass
+                                         instance=this)
 
-        if form.is_valid():
-            preview = form.create_preview()
-            if request.POST.has_key('preview'):
-                
-                return render_to_response('comics/edit_form.html',
-                                          {'preview': preview,
-                                           'form': form},
-                                          context_instance=
-                                          RequestContext(request))
-            else:
-                this = form.save()
-                return HttpResponseRedirect(this.get_absolute_url())
-    else:            
-        form = ComicsForm()
+            try:
+                preview = form.get_preview()
+                this.image = preview.image
+                this.thumbnail = preview.thumbnail
+                form = ComicsForm(request.POST, request.FILES,
+                                  instance=this)
+            except ObjectDoesNotExist:
+                pass
+
+            if form.is_valid():
+                preview = form.create_preview()
+                if request.POST.has_key('preview'):
+                    return render_to_response('comics/edit_form.html',
+                                              {'preview': preview,
+                                               'form': form},
+                                              context_instance=
+                                              RequestContext(request))
+                else:
+                    this = form.save()
+                    return HttpResponseRedirect(this.get_absolute_url())
+        else:            
+            form = ComicsForm()
+    except IntegrityError:
+        error = 'exists'
+    else:
+        error = None
+    
     return render_to_response('comics/edit_form.html',
-                              {'form': form},
+                              {'form': form,
+                               'error': error},
                               context_instance=RequestContext(request))
 
 

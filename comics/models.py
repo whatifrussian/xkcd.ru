@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import permalink
 from django.contrib.auth.models import User
 from django import newforms as forms
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response
 from django.core.exceptions import ObjectDoesNotExist
 from PIL import Image
 from cStringIO import StringIO
@@ -63,18 +63,24 @@ class ComicsForm(forms.ModelForm):
         except AttributeError:
             return thumbnail
 
+    def get_preview(self):
+        try:
+            return Preview.objects.get(id=self.data['preview_id'])
+        except AttributeError:
+            raise ObjectDoesNotExist()
 
     def create_preview(self):
-        preview = Preview()
+        try:
+            preview = self.get_preview()
+        except ObjectDoesNotExist:
+            preview = Preview()
         
         preview.set_images(self.cleaned_data['image'],
-                           self.cleaned_data['thumbnail'],
-                           self.cleaned_data['preview_id'])
+                           self.cleaned_data['thumbnail'])
+
         preview.save()
+        
         self.data['preview_id'] = preview.id
-        #self.cleaned_data['preview_id'] = preview.id
-        self.cleaned_data['image'] = preview.image
-        self.cleaned_data['thumbnail'] = preview.thumbnail
         
         return preview
 
@@ -89,28 +95,20 @@ class ComicsForm(forms.ModelForm):
         return this
 
 class Preview(models.Model):
-    image = models.ImageField("Изображение", upload_to='xkcd_preview/')
-    thumbnail = models.ImageField("Миниатюра", upload_to='xkcd_preview/')
+    image = models.ImageField("Изображение", upload_to='xkcd_img/')
+    thumbnail = models.ImageField("Миниатюра", upload_to='xkcd_thumb/')
     pub_date = models.DateTimeField('Создано',auto_now_add=True)
 
 
-    def set_images(self, image, thumbnail, preview_id=None):
-        try:
-            preview = Preview.objects.get(id=preview_id)
-        except ObjectDoesNotExist:
-            preview_id = None
+    def set_images(self, image, thumbnail):
 
         if isinstance(image, UploadedFile):
             self.save_image_file(image.filename, image.content)
-        elif preview_id:
-            self.image = preview.image
         else:
             self.image = image
 
         if isinstance(thumbnail, UploadedFile):
             self.save_thumbnail_file(thumbnail.filename, thumbnail.content)
-        elif preview_id:
-            self.thumbnail = preview.thumbnail
         else:
             self.thumbnail = thumbnail
                     
