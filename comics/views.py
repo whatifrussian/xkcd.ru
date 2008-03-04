@@ -175,6 +175,7 @@ def add(request):
             form = ComicsForm(request.POST, request.FILES,
                                          instance=this)
 
+            # Try to load preview if available.
             try:
                 preview = form.get_preview()
                 this.image = preview.image
@@ -185,6 +186,7 @@ def add(request):
                 pass
 
             if form.is_valid():
+                # Create preview. And set corresponding form parametrs.
                 preview = form.create_preview()
                 if request.POST.has_key('preview'):
                     return render_to_response('comics/edit_form.html',

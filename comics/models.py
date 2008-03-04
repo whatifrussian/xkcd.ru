@@ -78,8 +78,11 @@ class ComicsForm(forms.ModelForm):
         preview.set_images(self.cleaned_data['image'],
                            self.cleaned_data['thumbnail'])
 
+
         preview.save()
-        
+
+        self.cleaned_data['image'] = preview.image
+        self.cleaned_data['thumbnail'] = preview.thumbnail
         self.data['preview_id'] = preview.id
         
         return preview
