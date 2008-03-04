@@ -86,7 +86,6 @@ class ComicsForm(forms.ModelForm):
 
 
     def save(self, commit=True):
-        print 'save: %s' % str(self.cleaned_data)
         this = forms.ModelForm.save(self, False)
         this.image = self.cleaned_data['image']
         this.thumbnail = self.cleaned_data['thumbnail']
