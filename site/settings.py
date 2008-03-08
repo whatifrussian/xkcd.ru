@@ -21,10 +21,6 @@ LANGUAGE_CODE = 'ru-ru'
 
 SITE_ID = 1
 
-# URL that handles the media served from MEDIA_ROOT.
-# Example: "http://media.lawrence.com"
-MEDIA_URL = '/'
-
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 
