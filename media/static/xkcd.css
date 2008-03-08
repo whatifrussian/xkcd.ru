@@ -136,6 +136,8 @@ div.comics_text {
 div.comment {
   border-top: 1px solid grey;
   padding-top: 15px;
+  text-align: left;
+  width: 60%;
 }
 
 
@@ -164,6 +166,13 @@ ul.unpublished_list li img {
 ul.unpublished_list li a {
   text-decoration: none;
   color: black;
+}
+
+h2.unpublished {
+  color: #962020;
+  font-size: 0.8em;
+  font-family:Lucida,sans-serif;
+  font-weight:800;
 }
 
 img.thumb {
@@ -215,7 +224,7 @@ div.code {
 }
 
 div.buttons {
-  margin: 5px;
+  margin: 10px;
 }
 
 div.buttons form {
@@ -270,4 +279,8 @@ ul.errorlist {
 
 #id_cid {
   width: 3em;
+}
+
+div.preview {
+  border: 1px solid grey;
 }

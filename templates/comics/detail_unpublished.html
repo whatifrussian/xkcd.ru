@@ -3,7 +3,10 @@
 {% block title %}ru_xkcd - {{comics.title}}{% endblock %}
 
 {% block content %}
-<h1>Неопубликованное</h1>
+
+<h1>{{comics.title}}</h1>
+
+<h2 class="unpublished">(неопубликованное)</h2>
 
 {% ifequal comics.author user %}
 <div class="buttons">
@@ -23,10 +26,9 @@
 <input type="submit" name="publish" value="Опубликовать">
 </form>
 {% endif %}
-<div>
+</div>
 {% endifequal %}
 
-<h1>{{comics.title}}</h1>
 
 {% include "comics/comics.html" %}
 

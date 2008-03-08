@@ -112,35 +112,37 @@ def index_unpublished(request):
 def edit(request, comics_id):
     comics_id=int(comics_id)
     this = get_object_or_404(Comics, cid=comics_id)
-    try:
-        if request.user != this.author:
-            raise Http404
-        elif request.POST.has_key('cancel'):
-            return HttpResponseRedirect(this.get_absolute_url())
-        elif request.POST.has_key('edit'):
-            return HttpResponseRedirect(reverse(edit, args=(this.cid,)))
-        elif request.POST.has_key('publish'):
-            this.visible = True
-            this.save()
-            return HttpResponseRedirect(this.get_absolute_url()+'?code')
-        elif request.method == 'POST':
-            form = ComicsForm(request.POST, request.FILES, instance=this)
+    if request.user != this.author:
+        raise Http404
+    elif request.POST.has_key('cancel'):
+        return HttpResponseRedirect(this.get_absolute_url())
+    elif request.POST.has_key('edit'):
+        return HttpResponseRedirect(reverse(edit, args=(this.cid,))+
+                                    '#edit')
+    elif request.POST.has_key('publish'):
+        this.visible = True
+        this.save()
+        return HttpResponseRedirect(this.get_absolute_url()+'?code')
+    elif request.method == 'POST':
+        form = ComicsForm(request.POST, request.FILES, instance=this)
+        try:
             if form.is_valid():
                 this=form.save()
                 if not request.POST.has_key('continue'):
                     if this.visible:
-                        return HttpResponseRedirect(this.get_absolute_url()+'?code')
+                        return HttpResponseRedirect(this.get_absolute_url()
+                                                    +'?code')
                     else:
-                        return HttpResponseRedirect(this.get_absolute_url())
-        else:
-            form = ComicsForm(instance = this)
-    except IntegrityError:
-        error = 'exists'
+                        return HttpResponseRedirect(this.\
+                                                    get_absolute_url())
+        except IntegrityError:
+            form.errors['cid']=['Этот перевод уже есть']
+
     else:
-        error = None
+        form = ComicsForm(instance = this)
     return render_to_response('comics/edit_form.html',
                               {'comics': this,
-                               'error': error,
+                               'edit': True,
                                'form': form},
                               context_instance=RequestContext(request))
 
@@ -151,9 +153,12 @@ def add(request):
             return HttpResponseRedirect(reverse(index_unpublished))
         this = Comics(author=request.user)
         form = ComicsForm(request.POST, request.FILES, instance=this)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse(index_unpublished))
+        try:
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse(index_unpublished))
+        except IntegrityError:
+            form.errors['cid']=['Этот перевод уже есть.']
     else:            
         form = ComicsForm()
     return render_to_response('comics/edit_form.html',

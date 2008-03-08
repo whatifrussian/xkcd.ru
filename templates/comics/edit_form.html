@@ -1,43 +1,53 @@
 {% extends "comics/base.html" %}
 
 {% block title %}
-ru_xkcd - 
-{% if comics %}
-{{comics.title}}
+ru_xkcd -
+{% if edit %}
+Редактировать
 {% else %}
 Добавить
 {% endif %}
 {% endblock %}
 
 {% block content %}
-<h1><a name="edit">
 {% if comics %}
+<h1>Предварительный просмотр</h1>
+<div class="preview">
+<img alt="thumbnail" src="{{ comics.get_thumbnail_url }}" align="right">
+<h1>{{ comics.title }}</h1>
+<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>
+<img border=0 alt="{{comics.title}}"src="{{ comics.get_image_url }}">
+</a>
+
+<div class="comics_text">{{ comics.text|safe }}</div>
+
+{% if comics.comment %}
+<div class="comment">
+{{ comics.comment|safe }}
+</div>
+{% endif %}
+
+</div>
+{% endif %}
+
+
+<h1><a name="edit">
+{% if edit %}
 Редактировать
 {% else %}
 Добавить
 {% endif %}
 </a></h1>
-{% ifequal error "exists" %}
-Перевод с таким номером уже существует.
-{% endifequal %}
 
-<form class="edit" enctype="multipart/form-data" method="post" action="#preview">
+<form class="edit" enctype="multipart/form-data" method="post" action="">
 <table cellspacing=0 align="center">{{ form }}
 <tr><th></th><td class="save">
+<input type="hidden" name="preview_id" {% if preview %}value="{{ preview.id }}"{% endif %}>
 <input type="submit" name="continue" value="Сохранить и продолжить">
 <input type="submit" value="Сохранить">
 </td></tr>
 </table>
 </form>
 
-{% if comics %}
-<h1><a {% if form.is_valid %}name="preview"{% endif %}>
-Предварительный просмотр
-</a></h1>
-<h1>{{ comics.title }}</h1>
-{% include "comics/comics.html" %}
-{% endif %}
-
-<hr><a href="#edit">Продолжить редактирование</a>
 
 {% endblock %}
