@@ -12,11 +12,11 @@
 <div class="code">
 {% filter force_escape %}
 <a href="http://xkcd.com/{{comics.cid}}/" target="_blank"><img src="{{comics.get_image_url}}" border="0" alt="{{comics.title}}"></a>
-<p>{{comics.text}}
+<p>{{comics.text|safe}}
 {% if comics.comment %}
 <p><lj-cut text="дополнительная информация">
 <hr size=1 width="80%">
-<p>{{comics.comment}}
+<p>{{comics.comment|safe}}
 </lj-cut>
 {% endif %}
 {% endfilter %}
