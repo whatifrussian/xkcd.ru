@@ -217,6 +217,7 @@ div.code {
   font-family: monospace;
   margin: 10px;
   padding: 5px;
+  text-align: left;
 }
 
 .me {
