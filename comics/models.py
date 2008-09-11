@@ -2,7 +2,7 @@
 from django.db import models
 from django.db.models import permalink
 from django.contrib.auth.models import User
-from django.newforms import ModelForm, ValidationError
+from django.forms import ModelForm, ValidationError
 from PIL import Image
 from cStringIO import StringIO
 
