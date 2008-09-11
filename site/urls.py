@@ -1,6 +1,9 @@
 from django.conf.urls.defaults import *
+from django.contrib import admin
 from comics.feeds import LatestComics
 import specific.urls
+
+admin.autodiscover()
 
 feeds = {
 'xkcd': LatestComics,
@@ -10,7 +13,7 @@ urlpatterns = patterns('',
 # Example:
 #     (r'^xkcd/', include('xkcd.apps.foo.urls.foo')),
 # Uncomment this for admin:
-(r'^admin/', include('django.contrib.admin.urls')),
+(r'^admin/', admin.site.root),
 (r'^xkcd/$', 'comics.views.index'),
 (r'^xkcd/img/$', 'comics.views.index_thumbnail'),
 (r'^xkcd/(?P<comics_id>\d+)/$', 'comics.views.detail'),
