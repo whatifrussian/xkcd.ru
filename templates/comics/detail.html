@@ -12,7 +12,7 @@
 <div class="code">
 
 {% filter force_escape %}
-<a href="http://xkcd.com/{{comics.cid}}/" target="_blank"><img src="{{comics.get_image_url}}" border="0" alt="{{comics.title}}"></a>
+<a href="http://xkcd.com/{{comics.cid}}/" target="_blank"><img src="{{comics.image.url}}" border="0" alt="{{comics.title}}"></a>
 <p>
 {% endfilter %}
 {{comics.text|linebreaksbr}}

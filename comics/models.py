@@ -30,27 +30,22 @@ class Comics(models.Model):
             return ('comics.views.detail_unpublished', [str(self.cid), self.pub_date.strftime('%s')])
 
     def image_preview(self):
-        return '<a href="%s" title="%d: %s"><img border=0 src="%s" alt="%s"></a>' % (self.get_absolute_url(), self.cid, self.title, self.get_thumbnail_url(), self.title)
+        return '<a href="%s" title="%d: %s"><img border=0 src="%s" alt="%s"></a>' % (self.get_absolute_url(), self.cid, self.title, self.thumbnail.url, self.title)
 
     image_preview.allow_tags = True
     image_preview.short_description = 'Preview'
-
-    class Admin:
-        list_display = ('cid', 'title', 'image_preview', 'visible')
-        ordering = ('visible', )
-        list_per_page = 10
 
 class ComicsForm(ModelForm):
     class Meta:
         model = Comics
         exclude = ('pub_date', 'updated', 'visible', 'author')
     def clean_thumbnail(self):
-        thumbnail = self.cleaned_data['thumbnail']
-        try:
-            image = Image.open(StringIO(thumbnail.content))
-            if image.size != (48, 48):
-                raise ValidationError(u'Должно быть 48x48.')
-            return thumbnail
-        # This means that image is string.
-        except AttributeError:
-            return
+       thumbnail = self.cleaned_data['thumbnail']
+       try:
+           image = Image.open(StringIO(thumbnail.read()))
+           if image.size != (48, 48):
+               raise ValidationError(u'Должно быть 48x48.')
+           return thumbnail
+       # This means that image is string.
+       except AttributeError:
+           return

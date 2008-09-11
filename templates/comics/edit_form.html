@@ -13,10 +13,10 @@ ru_xkcd -
 {% if comics %}
 <h1>Предварительный просмотр</h1>
 <div class="preview">
-<img alt="thumbnail" src="{{ comics.get_thumbnail_url }}" align="right">
+<img alt="thumbnail" src="{{ comics.thumbnail.url }}" align="right">
 <h1>{{ comics.title }}</h1>
 <a href="http://xkcd.com/{{comics.cid}}/" target=_blank>
-<img border=0 alt="{{comics.title}}"src="{{ comics.get_image_url }}">
+<img border=0 alt="{{comics.title}}"src="{{ comics.image.url }}">
 </a>
 
 <div class="comics_text">{{ comics.text|safe }}</div>

@@ -10,7 +10,7 @@
 {% for comics in comics_list %}
 <li>
 <a href="{{comics.get_absolute_url}}">
-<img border=0 src="{{comics.get_thumbnail_url}}" width=48 height=48 title="{{comics.cid}}: {{comics.title}}" alt="{{comics.title}}">
+<img border=0 src="{{comics.thumbnail.url}}" width=48 height=48 title="{{comics.cid}}: {{comics.title}}" alt="{{comics.title}}">
  {{comics.cid}}: {{comics.title}} (<span {% ifequal comics.author user %}class="me"{% endifequal %}>{{ comics.author }}</span>)</a>
 
 
