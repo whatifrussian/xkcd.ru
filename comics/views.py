@@ -9,8 +9,11 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 
-# Create your views here.
-def index(request):
+def last(request):
+    last_comics=Comics.objects.filter(visible=True).order_by('-pub_date')[0]
+    return HttpResponseRedirect(last_comics.get_absolute_url())
+
+def index_numbers(request):
     class NoComics:
         def __init__(self,cid):
 	    self.cid=cid
@@ -27,7 +30,7 @@ def index(request):
 	comics_list[comics.cid-1]=comics
     for i in xrange(br-1,len(comics_list),br):
 	comics_list[i].br=True
-    return render_to_response('comics/index.html',
+    return render_to_response('comics/index_numbers.html',
                               {'comics_list': comics_list},
                               context_instance=RequestContext(request))
 

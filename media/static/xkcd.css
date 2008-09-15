@@ -49,18 +49,15 @@ ul.lnk li a {
   text-transform:capitalize;
 }
 
-/* Comics List */
-
-div.list {
-  margin: 0;
-  padding: 0;
-  vertical-align: bottom;
-}
+/* Comics List (numbers) */
 
 ul.list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 1em;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
   width: 44em;
   text-align: center;
 }
