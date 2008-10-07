@@ -3,7 +3,7 @@ from comics.models import Comics
 
 class LatestComics(Feed):
     title = "New on ru_xkcd"
-    link = "/xkcd/"
+    link = "/"
     description = "Updates on ru_xkcd archive."
     
     def items(self):
