@@ -7,7 +7,7 @@ class LatestComics(Feed):
     description = "Updates on ru_xkcd archive."
     
     def items(self):
-        return Comics.objects.filter(visible=True).order_by('-pub_date')[:10]
+        return Comics.objects.filter(visible=True).order_by('-published')[:10]
 
     def item_pubdate(self,item):
-        return item.updated
+        return item.published

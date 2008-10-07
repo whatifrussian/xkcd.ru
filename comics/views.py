@@ -1,4 +1,5 @@
 # *- coding: utf-8 *-
+from datetime import datetime
 from django.template import RequestContext, loader
 from comics.models import Comics, ComicsForm
 from django.http import HttpResponse, Http404
@@ -10,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 
 def last(request):
-    last_comics=Comics.objects.filter(visible=True).order_by('-updated')[0]
+    last_comics=Comics.objects.filter(visible=True).order_by('-published')[0]
     return HttpResponseRedirect(last_comics.get_absolute_url())
 
 def index_numbers(request):
@@ -84,7 +85,7 @@ def detail_unpublished(request, comics_id, timestamp):
             return HttpResponseRedirect(this.get_absolute_url())
         elif request.POST.has_key('publish'):
             return HttpResponseRedirect(this.get_absolute_url()+'?publish')
-    if this.pub_date.strftime('%s')!=timestamp:
+    if this.created.strftime('%s')!=timestamp:
         raise Http404
     return render_to_response('comics/detail_unpublished.html',
                               {'comics': this,
@@ -106,7 +107,7 @@ def random(request,comics_id=-1):
 
 @login_required
 def index_unpublished(request):
-    comics_list=Comics.objects.filter(visible=False).order_by('pub_date')
+    comics_list=Comics.objects.filter(visible=False).order_by('created')
     return render_to_response('comics/index_unpublished.html',
                               {'comics_list': comics_list},
                               context_instance=RequestContext(request))
@@ -124,6 +125,7 @@ def edit(request, comics_id):
                                     '#edit')
     elif request.POST.has_key('publish'):
         this.visible = True
+        this.published = datetime.now()
         this.save()
         return HttpResponseRedirect(this.get_absolute_url()+'?code')
     elif request.method == 'POST':

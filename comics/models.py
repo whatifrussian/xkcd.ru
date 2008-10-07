@@ -15,7 +15,8 @@ class Comics(models.Model):
     text = models.TextField("Подпись")
     comment = models.TextField("Комментарий", blank=True)
     visible = models.BooleanField("Виден", default=False)
-    pub_date = models.DateTimeField('Опубликованно',auto_now_add=True)
+    created = models.DateTimeField('Создано',auto_now_add=True)
+    published = models.DateTimeField('Опубликованно', null=True)
     updated = models.DateTimeField('Обновлено', auto_now=True)
     author = models.ForeignKey(User)
     
@@ -27,7 +28,7 @@ class Comics(models.Model):
         if self.visible: 
             return ('comics.views.detail', [str(self.cid)])
         else:
-            return ('comics.views.detail_unpublished', [str(self.cid), self.pub_date.strftime('%s')])
+            return ('comics.views.detail_unpublished', [str(self.cid), self.created.strftime('%s')])
 
     def image_preview(self):
         return '<a href="%s" title="%d: %s"><img border=0 src="%s" alt="%s"></a>' % (self.get_absolute_url(), self.cid, self.title, self.thumbnail.url, self.title)
@@ -38,7 +39,7 @@ class Comics(models.Model):
 class ComicsForm(ModelForm):
     class Meta:
         model = Comics
-        exclude = ('pub_date', 'updated', 'visible', 'author')
+        exclude = ('created', 'published', 'updated', 'visible', 'author')
     def clean_thumbnail(self):
        thumbnail = self.cleaned_data['thumbnail']
        try:
