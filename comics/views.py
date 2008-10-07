@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 
 def last(request):
-    last_comics=Comics.objects.filter(visible=True).order_by('-pub_date')[0]
+    last_comics=Comics.objects.filter(visible=True).order_by('-updated')[0]
     return HttpResponseRedirect(last_comics.get_absolute_url())
 
 def index_numbers(request):
