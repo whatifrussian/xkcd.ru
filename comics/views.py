@@ -79,7 +79,9 @@ def detail(request, comics_id):
 
 def detail_unpublished(request, comics_id, timestamp):
     comics_id=int(comics_id)
-    this = get_object_or_404(Comics,visible=False,cid=comics_id)
+    this = get_object_or_404(Comics, cid=comics_id)
+    if this.visible:
+        return HttpResponseRedirect(this.get_absolute_url())
     if this.author == request.user:
         if request.POST.has_key('no'):
             return HttpResponseRedirect(this.get_absolute_url())
