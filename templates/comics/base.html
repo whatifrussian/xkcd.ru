@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="/static/xkcd.css" media="screen">
 <link rel="shortcut icon" href="/static/xkcd.ico" type="image/x-icon">
 <link rel="icon" href="/static/xkcd.ico" type="image/x-icon">
-<link rel="alternate" title="New on ru_xkcd" href="/feeds/xkcd" type="application/rss+xml">
+<link rel="alternate" title="New on ru_xkcd" href="{% url django.contrib.syndication.views.feed "xkcd" %}" type="application/rss+xml">
 </head>
 <body>
 {% if user.is_authenticated %}
@@ -28,7 +28,7 @@
 <li><a href="{% url comics.views.last %}">last</a>
 <li><a href="{% url comics.views.index_numbers %}">nums</a>
 <li><a href="{% url comics.views.index_thumbnail %}">imgs</a>
-<li><a href="feeds/xkcd/">RSS</a>
+<li><a href="{% url django.contrib.syndication.views.feed "xkcd" %}">RSS</a>
 <li><a href="http://community.livejournal.com/ru_xkcd/profile/">lj</a>
 <li><a href="http://xkcd.com/">xkcd</a>
 <li><a rel="license" href="http://creativecommons.org/licenses/by-nc/2.5/">CC-2.5</a>
