@@ -282,3 +282,7 @@ ul.errorlist {
 div.preview {
   border: 1px solid grey;
 }
+
+div.bookmark {
+  text-align: center;
+}
