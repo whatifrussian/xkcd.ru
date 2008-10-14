@@ -71,8 +71,9 @@ li.real, li.fake, li.invisible {
   line-height: 1.7em;
 }
 
-li.fake {
+li.fake, li.fake a {
   color: #D0D0D0;
+  text-decoration: none;
 }
   
 li.real a {

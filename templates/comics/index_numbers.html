@@ -3,16 +3,26 @@
 {% block title %}ru_xkcd - Список{% endblock %}
 
 {% block content %}
-{% if comics_list %}
-<ul class="list">
-{% for comics in comics_list %}
-{% if comics.fake %}<li class="fake">{{comics.cid}}</li>
-{% else %}<li class="{% if comics.visible %}real{% else %}invisible{% endif %}"><a href="{{comics.get_absolute_url}}">{{comics.cid}}</a></li>
-{% endif %}
-{% endfor %}
-</ul>
-<div class="clearer"></div>
-{% else %}
-   <p>No comics are available.</p>
-{% endif %}
+  {% if comics_list %}
+    <ul class="list">
+    {% for comics in comics_list %}
+      {% if comics.fake %}
+        <li class="fake">
+	{% if  user.is_authenticated %}
+          <a href="{{comics.get_absolute_url}}">
+          {{comics.cid}}
+          </a>
+	{% else %}
+          {{comics.cid}}
+        {% endif %}
+        </li>
+      {% else %}
+        <li class="{% if comics.visible %}real{% else %}invisible{% endif %}"><a href="{{comics.get_absolute_url}}">{{comics.cid}}</a></li>
+      {% endif %}
+    {% endfor %}
+    </ul>
+    <div class="clearer"></div>
+  {% else %}
+    <p>No comics are available.</p>
+  {% endif %}
 {% endblock %}

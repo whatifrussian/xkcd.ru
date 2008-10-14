@@ -10,16 +10,20 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 
+class NoComics:
+    def __init__(self,cid):
+        self.cid = cid
+        self.fake = True
+
+    def get_absolute_url(self):
+        return 'http://xkcd.com/%d/' % self.cid
+
+
 def last(request):
     last_comics=Comics.objects.filter(visible=True).order_by('-published')[0]
     return HttpResponseRedirect(last_comics.get_absolute_url())
 
 def index_numbers(request):
-    class NoComics:
-        def __init__(self,cid):
-	    self.cid=cid
-	fake=True
-    br=20
     if request.user.is_authenticated():
         tmp_comics_list = Comics.objects.order_by('cid')
         last_id= Comics.objects.order_by('-cid')[0].cid
@@ -29,8 +33,6 @@ def index_numbers(request):
     comics_list=[NoComics(i) for i in xrange(1,last_id+1)]
     for comics in tmp_comics_list:
 	comics_list[comics.cid-1]=comics
-    for i in xrange(br-1,len(comics_list),br):
-	comics_list[i].br=True
     return render_to_response('comics/index_numbers.html',
                               {'comics_list': comics_list},
                               context_instance=RequestContext(request))
