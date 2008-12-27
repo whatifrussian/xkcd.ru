@@ -1,7 +1,7 @@
 # Django settings for xkcd project.
 from specific.settings import *
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
