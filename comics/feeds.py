@@ -1,12 +1,13 @@
+# -*- coding: utf-8 -*-
 from django.contrib.syndication.feeds import Feed
 
 from comics.models import Comics
 
 
 class LatestComics(Feed):
-    title = "New on ru_xkcd"
+    title = "xkcd по-русски"
     link = "/"
-    description = "Updates on ru_xkcd archive."
+    description = "Новые переводы комиксов xkcd на русский язык."
     
     def items(self):
         return Comics.objects.filter(visible = True)\
@@ -14,3 +15,6 @@ class LatestComics(Feed):
 
     def item_pubdate(self, item):
         return item.published
+
+    def item_author_name(self, item):
+        return item.author
