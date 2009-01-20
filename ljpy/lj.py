@@ -61,12 +61,15 @@ class rpcServer:
 
 
         # post is Post or dict with subj, text and tags
-        def post(self, post, eventtime = None):
+        def post(self, post, eventtime=None, journal=None):
                 self.connect()
                 if eventtime == None:
                         moment = time.localtime()
                 else:
                         moment = time.strptime(eventtime, LJ_TIME_FORMAT)
+
+		if journal is None:
+			journal = self.username
 
 		request = {'username': self.username,
 			   'clientversion': 'Zapys/0.8',
@@ -75,6 +78,7 @@ class rpcServer:
 			   'subject': post['subj'],
 			   'props': {'taglist': post['tags'],
 				     'opt_preformatted': True},
+			   'usejournal': journal,
 			   'year': moment[0],
 			   'mon': moment[1],
 			   'day': moment[2],
@@ -84,9 +88,12 @@ class rpcServer:
 		request.update(self.get_auth())
                 return self.server.LJ.XMLRPC.postevent(request)
 
-        # post is disct {subj, tags, text}
-        def edit(self, itemid, eventtime, post ):
+        # post is Post or dict {subj, tags, text}
+        def edit(self, itemid, eventtime, post, journal=None):
                 moment = time.strptime(eventtime, LJ_TIME_FORMAT)
+
+		if journal is None:
+			jounral = self.username
 
 		request = {'username': self.username,
 			   'ver': '1',
@@ -95,6 +102,7 @@ class rpcServer:
 			   'subject': post['subj'],
 			   'props': {'taglist': post['tags'],
 				     'opt_preformatted': True},
+			   'usejournal': journal,
 			   'year': moment[0],
 			   'mon': moment[1],
 			   'day': moment[2],
