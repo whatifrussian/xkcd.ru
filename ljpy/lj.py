@@ -29,23 +29,26 @@ class rpcServer:
                 return result
 
 	def get_auth(self):
+		self.connect()
 		challenge = self.get_challenge()
 		auth = {'auth_method': 'challenge',
 			'auth_challenge': challenge['challenge'],
-			'auth_respnse': md5.md5(challenge['challenge'] +
-					       self.hpassword)}
+			'auth_response': md5.md5(challenge['challenge'] +
+					       self.hpassword).hexdigest()}
+
 		return auth
 
         def get_last(self):
                 self.connect()
+
 		request = {'username': self.username,
 			   'ver': '1',
 			   'lineendings': '0x0A',
 			   "selecttype": "lastn",
 			   "itemid": -1,
 			   "howmany": 1}
-		request.update(self.get_auth()))
-                result = self.server.LJ.XMLRPC.getevents(
+		request.update(self.get_auth())
+                result = self.server.LJ.XMLRPC.getevents(request)
 
                 return result['events'][0]
 
