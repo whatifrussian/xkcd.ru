@@ -1,10 +1,11 @@
+from getpass import getpass
+
 import lj
 
+
 # Input LJ username and password.
-print 'Enter username:',
-user = raw_input()
-print 'Enter password:',
-password = raw_input()
+user = raw_input('Enter username:')
+password = getpass('Enter password:')
 
 # Create LJ server instance.
 lj_server = lj.rpcServer(user, password)
@@ -17,8 +18,7 @@ url = result['url']
 print 'You have created item %d. The URL is: %s' % (itemid, url)
 
 # Pause.
-print 'Press enter to delete it.'
-raw_input()
+raw_input('Press enter to delete it.')
 # Delete this post.
 lj_server.del_event(itemid)
 print 'It\'s gone.'
