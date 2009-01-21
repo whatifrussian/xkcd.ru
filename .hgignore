@@ -1,8 +1,5 @@
 syntax: glob
-media/colors
-media/fake_xkcd_img
-media/xkcd_img
-media/xkcd_thumb
+media/
 site/specific
 *.pyc
 *~
