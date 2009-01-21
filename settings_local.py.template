@@ -1,0 +1,43 @@
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
+
+ADMINS = (
+    # ('Your Name', 'your_email@domain.com'),
+)
+
+MANAGERS = ADMINS
+
+# Local time zone for this installation. All choices can be found here:
+# http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
+TIME_ZONE = 'Europe/Moscow'
+
+# Language code for this installation. All choices can be found here:
+# http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+# http://blogs.law.harvard.edu/tech/stories/storyReader$15
+LANGUAGE_CODE = 'ru-ru'
+
+SITE_ID = 1
+
+# Django specific settings for xkcd project.
+
+DATABASE_ENGINE = 'sqlite3'           # 'postgresql', 'mysql', 'sqlite3' or 'ado_mssql'.
+DATABASE_NAME = '/home/django/xkcd.db'             # Or path to database file if using sqlite3.
+DATABASE_USER = ''             # Not used with sqlite3.
+DATABASE_PASSWORD = ''         # Not used with sqlite3.
+DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+
+# Absolute path to the directory that holds media.
+# Example: "/home/media/media.lawrence.com/"
+MEDIA_ROOT = '/home/django/xkcd.ru/media/'
+
+# URL that handles the media served from MEDIA_ROOT.
+# Example: "http://media.lawrence.com"
+MEDIA_URL = 'http://www.xkcd.ru/'
+
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates".
+    # Always use forward slashes, even on Windows.
+    '/home/django/xkcd.ru/templates',
+)
+
