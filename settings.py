@@ -1,25 +1,4 @@
-# Django settings for xkcd project.
-from specific.settings import *
-
-DEBUG = False
-TEMPLATE_DEBUG = DEBUG
-
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-)
-
-MANAGERS = ADMINS
-
-# Local time zone for this installation. All choices can be found here:
-# http://www.postgresql.org/docs/current/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE
-TIME_ZONE = 'Europe/Moscow'
-
-# Language code for this installation. All choices can be found here:
-# http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
-# http://blogs.law.harvard.edu/tech/stories/storyReader$15
-LANGUAGE_CODE = 'ru-ru'
-
-SITE_ID = 1
+from settings_local import *
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
@@ -53,3 +32,15 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'comics'
 )
+# Django specific settings for xkcd project.
+
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.admin',
+    'comics'
+)
+
+FORCE_SCRIPT_NAME = ''
