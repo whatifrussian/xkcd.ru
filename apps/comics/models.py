@@ -13,7 +13,6 @@ class Comics(models.Model):
     title = models.CharField("Название", max_length=255)
     image = models.ImageField("Изображение", upload_to='xkcd_img/')
     thumbnail = models.ImageField("Миниатюра", upload_to='xkcd_thumb/')
-    transcript = models.TextField("Транскрипция", blank=True)
     text = models.TextField("Подпись")
     comment = models.TextField("Комментарий", blank=True)
     visible = models.BooleanField("Виден", default=False)
