@@ -43,4 +43,3 @@ INSTALLED_APPS = (
     'comics'
 )
 
-FORCE_SCRIPT_NAME = ''
