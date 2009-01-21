@@ -11,4 +11,4 @@ dev/*
 \#*\#
 *.orig
 fcgi
-
+*_local.py
