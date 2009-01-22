@@ -30,11 +30,12 @@ class rpcServer:
                 self.hpassword = md5.md5(password).hexdigest()
 		self.server = xmlrpclib.Server(
 			"http://www.livejournal.com/interface/xmlrpc:80")
-		self.initialized = True
 
         def get_challenge(self):
-                result = self.server.LJ.XMLRPC.getchallenge()
-                return result
+		logging.debug('requesting new challenge')
+		result = self.server.LJ.XMLRPC.getchallenge()
+		logging.debug('got challenge: %s' % str(result))
+		return result
 
 	def get_auth(self):
 		challenge = self.get_challenge()
@@ -42,6 +43,7 @@ class rpcServer:
 			'auth_challenge': challenge['challenge'],
 			'auth_response': md5.md5(challenge['challenge'] +
 					       self.hpassword).hexdigest()}
+		logging.debug('auth: %s' % str(auth))
 
 		return auth
 
@@ -53,6 +55,7 @@ class rpcServer:
 			   "itemid": -1,
 			   "howmany": 1}
 		request.update(self.get_auth())
+		logging.debug('sending getevents: %s' % str(request))
                 result = self.server.LJ.XMLRPC.getevents(request)
 
                 return result['events'][0]
@@ -62,6 +65,7 @@ class rpcServer:
 			   'ver': '1',
 			   "itemid": itemid}
 		request.update(self.get_auth())
+		logging.debug('sending editevent: %s' % str(request))
                 return self.server.LJ.XMLRPC.editevent(request)
 
 
@@ -88,6 +92,7 @@ class rpcServer:
 		if journal:
 			request.update({'usejournal': journal})
 		request.update(self.get_auth())
+		logging.debug('sending postevent: %s' % str(request))
                 return self.server.LJ.XMLRPC.postevent(request)
 
         # post is Post or dict {subj, tags, text}
@@ -110,6 +115,7 @@ class rpcServer:
 			   'hour' : moment[3],
 			   'min': moment[4]}
 		request.update(self.get_auth())
+		logging.debug('sending editevent: %s' % str(request))
                 return self.server.LJ.XMLRPC.editevent(request)
 
 

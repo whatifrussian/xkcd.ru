@@ -4,6 +4,10 @@ from random import random
 import lj
 
 
+import logging
+logging.basicConfig(level=logging.DEBUG,)
+
+
 # Input LJ username and password.
 user = raw_input('Enter username:')
 password = getpass('Enter password:')
