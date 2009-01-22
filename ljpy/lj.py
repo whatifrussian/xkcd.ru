@@ -15,33 +15,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import xmlrpclib, time, md5
+import time
+import logging
+import md5
+import xmlrpclib
+
 
 LJ_TIME_FORMAT = r"%Y-%m-%d %H:%M:%S"
 
+
 class rpcServer:
-        username = ''
-        password = ''
-        initialized = False
-
-        last_event = {}
-
         def __init__(self, user, password):
                 self.username = user
                 self.hpassword = md5.md5(password).hexdigest()
-
-        def connect(self):
-                if not self.initialized:
-                        self.server = xmlrpclib.Server("http://www.livejournal.com/interface/xmlrpc:80")
-                        self.initialized = True
+		self.server = xmlrpclib.Server(
+			"http://www.livejournal.com/interface/xmlrpc:80")
+		self.initialized = True
 
         def get_challenge(self):
-		self.connect()
                 result = self.server.LJ.XMLRPC.getchallenge()
                 return result
 
 	def get_auth(self):
-		self.connect()
 		challenge = self.get_challenge()
 		auth = {'auth_method': 'challenge',
 			'auth_challenge': challenge['challenge'],
@@ -51,8 +46,6 @@ class rpcServer:
 		return auth
 
         def get_last(self):
-                self.connect()
-
 		request = {'username': self.username,
 			   'ver': '1',
 			   'lineendings': '0x0A',
@@ -74,7 +67,6 @@ class rpcServer:
 
         # post is Post or dict with subj, text and tags
         def post(self, post, eventtime=None, journal=None):
-                self.connect()
                 if eventtime == None:
                         moment = time.localtime()
                 else:
