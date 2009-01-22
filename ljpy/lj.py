@@ -21,15 +21,19 @@ import md5
 import xmlrpclib
 
 
+USER_AGENT = 'lj.py (http://bitbucket.org/Davydov/ljpy)'
+
 LJ_TIME_FORMAT = r"%Y-%m-%d %H:%M:%S"
 
-
 class rpcServer:
-        def __init__(self, user, password):
+        def __init__(self, user, password, user_agent=USER_AGENT):
                 self.username = user
                 self.hpassword = md5.md5(password).hexdigest()
-		self.server = xmlrpclib.Server(
-			"http://www.livejournal.com/interface/xmlrpc:80")
+		self.transport = xmlrpclib.Transport()
+		self.transport.user_agent = user_agent
+		self.server = xmlrpclib.ServerProxy(
+			"http://www.livejournal.com/interface/xmlrpc:80",
+			self.transport)
 
         def get_challenge(self):
 		logging.debug('requesting new challenge')
