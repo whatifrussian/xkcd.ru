@@ -136,7 +136,7 @@ class rpcServer:
 		logging.debug('sending editevent: %s' % str(request))
                 result = self.server.LJ.XMLRPC.editevent(request)
 		logging.debug('got result: %s' % str(result))
-
+		return result
 
 class Post(dict):
 	def __init__(self, subject, text, tags=''):
