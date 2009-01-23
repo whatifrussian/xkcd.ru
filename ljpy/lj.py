@@ -43,10 +43,15 @@ class rpcServer:
 
 	def get_auth(self):
 		challenge = self.get_challenge()
-		auth = {'auth_method': 'challenge',
-			'auth_challenge': challenge['challenge'],
-			'auth_response': md5.md5(challenge['challenge'] +
-					       self.hpassword).hexdigest()}
+		try:
+			auth = {'auth_method': 'challenge',
+				'auth_challenge': challenge['challenge'],
+				'auth_response': md5.md5(
+					challenge['challenge'] +
+					self.hpassword).hexdigest()}
+		except KeyError, inst:
+			raise UnexpectedReply('Server didn\'t returned %s.' %
+					      inst.message)      
 		logging.debug('auth: %s' % str(auth))
 
 		return auth
@@ -61,7 +66,7 @@ class rpcServer:
 		request.update(self.get_auth())
 		logging.debug('sending getevents: %s' % str(request))
                 result = self.server.LJ.XMLRPC.getevents(request)
-
+		logging.debug('got result: %s' % str(result))
                 return result['events'][0]
 
         def del_event(self, itemid):
@@ -70,8 +75,9 @@ class rpcServer:
 			   "itemid": itemid}
 		request.update(self.get_auth())
 		logging.debug('sending editevent: %s' % str(request))
-                return self.server.LJ.XMLRPC.editevent(request)
-
+                result = self.server.LJ.XMLRPC.editevent(request)
+		logging.debug('got result: %s' % str(result))
+		return result
 
         # post is Post or dict with subj, text and tags
         def post(self, post, eventtime=None, journal=None):
@@ -97,7 +103,15 @@ class rpcServer:
 			request.update({'usejournal': journal})
 		request.update(self.get_auth())
 		logging.debug('sending postevent: %s' % str(request))
-                return self.server.LJ.XMLRPC.postevent(request)
+                result = self.server.LJ.XMLRPC.postevent(request)
+		logging.debug('got result: %s' % str(result))
+		try:
+			result['itemid']
+			result['url']
+		except KeyError, inst:
+			raise UnexpectedReply('Server didn\'t returned %s.' %
+                                              inst.message)
+		return result
 
         # post is Post or dict {subj, tags, text}
         def edit(self, itemid, eventtime, post):
@@ -120,7 +134,8 @@ class rpcServer:
 			   'min': moment[4]}
 		request.update(self.get_auth())
 		logging.debug('sending editevent: %s' % str(request))
-                return self.server.LJ.XMLRPC.editevent(request)
+                result = self.server.LJ.XMLRPC.editevent(request)
+		logging.debug('got result: %s' % str(result))
 
 
 class Post(dict):
@@ -128,3 +143,15 @@ class Post(dict):
 		self['subj'] = subject
 		self['text'] = text
 		self['tags'] = tags
+
+
+class Error(Exception):
+	"""Base class for exceptions."""
+	def __init__(self, value):
+		self.value = value
+
+	def __str__(self):
+		return repr(self.value)
+
+class UnexpectedReply(Error):
+	pass
