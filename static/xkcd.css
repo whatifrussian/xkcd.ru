@@ -287,3 +287,7 @@ div.preview {
 div.bookmark {
   text-align: center;
 }
+
+img.unpub_thumb {
+  margin-left: -48px;
+}
