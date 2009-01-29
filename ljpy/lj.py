@@ -117,9 +117,6 @@ class rpcServer:
         def edit(self, itemid, eventtime, post):
                 moment = time.strptime(eventtime, LJ_TIME_FORMAT)
 
-		if journal is None:
-			jounral = self.username
-
 		request = {'username': self.username,
 			   'ver': '1',
 			   "itemid": itemid,
