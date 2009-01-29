@@ -8,7 +8,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User, unique=True)
 
     url = models.URLField('URL', verify_exists=False, blank=True)
-    town = models.CharField('Город', max_length=100, blank=True)
+    city = models.CharField('Город', max_length=100, blank=True)
 
 class ProfileForm(ModelForm):
     class Meta:
