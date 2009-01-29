@@ -32,7 +32,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'comics'
 )
-# Django specific settings for xkcd project.
+
+AUTH_PROFILE_MODULE = "profile.profile"
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -40,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    'comics'
+    'comics',
+    'profile'
 )
 

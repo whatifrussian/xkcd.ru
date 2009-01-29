@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<h1>Профиль</h1>
+{% if saved %}
+<h2>Изменения сохранены.</h2>
+{% endif %}
+
+<form class="edit" enctype="multipart/form-data" method="post" action="{% url profile.views.edit %}">
+<table cellspacing=0 align="center">{{ form }}
+<tr><th></th><td class="save">
+<input type="submit" value="Сохранить">
+</td></tr>
+</table>
+</form>
+
+{% endblock %}

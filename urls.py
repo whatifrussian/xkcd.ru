@@ -31,4 +31,5 @@ url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='
 (r'^unpublished/$', 'comics.views.index_unpublished'),
 (r'^(?P<comics_id>\d+)/edit/$', 'comics.views.edit'),
 (r'^add/$', 'comics.views.add'),
+(r'^profile/$', 'profile.views.edit'),
 ) + urlpatterns_local
