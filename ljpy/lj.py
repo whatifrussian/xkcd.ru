@@ -80,7 +80,8 @@ class rpcServer:
 		return result
 
         # post is Post or dict with subj, text and tags
-        def post(self, post, eventtime=None, journal=None):
+        def post(self, post, eventtime=None, journal=None,
+		 raise_on_premod=False):
                 if eventtime == None:
                         moment = time.localtime()
                 else:
@@ -109,6 +110,9 @@ class rpcServer:
 			result['itemid']
 			result['url']
 		except KeyError:
+			if raise_on_premod:
+				raise UnexpectedReply(
+					'Didn\'t expected premoderated.')
 			try:
 				result['message']
 			except KeyError:
