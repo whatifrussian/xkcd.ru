@@ -30,7 +30,8 @@ def post(request, comics_id):
     settings.LJ_PASSWORD
     settings.LJ_JOURNAL
     try:
-        lj_server = lj.rpcServer(settings.LJ_LOGIN, settings.LJ_PASSWORD)
+        lj_server = lj.rpcServer(settings.LJ_LOGIN, settings.LJ_PASSWORD,
+                                 'xkcd.ru (contact dav03 at xkcd.ru)')
         t = loader.get_template('livejournal/code.html')
         c = {'comics': comics, 'user': request.user}
         try:
