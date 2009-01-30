@@ -58,13 +58,14 @@ def index_thumbnail(request):
 def detail(request, comics_id):
     comics_id = int(comics_id)
     this = get_object_or_404(Comics, cid=comics_id, visible=True)
+    lj_post = None
     if this.author == request.user:
         if request.POST.has_key('code'):
             return HttpResponseRedirect(this.get_absolute_url() + '?code')
         try:
             lj_post = Post.objects.get(comics=this)
         except Post.DoesNotExist:
-            lj_post = None
+            pass
     first = Comics.objects.filter(visible=True).order_by('cid')[0]
     last = Comics.objects.filter(visible=True).order_by('-cid')[0]
     try:
