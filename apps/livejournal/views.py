@@ -1,3 +1,5 @@
+import sys
+
 import lj
 
 from django.conf import settings
@@ -51,5 +53,5 @@ def post(request, comics_id):
                                         '?lj=published')
     except Exception, e:
             return HttpResponseRedirect(comics.get_absolute_url() +
-                                        iri_to_uri('?lj=error&msg=%s' %
-                                                   e.message))
+                                        iri_to_uri('?lj=error&msg=%s:%s' %
+                                                   (sys.exc_info()[:2])))
