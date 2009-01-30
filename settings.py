@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'comics',
-    'profile'
+    'profile',
+    'livejournal'
 )
 

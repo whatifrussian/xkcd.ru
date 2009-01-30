@@ -32,4 +32,5 @@ url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='
 (r'^(?P<comics_id>\d+)/edit/$', 'comics.views.edit'),
 (r'^add/$', 'comics.views.add'),
 (r'^profile/$', 'profile.views.edit'),
+(r'^(?P<comics_id>\d+)/livejournal/$', 'livejournal.views.post'),
 ) + urlpatterns_local

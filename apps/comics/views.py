@@ -1,7 +1,9 @@
 # *- coding: utf-8 *-
 from datetime import datetime
 
-from django.template import RequestContext, loader
+import lj
+
+from django.template import RequestContext
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
@@ -11,6 +13,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 
 from comics.models import Comics, ComicsForm
+from profile.models import Profile
+from livejournal.models import Post
 
 
 class NoComics:
@@ -54,8 +58,13 @@ def index_thumbnail(request):
 def detail(request, comics_id):
     comics_id = int(comics_id)
     this = get_object_or_404(Comics, cid=comics_id, visible=True)
-    if this.author == request.user and request.POST.has_key('code'):
+    if this.author == request.user:
+        if request.POST.has_key('code'):
             return HttpResponseRedirect(this.get_absolute_url() + '?code')
+        try:
+            lj_post = Post.objects.get(comics=this)
+        except Post.DoesNotExist:
+            lj_post = None
     first = Comics.objects.filter(visible=True).order_by('cid')[0]
     last = Comics.objects.filter(visible=True).order_by('-cid')[0]
     try:
@@ -79,7 +88,14 @@ def detail(request, comics_id):
                                'next': next,
                                'code': True if request.GET.has_key('code')\
                                    and this.author == request.user else False,
-                               'random': random},
+                               'random': random,
+                               'lj': request.GET['lj'] if \
+                                   request.GET.has_key('lj') \
+                                   else False,
+                               'msg': request.GET['msg'] if \
+                                   request.GET.has_key('msg') \
+                                   else False,
+                               'lj_post': lj_post},
                                context_instance=RequestContext(request))
 
 
