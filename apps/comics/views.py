@@ -158,12 +158,7 @@ def edit(request, comics_id):
             if form.is_valid():
                 this = form.save()
                 if not request.POST.has_key('continue'):
-                    if this.visible:
-                        return HttpResponseRedirect(this.get_absolute_url()
-                                                     + '?code')
-                    else:
-                        return HttpResponseRedirect(this.\
-                                                    get_absolute_url())
+                    return HttpResponseRedirect(this.get_absolute_url())
         except IntegrityError:
             form.errors['cid'] = ['Этот перевод уже есть']
 
