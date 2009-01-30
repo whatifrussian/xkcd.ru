@@ -9,6 +9,6 @@
 <a href="{{comics.get_absolute_url}}"><img class={% if not comics.visible %}invisible{% else %}thumb{% endif %} hspace=4 vspace=4 border=0 src="{{comics.thumbnail.url}}" width=48 height=48 title="{{comics.cid}}: {{comics.title}}" alt="{{comics.title}}"></a>
 {% endfor %}
 {% else %}
-   <p>No comics are available.</p>
+   <h2>Нет комиксов.</h2>
 {% endif %}
 {% endblock %}

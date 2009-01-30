@@ -27,20 +27,26 @@ class NoComics:
 
 
 def last(request):
-    last_comics = Comics.objects.filter(visible=True).order_by('-published')[0]
+    try:
+        last_comics = Comics.objects.filter(visible=True).order_by('-published')[0]
+    except IndexError:
+        return HttpResponseRedirect(reverse(index_numbers))
     return HttpResponseRedirect(last_comics.get_absolute_url())
 
 
 def index_numbers(request):
-    if request.user.is_authenticated():
-        tmp_comics_list = Comics.objects.order_by('cid')
-        last_id = Comics.objects.order_by('-cid')[0].cid
-    else:
-        tmp_comics_list = Comics.objects.filter(visible=True).order_by('cid')
-        last_id = Comics.objects.filter(visible=True).order_by('-cid')[0].cid
-    comics_list=[NoComics(i) for i in xrange(1, last_id + 1)]
-    for comics in tmp_comics_list:
-	comics_list[comics.cid - 1] = comics
+    try:
+        if request.user.is_authenticated():
+            tmp_comics_list = Comics.objects.order_by('cid')
+            last_id = Comics.objects.order_by('-cid')[0].cid
+        else:
+            tmp_comics_list = Comics.objects.filter(visible=True).order_by('cid')
+            last_id = Comics.objects.filter(visible=True).order_by('-cid')[0].cid
+        comics_list=[NoComics(i) for i in xrange(1, last_id + 1)]
+        for comics in tmp_comics_list:
+            comics_list[comics.cid - 1] = comics
+    except IndexError:
+        comics_list = None
     return render_to_response('comics/index_numbers.html',
                               {'comics_list': comics_list},
                               context_instance=RequestContext(request))
