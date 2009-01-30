@@ -108,9 +108,12 @@ class rpcServer:
 		try:
 			result['itemid']
 			result['url']
-		except KeyError, inst:
-			raise UnexpectedReply('Server didn\'t returned %s.' %
-                                              inst.message)
+		except KeyError:
+			try:
+				result['message']
+			except KeyError:
+				raise UnexpectedReply(
+					'Server didn\'t returned message.').
 		return result
 
         # post is Post or dict {subj, tags, text}
