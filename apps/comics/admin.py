@@ -8,7 +8,7 @@ class PostInline(admin.StackedInline):
 	model = Post
 
 class ComicsAdmin(admin.ModelAdmin):
-        list_display = ('cid', 'title', 'image_preview', 'visible')
+        list_display = ('cid', 'title', 'image_preview', 'visible', 'author')
         ordering = ('visible', )
         list_per_page = 10
 
