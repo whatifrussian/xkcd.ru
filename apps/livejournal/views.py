@@ -34,12 +34,7 @@ def post(request, comics_id):
                                  'xkcd.ru (contact dav03 at xkcd.ru)')
         t = loader.get_template('livejournal/code.html')
         c = {'comics': comics, 'user': request.user}
-        try:
-            c.update({'profile': request.user.get_profile()})
-        except Profile.DoesNotExist:
-            pass
         to_post = lj.Post(comics.title, unicode(t.render(Context(c))))
-        print to_post
         time = comics.published.strftime(lj.LJ_TIME_FORMAT)
         if lj_post:
             result = lj_server.edit(lj_post.pid, time, to_post)

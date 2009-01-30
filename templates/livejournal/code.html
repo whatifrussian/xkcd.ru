@@ -1,3 +1,4 @@
 {% include "comics/code.html" %}
+{% load lj_profile %}
 <br>Переводил 
-{% if profile %}<a href="{{ profile.url }}">{{ user }}</a>{% else %}{{ user }}{% endif %}.
+{{ user|profile }}.
