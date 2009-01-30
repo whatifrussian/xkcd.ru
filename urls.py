@@ -16,7 +16,7 @@ urlpatterns = patterns('',
 # Example:
 #     (r'^xkcd/', include('xkcd.apps.foo.urls.foo')),
 # Uncomment this for admin:
-(r'^admin/(.*)', admin.site.root),
+url(r'^admin/(.*)', admin.site.root, name='admin-root'),
 (r'^$', 'comics.views.last'),
 (r'^num/$', 'comics.views.index_numbers'),
 (r'^img/$', 'comics.views.index_thumbnail'),
