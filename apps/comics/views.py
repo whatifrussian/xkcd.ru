@@ -151,7 +151,7 @@ def edit(request, comics_id):
         this.visible = True
         this.published = datetime.now()
         this.save()
-        return HttpResponseRedirect(this.get_absolute_url() + '?code')
+        return HttpResponseRedirect(this.get_absolute_url())
     elif request.method == 'POST':
         form = ComicsForm(request.POST, request.FILES, instance=this)
         try:

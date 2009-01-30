@@ -41,7 +41,8 @@ def post(request, comics_id):
             return HttpResponseRedirect(comics.get_absolute_url() +
                                         '?lj=updated')
         else:
-            result = lj_server.post(to_post, time, settings.LJ_JOURNAL)
+            result = lj_server.post(to_post, time, settings.LJ_JOURNAL,
+                                    True)
             post = Post(comics=comics, url=result['url'],
                         pid=result['itemid'])
             post.save()
