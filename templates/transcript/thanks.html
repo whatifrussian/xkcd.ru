@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Спасибо{% endblock %}
+{% block content %}
+<h1>Спасибо за вашу помощь!</h1>
+<form action="{{ comics.get_absolute_url }}" method="get">
+<input type=submit value="Вернуться">
+</form>
+{% endblock %}

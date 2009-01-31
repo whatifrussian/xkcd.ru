@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Транскрипция: {{ comics.title }}{% endblock %}
+{% block content %}
+<h1>{{comics.title}}</h1>
+<h2>(транскрипция)</h2>
+<img src="{{ comics.image.url }}" border="0"  alt="{{comics.title}}">
+{% if unapproved_list %}
+<ul class="unapproved">
+{% for unapproved in unapproved_list %}
+<li>
+{{ unapproved.transcription|linebreaks }}
+</li>
+{% endfor %}
+</ul>
+<form class="clear" action="{% url transcript.views.clear_unapproved comics.cid %}" method="post">
+<input type="submit" value="Очистить">
+</form>
+{% endif %}
+<form class="edit" action="{% url transcript.views.edit comics.cid %}" method="post">
+<table cellspacing=0 align="center">{{ form }}
+<tr><th></th><td class="save">
+<input type="submit" value="Сохранить">
+</td></tr>
+</table>
+</form>
+
+
+{% endblock %}

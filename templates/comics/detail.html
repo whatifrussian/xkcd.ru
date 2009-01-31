@@ -60,5 +60,25 @@
 {% include "comics/bookmark.html" %}
 </div>
 
+{% if user.is_authenticated %}
+<form action="{% url transcript.views.show_form comics.cid %}" method="get">
+{% if transcription %}
+<input type="submit" value="Транскрипция">
+{% else %}
+<input type="submit" value="Задать транскрпцию ({{ unapproved }})">
+{% endif %}
+</form>
+{% else %}
+{% if transcription %}
+<form action="{% url transcript.views.show_transcription comics.cid %}" method="get" target="_blank">
+<input type="submit" value="Показать транскрипцию">
+</form>
+{% else %}
+<form action="{% url transcript.views.show_form comics.cid %}" method="get">
+<input type="submit" value="Добавить транскрипцию">
+</form>
+{% endif %}
+{% endif %}
+
 <div class="clearer"></div>
 {% endblock %}

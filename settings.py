@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'comics',
     'profile',
-    'livejournal'
+    'livejournal',
+    'transcript'
 )
 

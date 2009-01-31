@@ -15,6 +15,7 @@ from django.db import IntegrityError
 from comics.models import Comics, ComicsForm
 from profile.models import Profile
 from livejournal.models import Post
+from transcript.models import Transcription, UnapprovedTranscription
 
 
 class NoComics:
@@ -34,7 +35,7 @@ def last(request):
     return HttpResponseRedirect(last_comics.get_absolute_url())
 
 
-def index_numbers(request):
+def index_numbers(request): 
     try:
         if request.user.is_authenticated():
             tmp_comics_list = Comics.objects.order_by('cid')
@@ -69,6 +70,14 @@ def detail(request, comics_id):
            return HttpResponseRedirect(this.get_absolute_url())
         else:
             raise Http404
+    # Get transcription.
+    try:
+        transcription = Transcription.objects.get(comics=this)
+        unapproved = None
+    except Transcription.DoesNotExist:
+        transcription = None
+        unapproved = UnapprovedTranscription.objects.filter(comics=this).\
+            count()
     lj_post = None
     if this.author == request.user:
         if request.POST.has_key('code'):
@@ -107,6 +116,8 @@ def detail(request, comics_id):
                                'msg': request.GET['msg'] if \
                                    request.GET.has_key('msg') \
                                    else False,
+                               'transcription': transcription,
+                               'unapproved': unapproved,
                                'lj_post': lj_post},
                                context_instance=RequestContext(request))
 

@@ -296,3 +296,20 @@ div.bookmark {
 img.unpub_thumb {
   margin-left: -48px;
 }
+
+/* transcriptions */
+ul.unapproved {
+  list-style-type: none;
+  width: 400px;
+  font-family: monospace;
+}
+
+ul.unapproved li {
+  border: solid 1px #ccc;
+  margin: 1em 0 1em 0;
+  text-align: left;
+}
+
+form.clear {
+  text-align: center;
+}
