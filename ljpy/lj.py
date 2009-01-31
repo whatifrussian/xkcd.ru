@@ -121,7 +121,7 @@ class rpcServer:
 		return result
 
         # post is Post or dict {subj, tags, text}
-        def edit(self, itemid, eventtime, post):
+        def edit(self, itemid, eventtime, post, journal=None):
                 moment = time.strptime(eventtime, LJ_TIME_FORMAT)
 
 		request = {'username': self.username,
@@ -136,6 +136,8 @@ class rpcServer:
 			   'day': moment[2],
 			   'hour' : moment[3],
 			   'min': moment[4]}
+                if journal:
+			request.update({'usejournal': journal})
 		request.update(self.get_auth())
 		logging.debug('sending editevent: %s' % str(request))
                 result = self.server.LJ.XMLRPC.editevent(request)
