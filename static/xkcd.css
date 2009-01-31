@@ -41,7 +41,7 @@ ul.lnk {
 
 ul.lnk li {
   display: block;
-  width: 80px;
+  width: 75px;
   float: left;
 }
 
@@ -99,7 +99,7 @@ li.invisible a {
 
 ul.nav {
   margin:auto;
-  padding: 1em;
+  padding: 1em 0 1em 0;
   list-style-type:none;
   width:400px;
   text-align: center;
@@ -116,6 +116,7 @@ ul.nav li a{
   display: block;
   margin: 0px 4px 0px 4px;
   width:70px;
+  height: 1.4em;
   border:1px solid black;
   background-color:#6E7B91;	
   color:#FFF;
@@ -289,7 +290,7 @@ div.preview {
 }
 
 div.bookmark {
-  text-align: center;
+  padding: 1em;
 }
 
 img.unpub_thumb {
