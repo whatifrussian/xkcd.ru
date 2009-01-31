@@ -3,8 +3,8 @@
 {% block title %}Транскрипция: {{ comics.title }}{% endblock %}
 {% block content %}
 <h1>Транскрипция: {{comics.title}}</h1>
-<p>Пожалуйста, указываете имена персонажей (например, «человек в шляпе» или «человек в берете». Чем лучше будет заполнена транскрипция, тем лучше будет работать поиск.
 <img src="{{ comics.image.url }}" border="0"  alt="{{comics.title}}">
+<p>Пожалуйста, указываете имена персонажей (например, «человек в шляпе» или «человек в берете». Чем лучше будет заполнена транскрипция, тем лучше будет работать поиск.
 <form class="edit" action="{% url transcript.views.add comics.cid %}" method="post">
 <table cellspacing=0 align="center">{{ form }}
 <tr><th></th><td class="save">
