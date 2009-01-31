@@ -53,6 +53,7 @@ ul.lnk li a {
   font-family:Lucida,sans-serif;
   font-weight:800;
   text-transform:capitalize;
+  white-space:nowrap;
 }
 
 /* Comics List (numbers) */
@@ -138,7 +139,7 @@ div.comics_text {
 }
 
 div.comment {
-  border-top: 1px solid grey;
+  border-top: 1px solid gray;
   padding-top: 15px;
   text-align: left;
   width: 60%;
@@ -197,7 +198,7 @@ div.sys ul {
   margin: auto;
   padding: 0px;
   list-style-type: none;
-  align: center;
+  text-align: center;
 }
 
 div.sys ul li {
@@ -284,7 +285,7 @@ ul.errorlist {
 }
 
 div.preview {
-  border: 1px solid grey;
+  border: 1px solid gray;
 }
 
 div.bookmark {
