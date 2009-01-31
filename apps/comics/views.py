@@ -63,7 +63,12 @@ def index_thumbnail(request):
 
 def detail(request, comics_id):
     comics_id = int(comics_id)
-    this = get_object_or_404(Comics, cid=comics_id, visible=True)
+    this = get_object_or_404(Comics, cid=comics_id)
+    if not this.visible:
+        if request.user.is_authenticated():
+           return HttpResponseRedirect(this.get_absolute_url())
+        else:
+            raise Http404
     lj_post = None
     if this.author == request.user:
         if request.POST.has_key('code'):
