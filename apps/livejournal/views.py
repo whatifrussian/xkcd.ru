@@ -37,7 +37,8 @@ def post(request, comics_id):
         to_post = lj.Post(comics.title, unicode(t.render(Context(c))))
         time = comics.published.strftime(lj.LJ_TIME_FORMAT)
         if lj_post:
-            result = lj_server.edit(lj_post.pid, time, to_post)
+            result = lj_server.edit(lj_post.pid, time, to_post,
+                                    settings.LJ_JOURNAL)
             return HttpResponseRedirect(comics.get_absolute_url() +
                                         '?lj=updated')
         else:
