@@ -157,19 +157,19 @@ div.clearer {
 
 /* Unpublished Comics */
 
-ul.unpublished_list li {
+ul.unpublished_list li, ul.transcriptions li {
   list-style: none;
   width: 30em;
   text-align: left;
   line-height: 50px;
 }
 
-ul.unpublished_list li img {
+ul.unpublished_list li img, ul.transcriptions li img {
   vertical-align: middle;
   text-decoration: none;
 }
 
-ul.unpublished_list li a {
+ul.unpublished_list li a, ul.transcriptions li a {
   text-decoration: none;
   color: black;
 }
@@ -312,4 +312,14 @@ ul.unapproved li {
 
 form.clear {
   text-align: center;
+}
+
+div.sample {
+  text-align: left;
+  margin: 1em;
+}
+
+div.transcription {
+  width: 400px;
+  text-align: left;
 }

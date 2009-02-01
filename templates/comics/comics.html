@@ -1,7 +1,9 @@
 <a href="http://xkcd.com/{{comics.cid}}/" target=_blank>
-<img border=0 alt="{{comics.title}}" src="{{comics.image.url}}"
+<img border=0 src="{{comics.image.url}}"
 {% if transcription %}
 alt="{{ transcription.transcription }}"
+{% else %}
+alt="{{ comics.title }}"
 {% endif %}
 >
 </a>

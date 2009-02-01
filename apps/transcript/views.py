@@ -54,6 +54,7 @@ def edit(request, comics_id):
     form = TranscriptionForm(request.POST, instance=instance)
     if form.is_valid():
         form.save()
+        UnapprovedTranscription.objects.filter(comics=comics).delete()
         return HttpResponseRedirect(comics.get_absolute_url())
     else:
         unapproved_list = UnapprovedTranscription.objects.filter(comics=comics)
@@ -95,3 +96,21 @@ def clear_unapproved(request, comics_id):
     comics = get_object_or_404(Comics, cid=comics_id, visible=True)
     UnapprovedTranscription.objects.filter(comics=comics).delete()
     return HttpResponseRedirect(reverse(show_form, args=(comics.cid,)))
+
+@login_required
+def list_unapproved(request):
+    unapproved_list = UnapprovedTranscription.objects.all()
+    comics_map = {}
+    for transcription in unapproved_list:
+        comics = transcription.comics
+        if comics_map.has_key(comics.cid):
+            comics_map[comics.cid][1]+=1
+        else:
+            comics_map[comics.cid]=[comics, 1]
+    comics_list = []
+    for i in comics_map:
+        comics_list.append(comics_map[i][0])
+        comics_list[-1].repeats = comics_map[i][1]
+    return render_to_response('transcript/list.html',
+                              {'comics_list': comics_list},
+                              context_instance=RequestContext(request))

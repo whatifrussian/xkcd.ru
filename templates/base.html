@@ -12,6 +12,7 @@
 <ul>
 <li><a href="{% url comics.views.add %}">add</a>
 <li><a href="{% url comics.views.index_unpublished %}">unpublished</a>
+<li><a href="{% url transcript.views.list_unapproved %}">transcriptions</a>
 <li><a href="{% url profile.views.edit %}">profile</a>
 {% if user.is_staff %}
 <li><a href="{% url admin-root "" %}">admin</a>
