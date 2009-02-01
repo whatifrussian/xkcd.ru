@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Список транскрипций{% endblock %}
+{% block content %}
+<h1>Новые транскрипции</h1>
+<ul class="transcriptions">
+{% for comics in comics_list %}
+<li>
+<a href="{% url transcript.views.show_form comics.cid %}">
+<img border=0 src="{{comics.thumbnail.url}}" width=48 height=48 title="{{comics.cid}}: {{comics.title}}" alt="{{comics.title}}">
+ {{comics.cid}}: {{comics.title}} ({{comics.repeats}})</a>
+
+{% endfor %}
+</ul>
+{% endblock %}
