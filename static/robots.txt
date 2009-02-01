@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /img/
+Disallow: /random/
+Disallow: /login/
+Disallow: /transcript
+

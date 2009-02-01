@@ -4,6 +4,10 @@ body {
   text-align: center;
 }
 
+a {
+  text-decoration: none;
+}
+
 div.main {
   background:#ffffff;
   border:1px solid #000000;
@@ -80,19 +84,16 @@ li.real, li.fake, li.invisible {
 
 li.fake, li.fake a {
   color: #D0D0D0;
-  text-decoration: none;
 }
   
 li.real a {
   color:#96A8C8;
   font-weight:bold;
-  text-decoration:none;
 }
 
 li.invisible a {
   color:  #962020;
   font-weight:bold;
-  text-decoration:none;
 }
 
 /* Comics Nav */
@@ -119,7 +120,6 @@ ul.nav li a{
   border:1px solid black;
   background-color:#6E7B91;	
   color:#FFF;
-  text-decoration:none;
   font-size:16px;
   font-variant:small-caps;	
   font-family:Lucida, sans-serif;
@@ -145,6 +145,10 @@ div.comment {
   width: 60%;
 }
 
+div.comics_text a, div.comment a {
+  text-decoration: underline;
+}
+
 
 
 /* Utility */
@@ -166,11 +170,9 @@ ul.unpublished_list li, ul.transcriptions li {
 
 ul.unpublished_list li img, ul.transcriptions li img {
   vertical-align: middle;
-  text-decoration: none;
 }
 
 ul.unpublished_list li a, ul.transcriptions li a {
-  text-decoration: none;
   color: black;
 }
 
@@ -211,7 +213,6 @@ div.sys ul li {
 
 div.sys a {
   color: black;
-  text-decoration: none;
 }
 
 div.code {
@@ -235,17 +236,25 @@ div.buttons form {
   display: inline;
 }
 
-form.edit table {
+form table {
   width: 90%;
   text-align: left;
   border-collapse: collapse;
 }
 
-form.edit table th {
+form.login table {
+  width: auto;
+}
+
+form.login th, form.login td {
+  border: none;
+}
+
+form table th {
   vertical-align: top;
 }
 
-form.edit table th {
+form table th {
   border: 1px solid #CCC;
   border-right: 0;
   padding: 5px;
@@ -254,13 +263,13 @@ form.edit table th {
   font-weight: normal;
 }
 
-form.edit table td {
+form table td {
   border: 1px solid #CCC;
   border-left: 0;
   padding: 5px;
 }
 
-form.edit textarea {
+form textarea {
   width: 100%;
   height: 8em;
 }
@@ -316,10 +325,33 @@ form.clear {
 
 div.sample {
   text-align: left;
-  margin: 1em;
+  margin: 0.5em 0.5em 0.5em 0;
+  float: right;
+  display: inline-block;
+  width: 32%;
+  font-size: 0.8em;
+  color: #444;
+}
+
+div.sample a {
+ text-decoration: underline;
 }
 
 div.transcription {
   width: 400px;
   text-align: left;
+}
+
+form.transcription_edit {
+  text-align: left;
+}
+
+form.transcription_edit table {
+  width: 62%;
+  margin: 1em 0 1em 1em;
+  display: inline-block;
+}
+
+form.transcription_edit textarea {
+  height: 20em;
 }

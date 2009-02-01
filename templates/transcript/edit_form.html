@@ -17,13 +17,14 @@
 <input type="submit" value="Очистить неподтверждённые">
 </form>
 {% endif %}
-<form class="edit" action="{% url transcript.views.edit comics.cid %}" method="post">
+{% include "transcript/sample.html" %}
+<form class="transcription_edit" action="{% url transcript.views.edit comics.cid %}" method="post">
 <table cellspacing=0 align="center">{{ form }}
 <tr><th></th><td class="save">
 <input type="submit" value="Сохранить">
 </td></tr>
 </table>
 </form>
-{% include "transcript/sample.html" %}
+
 
 {% endblock %}
