@@ -355,3 +355,17 @@ form.transcription_edit table {
 form.transcription_edit textarea {
   height: 20em;
 }
+
+/* Statistics */
+
+div.stat {
+  font-family: monospace;
+}
+
+div.stat table {
+  text-align: left;
+}
+
+div.stat table th {
+  font-weight: normal;
+}

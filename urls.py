@@ -52,4 +52,5 @@ urlpatterns = patterns(
     (r'^transcription/(?P<comics_id>\d+)/$',
      'transcript.views.show_transcription'),
     (r'^unapproved/$', 'transcript.views.list_unapproved'),
+    (r'^statistics/$', 'statistics.views.show')
     ) + urlpatterns_local

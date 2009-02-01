@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'comics',
     'profile',
     'livejournal',
-    'transcript'
+    'transcript',
+    'statistics',
 )
 
