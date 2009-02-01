@@ -56,9 +56,6 @@
 {% include "comics/navigation.html" %}
 
 <div class="clearer"></div>
-<div class="bookmark">
-{% include "comics/bookmark.html" %}
-</div>
 
 {% if user.is_authenticated %}
 <form action="{% url transcript.views.show_form comics.cid %}" method="get">
@@ -79,6 +76,10 @@
 </form>
 {% endif %}
 {% endif %}
+
+<div class="bookmark">
+{% include "comics/bookmark.html" %}
+</div>
 
 <div class="clearer"></div>
 {% endblock %}
