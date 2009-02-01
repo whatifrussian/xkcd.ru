@@ -1,13 +1,13 @@
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns('',
-# Example:
-#     (r'^xkcd/', include('xkcd.apps.foo.urls.foo')),
-# Uncomment this for admin:
-#(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/django/misc-dev/media/media'}),
-#(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/django/misc-dev/media/static'}),
-#(r'^xkcd_img/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/django/misc-dev/media/xkcd_img'}),
-#(r'^xkcd_thumb/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/django/misc-dev/media/xkcd_thumb'}),
+urlpatterns = patterns(
+    '',	
+    (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+     {'document_root': '/home/django/misc-dev/media/media'}),
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve',
+     {'document_root': '/home/django/misc-dev/media/static'}),
+    (r'^xkcd_img/(?P<path>.*)$', 'django.views.static.serve',
+     {'document_root': '/home/django/misc-dev/media/xkcd_img'}),
+    (r'^xkcd_thumb/(?P<path>.*)$', 'django.views.static.serve',
+     {'document_root': '/home/django/misc-dev/media/xkcd_thumb'}),
 )
-
-
