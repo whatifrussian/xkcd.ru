@@ -29,7 +29,7 @@ urlpatterns = patterns(
     # For users.
     (r'^login/$',
      'django.contrib.auth.views.login',
-     {'template_name': 'comics/login.html'}),
+     {'template_name': 'login.html'}),
     url(r'^logout/$',
         'django.contrib.auth.views.logout',
         {'next_page': '/'}, name='logout'),
