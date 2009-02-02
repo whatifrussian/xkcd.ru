@@ -71,13 +71,8 @@ def detail(request, comics_id):
         else:
             raise Http404
     # Get transcription.
-    try:
-        transcription = Transcription.objects.get(comics=this)
-        unapproved = None
-    except Transcription.DoesNotExist:
-        transcription = None
-        unapproved = UnapprovedTranscription.objects.filter(comics=this).\
-            count()
+    unapproved = UnapprovedTranscription.objects.filter(comics=this).\
+        count()
     lj_post = None
     if this.author == request.user:
         if request.POST.has_key('code'):
@@ -116,7 +111,6 @@ def detail(request, comics_id):
                                'msg': request.GET['msg'] if \
                                    request.GET.has_key('msg') \
                                    else False,
-                               'transcription': transcription,
                                'unapproved': unapproved,
                                'lj_post': lj_post},
                                context_instance=RequestContext(request))

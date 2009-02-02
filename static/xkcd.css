@@ -369,3 +369,7 @@ div.stat table {
 div.stat table th {
   font-weight: normal;
 }
+
+li.untranscribed a {
+border-bottom: 2px solid #f8c479;
+}

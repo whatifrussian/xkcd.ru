@@ -14,8 +14,7 @@ def show_transcription(request, comics_id):
     comics = get_object_or_404(Comics, cid=comics_id, visible=True)
     transcription = get_object_or_404(Transcription, comics=comics)
     return render_to_response('transcript/show.html',
-                              {'transcription': transcription,
-                               'comics': comics},
+                              {'comics': comics},
                               context_instance=RequestContext(request))
 
 def show_form(request, comics_id):
@@ -24,10 +23,11 @@ def show_form(request, comics_id):
     if not comics.visible:
         raise Http404
     if not request.user.is_authenticated():
-        if Transcription.objects.filter(comics=comics):
+        try:
+            comics.transcription
             return render_to_response('transcript/already_exists.html',
                                       context_instance=RequestContext(request))
-        else:
+        except Transcription.DoesNotExist:
             form = UnapprovedTranscriptionForm()
             return render_to_response('transcript/unapproved_form.html',
                                       {'comics': comics,
@@ -35,8 +35,7 @@ def show_form(request, comics_id):
                                       context_instance=RequestContext(request))
     else:
         try:
-            instance = Transcription.objects.get(comics=comics)
-            form = TranscriptionForm(instance=instance)
+            form = TranscriptionForm(instance=comics.transcription)
         except Transcription.DoesNotExist:
             form = TranscriptionForm()
         unapproved_list = UnapprovedTranscription.objects.filter(comics=comics)
@@ -69,8 +68,11 @@ def edit(request, comics_id):
 def add(request, comics_id):
     comics_id = int(comics_id)
     comics = get_object_or_404(Comics, cid=comics_id, visible=True)
-    if Transcription.objects.filter(comics=comics):
-        return HttpResponseRedirect(reverse(show_form))
+    try:
+        comics.transcription
+        return HttpResponseRedirect(reverse(show_form, args=(comics.cid,)))
+    except Transcription.DoesNotExist:
+        pass
     instance = UnapprovedTranscription(comics=comics)
     form = UnapprovedTranscriptionForm(request.POST, instance=instance)
     form.comics = comics

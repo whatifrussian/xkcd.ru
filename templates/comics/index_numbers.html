@@ -17,7 +17,7 @@
         {% endif %}
         </li>
       {% else %}
-        <li class="{% if comics.visible %}real{% else %}invisible{% endif %}"><a href="{{comics.get_absolute_url}}">{{comics.cid}}</a></li>
+        <li class="{% if comics.visible %}real {% if user.is_authenticated and not comics.transcription %}untranscribed{% endif %}{% else %}invisible{% endif %}"><a href="{{comics.get_absolute_url}}">{{comics.cid}}</a></li>
       {% endif %}
     {% endfor %}
     </ul>

@@ -59,14 +59,14 @@
 
 {% if user.is_authenticated %}
 <form action="{% url transcript.views.show_form comics.cid %}" method="get">
-{% if transcription %}
+{% if comics.transcription %}
 <input type="submit" value="Транскрипция">
 {% else %}
 <input type="submit" value="Задать транскрипцию ({{ unapproved }})">
 {% endif %}
 </form>
 {% else %}
-{% if transcription %}
+{% if comics.transcription %}
 <form action="{% url transcript.views.show_transcription comics.cid %}" method="get" target="_blank">
 <input type="submit" value="Показать транскрипцию">
 </form>

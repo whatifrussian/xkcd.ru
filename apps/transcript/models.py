@@ -7,7 +7,7 @@ from comics.models import Comics
 
 
 class Transcription(models.Model):
-    comics = models.ForeignKey(Comics, unique=True)
+    comics = models.OneToOneField(Comics, primary_key=True)
 
     transcription = models.TextField('Транскрипция')
 
