@@ -15,7 +15,7 @@ from django.db import IntegrityError
 from comics.models import Comics, ComicsForm
 from profile.models import Profile
 from livejournal.models import Post
-from transcript.models import Transcription, UnapprovedTranscription
+from transcript.models import UnapprovedTranscription
 
 
 class NoComics:

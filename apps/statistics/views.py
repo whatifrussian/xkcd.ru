@@ -5,7 +5,7 @@ from comics.models import Comics
 from django.contrib.auth.models import User
 from profile.models import Profile
 from livejournal.models import Post
-from transcript.models import Transcription, UnapprovedTranscription
+from transcript.models import UnapprovedTranscription
 
 
 def show(request):
@@ -13,7 +13,7 @@ def show(request):
     stat['comics'] = Comics.objects.count()
     stat['unpublished'] = Comics.objects.filter(visible=False).count()
     stat['lj'] = Post.objects.count()
-    stat['transcriptions'] = Transcription.objects.count()
+    stat['transcriptions'] = Comics.objects.exclude(transcription='').count()
     stat['unapproved_transcriptions'] = UnapprovedTranscription.objects.count()
     stat['authors'] = User.objects.count()
     stat['superusers'] = User.objects.filter(is_staff=True).count()

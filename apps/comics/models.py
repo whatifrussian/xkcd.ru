@@ -15,6 +15,7 @@ class Comics(models.Model):
     thumbnail = models.ImageField("Миниатюра", upload_to='xkcd_thumb/')
     text = models.TextField("Подпись")
     comment = models.TextField("Комментарий", blank=True)
+    transcription = models.TextField("Транскрипция", blank=True)
     visible = models.BooleanField("Виден", default=False)
     created = models.DateTimeField('Создано', auto_now_add=True)
     published = models.DateTimeField('Опубликованно', null=True)
@@ -55,3 +56,8 @@ class ComicsForm(ModelForm):
        # This means that image is string.
        except AttributeError:
            return
+
+class TranscriptionForm(ModelForm):
+    class Meta:
+        model = Comics
+        fields = ('transcription',)

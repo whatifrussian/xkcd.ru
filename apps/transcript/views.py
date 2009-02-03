@@ -4,15 +4,16 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 
-from transcript.models import Transcription, UnapprovedTranscription, \
-    TranscriptionForm, UnapprovedTranscriptionForm
-from comics.models import Comics
+from transcript.models import UnapprovedTranscription,\
+    UnapprovedTranscriptionForm
+from comics.models import Comics, TranscriptionForm
 
 
 def show_transcription(request, comics_id):
     comics_id = int(comics_id)
     comics = get_object_or_404(Comics, cid=comics_id, visible=True)
-    transcription = get_object_or_404(Transcription, comics=comics)
+    if not comics.transcription:
+        raise Http404
     return render_to_response('transcript/show.html',
                               {'comics': comics},
                               context_instance=RequestContext(request))
@@ -23,21 +24,18 @@ def show_form(request, comics_id):
     if not comics.visible:
         raise Http404
     if not request.user.is_authenticated():
-        try:
-            comics.transcription
+        if comics.transcription:
             return render_to_response('transcript/already_exists.html',
                                       context_instance=RequestContext(request))
-        except Transcription.DoesNotExist:
+        else:
             form = UnapprovedTranscriptionForm()
             return render_to_response('transcript/unapproved_form.html',
                                       {'comics': comics,
                                        'form': form},
                                       context_instance=RequestContext(request))
     else:
-        try:
-            form = TranscriptionForm(instance=comics.transcription)
-        except Transcription.DoesNotExist:
-            form = TranscriptionForm()
+        form = TranscriptionForm(instance=comics)
+        form.transcription = comics.transcription
         unapproved_list = UnapprovedTranscription.objects.filter(comics=comics)
         return render_to_response('transcript/edit_form.html',
                                   {'comics': comics,
@@ -49,8 +47,7 @@ def show_form(request, comics_id):
 def edit(request, comics_id):
     comics_id = int(comics_id)
     comics = get_object_or_404(Comics, cid=comics_id, visible=True)
-    instance = Transcription.objects.get_or_create(comics=comics)[0]
-    form = TranscriptionForm(request.POST, instance=instance)
+    form = TranscriptionForm(request.POST, instance=comics)
     if form.is_valid():
         form.save()
         UnapprovedTranscription.objects.filter(comics=comics).delete()
@@ -63,19 +60,14 @@ def edit(request, comics_id):
                                    'form': form},
                                   context_instance=RequestContext(request))
 
-
 # This is for not loged in user.
 def add(request, comics_id):
     comics_id = int(comics_id)
     comics = get_object_or_404(Comics, cid=comics_id, visible=True)
-    try:
-        comics.transcription
+    if comics.transcription:
         return HttpResponseRedirect(reverse(show_form, args=(comics.cid,)))
-    except Transcription.DoesNotExist:
-        pass
     instance = UnapprovedTranscription(comics=comics)
     form = UnapprovedTranscriptionForm(request.POST, instance=instance)
-    form.comics = comics
     if form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse(thanks, args=(comics.cid,)))
@@ -101,6 +93,7 @@ def clear_unapproved(request, comics_id):
 
 @login_required
 def list_unapproved(request):
+    # TODO: on update to Django 1.1 change this using aggergation functions.
     unapproved_list = UnapprovedTranscription.objects.all()
     comics_map = {}
     for transcription in unapproved_list:
