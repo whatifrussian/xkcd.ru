@@ -3,4 +3,7 @@
 {% block title %}Транскрипция уже существует{% endblock %}
 {% block content %}
 <h1>Для этого комикса уже есть транскрипция</h1>
+<form action="{{ comics.get_absolute_url }}" method="get">
+<input type=submit value="Вернуться">
+</form>
 {% endblock %}

@@ -24,6 +24,7 @@ urlpatterns = patterns(
      'comics.views.detail_unpublished'),
     (r'^random/(?P<comics_id>\d+)/$', 'comics.views.random'),
     (r'^random/$', 'comics.views.random'),
+    (r'^random/untranscribed/$', 'transcript.views.random'),
     (r'^feeds/(?P<url>.*)/$',
      'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
     # For users.

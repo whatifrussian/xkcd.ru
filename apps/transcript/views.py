@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from transcript.models import UnapprovedTranscription,\
     UnapprovedTranscriptionForm
 from comics.models import Comics, TranscriptionForm
+from comics.views import last
 
 
 def show_transcription(request, comics_id):
@@ -51,7 +52,10 @@ def edit(request, comics_id):
     if form.is_valid():
         form.save()
         UnapprovedTranscription.objects.filter(comics=comics).delete()
-        return HttpResponseRedirect(comics.get_absolute_url())
+        if request.POST.has_key('next'):
+            return HttpResponseRedirect(reverse(random))
+        else:
+            return HttpResponseRedirect(comics.get_absolute_url())
     else:
         unapproved_list = UnapprovedTranscription.objects.filter(comics=comics)
         return render_to_response('transcript/edit_form.html',
@@ -59,6 +63,14 @@ def edit(request, comics_id):
                                    'unapproved_list': unapproved_list,
                                    'form': form},
                                   context_instance=RequestContext(request))
+
+def random(request):
+    try:
+        comics = Comics.objects.filter(visible=True, transcription='')\
+            .order_by('?')[0]
+        return HttpResponseRedirect(reverse(show_form, args=(comics.cid,)))
+    except IndexError:
+        return HttpResponseRedirect(reverse(last))
 
 # This is for not loged in user.
 def add(request, comics_id):
