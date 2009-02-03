@@ -64,10 +64,15 @@ def edit(request, comics_id):
                                    'form': form},
                                   context_instance=RequestContext(request))
 
-def random(request):
+def random(request, comics_id=None):
     try:
-        comics = Comics.objects.filter(visible=True, transcription='')\
-            .order_by('?')[0]
+        if comics_id is None:
+            comics = Comics.objects.filter(visible=True, transcription='')\
+                .order_by('?')[0]
+        else:
+            comics = Comics.objects.exclude(cid=comics_id)\
+                .filter(visible=True, transcription='')\
+                .order_by('?')[0]
         return HttpResponseRedirect(reverse(show_form, args=(comics.cid,)))
     except IndexError:
         return HttpResponseRedirect(reverse(last))
@@ -92,8 +97,11 @@ def add(request, comics_id):
 def thanks(request, comics_id):
     comics_id = int(comics_id)
     comics = get_object_or_404(Comics, cid=comics_id, visible=True)
+    untranscribed = len(Comics.objects.filter(visible=True, transcription='')\
+                            .exclude(cid=comics_id))
     return render_to_response('transcript/thanks.html',
-                              {'comics': comics},
+                              {'comics': comics,
+                               'untranscribed': untranscribed},
                               context_instance=RequestContext(request))
 
 @login_required

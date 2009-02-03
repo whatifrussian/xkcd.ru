@@ -3,7 +3,13 @@
 {% block title %}Спасибо{% endblock %}
 {% block content %}
 <h1>Спасибо за вашу помощь!</h1>
-<form action="{{ comics.get_absolute_url }}" method="get">
+<form class="inline" action="{{ comics.get_absolute_url }}" method="get">
 <input type=submit value="Вернуться">
 </form>
+{% if untranscribed %}
+<form class="inline" action="{% url transcript.views.random comics.cid %}" method="get">
+<input type=submit value="Добавить ещё одну">
+</form>
+{% endif %}
+
 {% endblock %}

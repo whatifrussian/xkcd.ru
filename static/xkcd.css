@@ -242,6 +242,10 @@ form table {
   border-collapse: collapse;
 }
 
+form.inline {
+  display: inline;
+}
+
 form.login table {
   width: auto;
 }
