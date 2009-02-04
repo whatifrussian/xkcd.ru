@@ -351,9 +351,13 @@ form.transcription_edit {
 }
 
 form.transcription_edit table {
-  width: 62%;
+  width: 63%;
   margin: 1em 0 1em 1em;
   display: inline-block;
+}
+
+form.transcription_edit table td { 
+  width:100%;
 }
 
 form.transcription_edit textarea {
