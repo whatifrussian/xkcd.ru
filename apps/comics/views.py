@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.contrib.sitemaps import ping_google
 
 from comics.models import Comics, ComicsForm
 from profile.models import Profile
@@ -167,6 +168,10 @@ def edit(request, comics_id):
         this.visible = True
         this.published = datetime.now()
         this.save()
+        try:
+            ping_google()
+        except:
+            pass
         return HttpResponseRedirect(this.get_absolute_url())
     elif request.method == 'POST':
         form = ComicsForm(request.POST, request.FILES, instance=this)
