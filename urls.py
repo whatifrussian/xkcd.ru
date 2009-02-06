@@ -1,6 +1,8 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
+
 from comics.feeds import LatestComics
+from comics.sitemap import ComicsSitemap
 try:
     from urls_local import urlpatterns as urlpatterns_local
 except ImportError:
@@ -10,6 +12,10 @@ admin.autodiscover()
 
 feeds = {
 'xkcd': LatestComics,
+}
+
+sitemaps = {
+    'comics': ComicsSitemap
 }
 
 urlpatterns = patterns(
@@ -55,5 +61,8 @@ urlpatterns = patterns(
     (r'^transcription/(?P<comics_id>\d+)/$',
      'transcript.views.show_transcription'),
     (r'^unapproved/$', 'transcript.views.list_unapproved'),
-    (r'^statistics/$', 'statistics.views.show')
+    (r'^statistics/$', 'statistics.views.show'),
+    # Sitemaps.
+    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap',
+     {'sitemaps': sitemaps}),
     ) + urlpatterns_local
