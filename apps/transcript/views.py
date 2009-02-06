@@ -50,10 +50,12 @@ def edit(request, comics_id):
     comics = get_object_or_404(Comics, cid=comics_id, visible=True)
     form = TranscriptionForm(request.POST, instance=comics)
     if form.is_valid():
-        form.save()
-        UnapprovedTranscription.objects.filter(comics=comics).delete()
+        # Don't update on no edit.
+        if form.cleaned_data['transcription'] != comics.transcription:
+            form.save()
+            UnapprovedTranscription.objects.filter(comics=comics).delete()
         if request.POST.has_key('next'):
-            return HttpResponseRedirect(reverse(random))
+            return HttpResponseRedirect(reverse(random, args=(comics_id,)))
         else:
             return HttpResponseRedirect(comics.get_absolute_url())
     else:
