@@ -164,6 +164,8 @@ class Server:
 		return result
 
 	def get_comments_meta(self, start_id=0, journal=None):
+		# This is plain api call. You should cache this.
+		# See http://www.livejournal.com/developer/exporting.bml.
 		session = self.get_session()
 		headers = {'User-Agent': self.user_agent,
 			   'Cookie': 'ljsession=' + session}
@@ -198,6 +200,52 @@ class Server:
 			user = usermap.attrib['user']
 			result['usermaps'][id]=user
 		return result
+
+	def get_comments_body(self, start_id=0, journal=None):
+		# This is plain api call. You should cache this.
+		# See http://www.livejournal.com/developer/exporting.bml.
+		session = self.get_session()
+		headers = {'User-Agent': self.user_agent,
+			   'Cookie': 'ljsession=' + session}
+		url = 'http://%s/export_comments.bml'\
+		    '?get=comment_body&startid=%d' %\
+		    (self.server_name, start_id)
+		if journal:
+			url += '&authas=%s' % journal
+		logging.debug('sending get_comments: %s (%s)' % (
+				url, str(headers)))
+		request = urllib2.Request(url, None, headers)
+		response =  urllib2.urlopen(request)
+		result = {}
+		tree = ElementTree()
+		tree.parse(response)
+		comments = tree.find('comments')
+		result['comments'] = {}
+		for comment in comments.getiterator('comment'):
+			attrib = comment.attrib.copy()
+			id = int(attrib['id'])
+			del attrib['id']
+			try:
+				attrib['posterid']=int(attrib['posterid'])
+				attrib['jitemid']=int(attrib['jitemid'])
+				attrib['parentid']=int(attrib['parentid'])
+			except KeyError:
+				pass
+			attrib['subject'] = comment.findtext('subject')
+			attrib['body'] = comment.findtext('body')
+			attrib['date'] = comment.findtext('date')
+			attrib['properties'] = {}
+			for property in comment.getiterator('property'):
+				attrib['properties'][property.attrib['name']]=\
+				    property.text
+			result['comments'][id]=attrib
+		return result
+
+# This is for compatibility. rpcServer is depricated.
+class rpcServer(Server):
+	def __init__(self, *args, **kwargs):
+		logging.warn('lj.rpcServer is depricated. Use lj.Server.')
+		Server.__init__(self, *args, **kwargs)
 
 
 class Post(dict):
