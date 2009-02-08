@@ -13,7 +13,7 @@ user = raw_input('Enter username:')
 password = getpass('Enter password:')
 
 # Create LJ server instance.
-lj_server = lj.rpcServer(user, password)
+lj_server = lj.Server(user, password)
 # We try to create different posts because LJ are not very happy when
 # there are several identical posts.
 new_post = lj.Post('this is my title', 'this is <b>text</b>' + 

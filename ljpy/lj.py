@@ -19,20 +19,24 @@ import time
 import logging
 import md5
 import xmlrpclib
-
+import urllib2
+from xml.etree.ElementTree import ElementTree
 
 USER_AGENT = 'lj.py (http://bitbucket.org/Davydov/ljpy)'
 
 LJ_TIME_FORMAT = r"%Y-%m-%d %H:%M:%S"
 
-class rpcServer:
-        def __init__(self, user, password, user_agent=USER_AGENT):
+class Server:
+        def __init__(self, user, password, user_agent=USER_AGENT,
+		     server='www.livejournal.com'):
                 self.username = user
                 self.hpassword = md5.md5(password).hexdigest()
 		self.transport = xmlrpclib.Transport()
-		self.transport.user_agent = user_agent
+		self.user_agent = user_agent
+		self.transport.user_agent = self.user_agent
+		self.server_name = server
 		self.server = xmlrpclib.ServerProxy(
-			"http://www.livejournal.com/interface/xmlrpc:80",
+			"http://%s/interface/xmlrpc:80" % self.server_name,
 			self.transport)
 
         def get_challenge(self):
@@ -55,6 +59,21 @@ class rpcServer:
 		logging.debug('auth: %s' % str(auth))
 
 		return auth
+
+	def get_session(self):
+		# Should I store session in cache?
+		request = {'username': self.username,
+			   'ver': '1',
+			   'expiration': 'short'}
+		request.update(self.get_auth())
+		logging.debug('sending sessiongenerate: %s' % str(request))
+                result = self.server.LJ.XMLRPC.sessiongenerate(request)
+		logging.debug('got result: %s' % str(result))
+		try:
+			return result['ljsession']
+		except KeyError:
+			raise UnexpectedReply(
+				'Server didn\'t returned ljsession.')
 
         def get_last(self):
 		request = {'username': self.username,
@@ -143,6 +162,43 @@ class rpcServer:
                 result = self.server.LJ.XMLRPC.editevent(request)
 		logging.debug('got result: %s' % str(result))
 		return result
+
+	def get_comments_meta(self, start_id=0, journal=None):
+		session = self.get_session()
+		headers = {'User-Agent': self.user_agent,
+			   'Cookie': 'ljsession=' + session}
+		url = 'http://%s/export_comments.bml'\
+		    '?get=comment_meta&startid=%d' %\
+		    (self.server_name, start_id)
+		if journal:
+			url += '&authas=%s' % journal
+		logging.debug('sending get_comments: %s (%s)' % (
+				url, str(headers)))
+		request = urllib2.Request(url, None, headers)
+		response =  urllib2.urlopen(request)
+		result = {}
+		tree = ElementTree()
+		tree.parse(response)
+		result['maxid'] = tree.findtext('maxid')
+		comments = tree.find('comments')
+		result['comments'] = {}
+		for comment in comments.getiterator('comment'):
+			attrib = comment.attrib.copy()
+			id = int(attrib['id'])
+			del attrib['id']
+			try:
+				attrib['posterid']=int(attrib['posterid'])
+			except KeyError:
+				pass
+			result['comments'][id]=attrib
+		usermaps = tree.find('usermaps')
+		result['usermaps'] = {}
+		for usermap in usermaps.getiterator('usermap'):
+			id = int(usermap.attrib['id'])
+			user = usermap.attrib['user']
+			result['usermaps'][id]=user
+		return result
+
 
 class Post(dict):
 	def __init__(self, subject, text, tags=''):
