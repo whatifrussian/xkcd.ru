@@ -46,6 +46,8 @@ urlpatterns = patterns(
      'comics.views.index_unpublished'),
     (r'^edit/(?P<comics_id>\d+)/$',
      'comics.views.edit'),
+    (r'^review/(?P<comics_id>\d+)/$',
+     'comics.views.review'),
     (r'^add/$',
      'comics.views.add'),
     (r'^profile/$',

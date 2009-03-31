@@ -381,3 +381,11 @@ div.stat table th {
 li.untranscribed a {
 border-bottom: 2px solid #f8c479;
 }
+
+.ready {
+color: green;
+}
+
+.not-ready {
+color: red;
+}

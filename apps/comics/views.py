@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import IntegrityError
 from django.contrib.sitemaps import ping_google
 
@@ -177,6 +177,7 @@ def edit(request, comics_id):
         form = ComicsForm(request.POST, request.FILES, instance=this)
         try:
             if form.is_valid():
+                this.reviewed = False
                 this = form.save()
                 if not request.POST.has_key('continue'):
                     return HttpResponseRedirect(this.get_absolute_url())
@@ -209,3 +210,15 @@ def add(request):
     return render_to_response('comics/edit_form.html',
                               {'form': form},
                               context_instance=RequestContext(request))
+
+@user_passes_test(lambda u: u.is_staff)
+def review(request, comics_id):
+    comics_id = int(comics_id)
+    this = get_object_or_404(Comics, cid=comics_id)
+    if request.POST.has_key('ready'):
+        this.ready = True
+    else:
+        this.ready = False
+    this.reviewed = True
+    this.save()
+    return HttpResponseRedirect(reverse(index_unpublished))

@@ -12,7 +12,9 @@
 <a href="{{comics.get_absolute_url}}">
 <img border=0 src="{{comics.thumbnail.url}}" width=48 height=48 title="{{comics.cid}}: {{comics.title}}" alt="{{comics.title}}">
  {{comics.cid}}: {{comics.title}} (<span {% ifequal comics.author user %}class="me"{% endifequal %}>{{ comics.author }}</span>)</a>
-
+{% if comics.reviewed %}
+{% if comics.ready %}<span class="ready">✓</span>{% else %}<span class="not-ready">✗</span>{% endif %}
+{% endif %}
 
 {% endfor %}
 </ul>

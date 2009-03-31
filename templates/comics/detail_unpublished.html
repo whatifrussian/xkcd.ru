@@ -9,6 +9,18 @@
 <h1>{{comics.title}}</h1>
 
 <h2 class="unpublished">(неопубликованное)</h2>
+{% if user.is_staff %}
+<div class="buttons">
+<form action="{% url comics.views.review comics.cid %}" method="post">
+{% if not comics.reviewed or not comics.ready %}
+<input type="submit" name="ready" value="Готов">
+{% endif %}
+{% if not comics.reviewed or comics.ready %}
+<input type="submit" name="noready" value="Не готов">
+{% endif %}
+</form>
+</div>
+{% endif %}
 
 {% ifequal comics.author user %}
 <div class="buttons">

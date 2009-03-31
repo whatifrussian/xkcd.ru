@@ -21,6 +21,8 @@ class Comics(models.Model):
     published = models.DateTimeField('Опубликованно', null=True)
     updated = models.DateTimeField('Обновлено', auto_now=True)
     author = models.ForeignKey(User)
+    reviewed = models.BooleanField("Осмотрен", default=False)
+    ready = models.BooleanField("Готов", default=False)
     
     def __unicode__(self):
         return "%s: %s" % (self.cid, self.title)
@@ -45,7 +47,8 @@ class Comics(models.Model):
 class ComicsForm(ModelForm):
     class Meta:
         model = Comics
-        exclude = ('created', 'published', 'updated', 'visible', 'author')
+        exclude = ('created', 'published', 'updated', 'visible', 'author',
+                   'reviewed', 'ready')
     def clean_thumbnail(self):
        thumbnail = self.cleaned_data['thumbnail']
        try:
