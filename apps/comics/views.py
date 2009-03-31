@@ -149,7 +149,8 @@ def random(request,comics_id = -1):
 
 @login_required
 def index_unpublished(request):
-    comics_list = Comics.objects.filter(visible=False).order_by('created')
+    comics_list = Comics.objects.filter(visible=False).\
+        order_by('-ready','created')
     return render_to_response('comics/index_unpublished.html',
                               {'comics_list': comics_list},
                               context_instance=RequestContext(request))
@@ -178,6 +179,7 @@ def edit(request, comics_id):
         try:
             if form.is_valid():
                 this.reviewed = False
+                this.ready = False
                 this = form.save()
                 if not request.POST.has_key('continue'):
                     return HttpResponseRedirect(this.get_absolute_url())
