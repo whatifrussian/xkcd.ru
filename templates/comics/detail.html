@@ -71,9 +71,9 @@
 <input type="submit" value="Показать транскрипцию">
 </form>
 {% else %}
-<form action="{% url transcript.views.show_form comics.cid %}" method="get">
-<input type="submit" value="Добавить транскрипцию">
-</form>
+<a href="{% url transcript.views.show_form comics.cid %}" target="_blank">
+<img border=0 src="/static/transcribe.png" alt="Добавить транскрипцию">
+</a>
 {% endif %}
 {% endif %}
 
