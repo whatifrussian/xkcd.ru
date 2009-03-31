@@ -150,7 +150,7 @@ def random(request,comics_id = -1):
 @login_required
 def index_unpublished(request):
     comics_list = Comics.objects.filter(visible=False).\
-        order_by('-ready','created')
+        order_by('reviewed','-ready','created')
     return render_to_response('comics/index_unpublished.html',
                               {'comics_list': comics_list},
                               context_instance=RequestContext(request))
