@@ -33,11 +33,11 @@
 <form action="{% url comics.views.edit comics.cid %}" method="post">
 <input type="submit" name="edit" value="Редактировать">
 </form>
-{% if not code %}
-<form action="{% url comics.views.detail comics.cid %}" method="post">
-<input type="submit" name="code" value="Показать код">
-</form>
-{% endif %}
+</div>
+{% endifequal %}
+
+{% if user.is_staff %}
+<div class="buttons">
 {% if lj_post %}
 <form action="{% url livejournal.views.post comics.cid %}" method="post">
 <input type="submit" name="update_lj" value="Обновить ЖЖ">
@@ -47,9 +47,9 @@
 <input type="submit" name="post_lj" value="Публиковать в ЖЖ">
 </form>
 {% endif %}
-</form>
 </div>
-{% endifequal %}
+{% endif %}
+
 
 {% include "comics/comics.html" %}
 

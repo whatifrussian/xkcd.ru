@@ -8,7 +8,7 @@ from django.template import loader, Context
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.db import IntegrityError
 from django.utils.encoding import iri_to_uri
 
@@ -17,10 +17,10 @@ from livejournal.models import Post
 from profile.models import Profile
 
 
-@login_required
+@user_passes_test(lambda u: u.is_staff)
 def post(request, comics_id):
     comics_id = int(comics_id)
-    comics = get_object_or_404(Comics, author=request.user, cid=comics_id, visible=True)
+    comics = get_object_or_404(Comics, cid=comics_id, visible=True)
     try:
         lj_post = Post.objects.get(comics=comics)
     except Post.DoesNotExist:
@@ -33,7 +33,7 @@ def post(request, comics_id):
         lj_server = lj.rpcServer(settings.LJ_LOGIN, settings.LJ_PASSWORD,
                                  'xkcd.ru (contact dav03 at xkcd.ru)')
         t = loader.get_template('livejournal/code.html')
-        c = {'comics': comics, 'user': request.user}
+        c = {'comics': comics, 'user': comics.author}
         to_post = lj.Post(comics.title, unicode(t.render(Context(c))))
         time = comics.published.strftime(lj.LJ_TIME_FORMAT)
         if lj_post:

@@ -64,6 +64,9 @@ def index_thumbnail(request):
                               context_instance=RequestContext(request))
 
 def detail(request, comics_id):
+    # Do we need this? 
+    if request.POST.has_key('code'):
+        return HttpResponseRedirect(this.get_absolute_url() + '?code')
     comics_id = int(comics_id)
     this = get_object_or_404(Comics, cid=comics_id)
     if not this.visible:
@@ -75,9 +78,7 @@ def detail(request, comics_id):
     unapproved = UnapprovedTranscription.objects.filter(comics=this).\
         count()
     lj_post = None
-    if this.author == request.user:
-        if request.POST.has_key('code'):
-            return HttpResponseRedirect(this.get_absolute_url() + '?code')
+    if request.user.is_staff:
         try:
             lj_post = Post.objects.get(comics=this)
         except Post.DoesNotExist:
@@ -122,7 +123,7 @@ def detail_unpublished(request, comics_id, timestamp):
     this = get_object_or_404(Comics, cid=comics_id)
     if this.visible:
         return HttpResponseRedirect(this.get_absolute_url())
-    if this.author == request.user:
+    if request.user.is_staff:
         if request.POST.has_key('no'):
             return HttpResponseRedirect(this.get_absolute_url())
         elif request.POST.has_key('publish'):
@@ -161,19 +162,8 @@ def edit(request, comics_id):
     this = get_object_or_404(Comics, cid=comics_id)
     if request.user != this.author:
         raise Http404
-    elif request.POST.has_key('cancel'):
-        return HttpResponseRedirect(this.get_absolute_url())
     elif request.POST.has_key('edit'):
         return HttpResponseRedirect(reverse(edit, args=(this.cid, )) + '#edit')
-    elif request.POST.has_key('publish'):
-        this.visible = True
-        this.published = datetime.now()
-        this.save()
-        try:
-            ping_google()
-        except:
-            pass
-        return HttpResponseRedirect(this.get_absolute_url())
     elif request.method == 'POST':
         form = ComicsForm(request.POST, request.FILES, instance=this)
         try:
@@ -212,6 +202,19 @@ def add(request):
     return render_to_response('comics/edit_form.html',
                               {'form': form},
                               context_instance=RequestContext(request))
+
+@user_passes_test(lambda u: u.is_staff)
+def publish(request, comics_id):
+    comics_id = int(comics_id)
+    this = get_object_or_404(Comics, cid=comics_id, visible=False)
+    this.visible = True
+    this.published = datetime.now()
+    this.save()
+    try:
+        ping_google()
+    except:
+        pass
+    return HttpResponseRedirect(this.get_absolute_url())
 
 @user_passes_test(lambda u: u.is_staff)
 def review(request, comics_id):

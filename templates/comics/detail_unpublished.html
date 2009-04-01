@@ -9,40 +9,40 @@
 <h1>{{comics.title}}</h1>
 
 <h2 class="unpublished">(неопубликованное)</h2>
-{% if user.is_staff %}
-<div class="buttons">
-<form action="{% url comics.views.review comics.cid %}" method="post">
-{% if not comics.reviewed or not comics.ready %}
-<input type="submit" name="ready" value="Готов">
-{% endif %}
-{% if not comics.reviewed or comics.ready %}
-<input type="submit" name="noready" value="Не готов">
-{% endif %}
-</form>
-</div>
-{% endif %}
-
-{% ifequal comics.author user %}
-<div class="buttons">
-{% if publish %}
-Вы уверены, что хотите опубликовать?<br>
-<form action="{% url comics.views.edit comics.cid %}" method="post">
-<input type="submit" name="publish" value="Да">
-</form>
-<form action="" method="posе">
-<input type="submit" name="no" value="Нет">
-</form>
+{% if user.is_staff and publish %}
+  <div class="buttons">
+    Вы уверены, что хотите опубликовать?<br>
+    <form action="{% url comics.views.publish comics.cid %}" method="post">
+      <input type="submit" name="publish" value="Да">
+    </form>
+    <form action="" method="post">
+      <input type="submit" name="no" value="Нет">
+    </form>
+  </div>
 {% else %}
-<form action="{% url comics.views.edit comics.cid %}" method="post">
-<input type="submit" name="edit" value="Редактировать">
-</form>
-<form action="" method="post">
-<input type="submit" name="publish" value="Опубликовать">
-</form>
+  {% if user.is_staff %}
+    <div class="buttons">
+      <form action="" method="post">
+        <input type="submit" name="publish" value="Опубликовать">
+      </form>
+      <form action="{% url comics.views.review comics.cid %}" method="post">
+        {% if not comics.reviewed or not comics.ready %}
+          <input type="submit" name="ready" value="Готов">
+        {% endif %}
+        {% if not comics.reviewed or comics.ready %}
+          <input type="submit" name="noready" value="Не готов">
+        {% endif %}
+      </form>
+    </div>
+  {% endif %}
+  {% ifequal comics.author user %}
+    <div class="buttons">
+      <form action="{% url comics.views.edit comics.cid %}" method="post">
+        <input type="submit" name="edit" value="Редактировать">
+      </form>
+    </div>
+  {% endifequal %}
 {% endif %}
-</div>
-{% endifequal %}
-
 
 {% include "comics/comics.html" %}
 
