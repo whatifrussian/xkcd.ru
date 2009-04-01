@@ -214,6 +214,8 @@ def publish(request, comics_id):
         ping_google()
     except:
         pass
+    if request.POST.has_key('lj'):
+        return HttpResponseRedirect(reverse('livejournal.views.post', args=(comics_id, )))
     return HttpResponseRedirect(this.get_absolute_url())
 
 @user_passes_test(lambda u: u.is_staff)

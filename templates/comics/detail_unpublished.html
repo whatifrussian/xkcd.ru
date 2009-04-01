@@ -14,6 +14,7 @@
     Вы уверены, что хотите опубликовать?<br>
     <form action="{% url comics.views.publish comics.cid %}" method="post">
       <input type="submit" name="publish" value="Да">
+      <input type="submit" name="lj" value="и в ЖЖ">
     </form>
     <form action="" method="post">
       <input type="submit" name="no" value="Нет">
