@@ -12,6 +12,7 @@ def show(request):
     stat = {}
     stat['comics'] = Comics.objects.count()
     stat['unpublished'] = Comics.objects.filter(visible=False).count()
+    stat['ready'] = Comics.objects.filter(visible=False, ready=True).count()
     stat['lj'] = Post.objects.count()
     stat['transcriptions'] = Comics.objects.exclude(transcription='').count()
     stat['unapproved_transcriptions'] = UnapprovedTranscription.objects.count()
