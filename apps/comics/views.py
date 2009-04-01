@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import IntegrityError
 from django.contrib.sitemaps import ping_google
+from django.conf import settings
 
 from comics.models import Comics, ComicsForm
 from profile.models import Profile
@@ -210,10 +211,11 @@ def publish(request, comics_id):
     this.visible = True
     this.published = datetime.now()
     this.save()
-    try:
-        ping_google()
-    except:
-        pass
+    if setting.PING_GOOGLE:
+        try:
+            ping_google()
+        except:
+            pass
     if request.POST.has_key('lj'):
         return HttpResponseRedirect(reverse('livejournal.views.post', args=(comics_id, )))
     return HttpResponseRedirect(this.get_absolute_url())
