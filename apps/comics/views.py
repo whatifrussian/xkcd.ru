@@ -211,7 +211,7 @@ def publish(request, comics_id):
     this.visible = True
     this.published = datetime.now()
     this.save()
-    if setting.PING_GOOGLE:
+    if settings.PING_GOOGLE:
         try:
             ping_google()
         except:
