@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load mail %}
+
 {% block title %}{{comics.title}}{% endblock %}
 
 {% block content %}
@@ -47,5 +49,14 @@
 
 {% include "comics/comics.html" %}
 
+{% if mail_set %} 
+<div class="mail"
+{% for mail in mail_set %}
+
+<h2>{{ mail.safe_sender }} ({{ mail.date|timesince }} назад)</h2>
+<p>{{ mail.message|format_mail|urlize }}
+{% endfor %}
+</div>
+{% endif %}
 <div class="clearer"></div>
 {% endblock %}

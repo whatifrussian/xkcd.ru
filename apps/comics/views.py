@@ -131,8 +131,10 @@ def detail_unpublished(request, comics_id, timestamp):
             return HttpResponseRedirect(this.get_absolute_url() + '?publish')
     if this.created.strftime('%s') != timestamp:
         raise Http404
+    mail_set = this.mail_set.all().order_by('date')
     return render_to_response('comics/detail_unpublished.html',
                               {'comics': this,
+                               'mail_set': mail_set,
                                'publish': True if \
                                    request.GET.has_key('publish') \
                                    else False},

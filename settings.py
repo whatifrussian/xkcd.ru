@@ -47,5 +47,6 @@ INSTALLED_APPS = (
     'livejournal',
     'transcript',
     'statistics',
+    'maillist'
 )
 

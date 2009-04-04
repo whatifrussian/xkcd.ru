@@ -389,3 +389,19 @@ color: green;
 .not-ready {
 color: red;
 }
+
+.mail {
+  text-align: left;
+  font-family: monospace;
+  border-top: 1px solid gray;
+  padding: 0 5em;
+  margin: 1em;
+}
+
+.mail cite {
+  color: grey;
+}
+
+.mail p, .mail.cite {
+  margin-left: 1em;
+}

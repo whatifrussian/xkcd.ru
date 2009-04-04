@@ -1,3 +1,5 @@
+import re
+
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
@@ -48,3 +50,8 @@ LJ_PASSWORD = ''
 LJ_JOURNAL = ''
 
 PING_GOOGLE = False
+
+MAILLIST_NAME = 'ru_xkcd@googlegroups.com'
+MAILLIST_HEADER = re.compile(r'xkcd[/\\](\d*)')
+MAILLIST_FOOTER = '--~--~---------~--~----~------------~-------~--~----~'
+MAILLIST_DIR = ''
