@@ -20,7 +20,7 @@ logging.basicConfig(filename=settings.MAILLIST_DIR+'/error.log',
 
 def import_mail(f):
     message = email.message_from_file(f)
-    if message['to'].find(settings.MAILLIST_NAME) != -1:
+    if message and message['to'].find(settings.MAILLIST_NAME) != -1:
         subject, encoding = email.header.decode_header(message['subject'])[0]
         if encoding:
             subject = subject.decode(encoding)
