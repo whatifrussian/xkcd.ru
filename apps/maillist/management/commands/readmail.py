@@ -8,6 +8,7 @@ import traceback
 
 from django.core.management.base import NoArgsCommand
 from django.conf import settings
+from django.utils.html import strip_tags, strip_entities
 
 from maillist.models import Mail
 from comics.models import Comics
@@ -47,6 +48,8 @@ def import_mail(f):
                         break
             else:
                 text = message.get_payload(decode=True)
+                if message.get_content_type() == 'text/html':
+                    text = strip_entities(strip_tags(text))
             try:
                 text = text.split(settings.MAILLIST_FOOTER)[0]
             except:
