@@ -38,7 +38,8 @@ def import_mail(f):
             date = datetime.datetime.utcfromtimestamp(
                 email.utils.mktime_tz(
                     email.utils.parsedate_tz(message['date'])))
-            sys.stderr.write('Comics: %s\n' % comics)
+            logging.debug('Comics: %s(%s)\n' % (comics, 
+                                                message_hash.hexdigest()))
             if message.is_multipart():
                 for part in message.walk():
                     if part.get_content_type() == 'text/plain':
