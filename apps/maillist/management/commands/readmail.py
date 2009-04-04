@@ -35,7 +35,7 @@ def import_mail(f):
             name, encoding  = email.header.decode_header(name)[0]
             if not encoding is None:
                 name = name.decode(encoding)
-            date = datetime.datetime.utcfromtimestamp(
+            date = datetime.datetime.fromtimestamp(
                 email.utils.mktime_tz(
                     email.utils.parsedate_tz(message['date'])))
             logging.debug('Comics: %s(%s)\n' % (comics, 
