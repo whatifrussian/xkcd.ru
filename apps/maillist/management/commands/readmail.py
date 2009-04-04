@@ -15,6 +15,7 @@ from comics.models import Comics
 
 
 logging.basicConfig(filename=settings.MAILLIST_DIR+'/error.log',
+                    format='%(asctime)s %(levelname)s %(message)s',
                     level=logging.DEBUG)
 
 def import_mail(f):
@@ -39,16 +40,27 @@ def import_mail(f):
             date = datetime.datetime.fromtimestamp(
                 email.utils.mktime_tz(
                     email.utils.parsedate_tz(message['date'])))
-            logging.debug('Comics: %s(%s)\n' % (comics, 
+            logging.debug('Comics: %s(%s).' % (comics, 
                                                 message_hash.hexdigest()))
             if message.is_multipart():
                 for part in message.walk():
                     if part.get_content_type() == 'text/plain':
                         text = part.get_payload(decode=True)
                         break
+                else:
+                    logging.debug('No text/plain in multipart message.')
+                    for part in message.walk():
+                        if part.get_content_type() == 'text/html':
+                            text = part.get_payload(decode=True)
+                            text = strip_entities(strip_tags(text))
+                            break
+                    else:
+                        logging.warning('No text/html in message %s.' %
+                                            message_hash.hexdigest())
             else:
                 text = message.get_payload(decode=True)
                 if message.get_content_type() == 'text/html':
+                    logging.debug('No text/plain in message.')
                     text = strip_entities(strip_tags(text))
             try:
                 text = text.split(settings.MAILLIST_FOOTER)[0]
