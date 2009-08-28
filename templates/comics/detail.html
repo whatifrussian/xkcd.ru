@@ -69,8 +69,8 @@
 {% if comics.transcription %}
 <script type="text/javascript">
   function toggle_transcription() {
-    transcription = document.getElementById('transcription');
-    transcription_button = document.getElementById('transcription_button');
+    var transcription = document.getElementById('transcription');
+    var transcription_button = document.getElementById('transcription_button');
     if ( transcription.style.display == "none" ) {
       transcription.style.display = "block";
       transcription_button.value = "Скрыть транскрипцию";
@@ -81,6 +81,7 @@
     return false;
   }
 </script> 
+
 <form action="" method="post">
 {% if not show_transcription %}
 <input name="show_transcription" type="hidden">
@@ -88,7 +89,7 @@
 <input name="hide_transcription" type="hidden">
 {% endif %}
 
-<input type="submit" value={% if show_transcription %}"Скрыть транскрипцию"{% else %}"Показать транскрипцию"{% endif %} onclick="javascript:toggle_transcription(); return false;" id="transcription_button">
+<input type="submit" value={% if show_transcription %}"Скрыть транскрипцию"{% else %}"Показать транскрипцию"{% endif %} onclick="javascript:return toggle_transcription()" id="transcription_button">
 </form>
 {% else %}
 <a href="{% url transcript.views.show_form comics.cid %}" target="_blank">
