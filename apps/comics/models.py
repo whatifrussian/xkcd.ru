@@ -18,7 +18,7 @@ class Comics(models.Model):
     transcription = models.TextField("Транскрипция", blank=True)
     visible = models.BooleanField("Виден", default=False)
     created = models.DateTimeField('Создано', auto_now_add=True)
-    published = models.DateTimeField('Опубликованно', null=True)
+    published = models.DateTimeField('Опубликованно', null=True, blank=True)
     updated = models.DateTimeField('Обновлено', auto_now=True)
     author = models.ForeignKey(User)
     reviewed = models.BooleanField("Осмотрен", default=False)
