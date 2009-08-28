@@ -62,8 +62,6 @@ urlpatterns = patterns(
     (r'^transcript_edit/(?P<comics_id>\d+)/$', 'transcript.views.edit'),
     (r'^transcript_clear/(?P<comics_id>\d+)/$',
      'transcript.views.clear_unapproved'),
-    (r'^transcription/(?P<comics_id>\d+)/$',
-     'transcript.views.show_transcription'),
     (r'^unapproved/$', 'transcript.views.list_unapproved'),
     (r'^statistics/$', 'statistics.views.show'),
     # Sitemaps.

@@ -10,15 +10,6 @@ from comics.models import Comics, TranscriptionForm
 from comics.views import last
 
 
-def show_transcription(request, comics_id):
-    comics_id = int(comics_id)
-    comics = get_object_or_404(Comics, cid=comics_id, visible=True)
-    if not comics.transcription:
-        raise Http404
-    return render_to_response('transcript/show.html',
-                              {'comics': comics},
-                              context_instance=RequestContext(request))
-
 def show_form(request, comics_id):
     comics_id = int(comics_id)
     comics = get_object_or_404(Comics, cid=comics_id) 

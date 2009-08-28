@@ -342,8 +342,8 @@ div.sample a {
 }
 
 div.transcription {
-  width: 400px;
   text-align: left;
+  border: solid 1px grey;
 }
 
 form.transcription_edit {

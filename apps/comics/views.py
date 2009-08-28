@@ -65,9 +65,6 @@ def index_thumbnail(request):
                               context_instance=RequestContext(request))
 
 def detail(request, comics_id):
-    # Do we need this? 
-    if request.POST.has_key('code'):
-        return HttpResponseRedirect(this.get_absolute_url() + '?code')
     comics_id = int(comics_id)
     this = get_object_or_404(Comics, cid=comics_id)
     if not this.visible:
@@ -75,6 +72,18 @@ def detail(request, comics_id):
            return HttpResponseRedirect(this.get_absolute_url())
         else:
             raise Http404
+    # Do we need this? 
+    if request.POST.has_key('code'):
+        return HttpResponseRedirect(this.get_absolute_url() + '?code')
+    if request.POST.has_key('show_transcription'):
+        return HttpResponseRedirect(this.get_absolute_url() + '?transcription')
+    if request.POST.has_key('hide_transcription'):
+        return HttpResponseRedirect(this.get_absolute_url())
+    if request.GET.has_key('transcription'):
+        show_transcription = True
+    else:
+        show_transcription = False
+
     # Get transcription.
     unapproved = UnapprovedTranscription.objects.filter(comics=this).\
         count()
@@ -106,7 +115,8 @@ def detail(request, comics_id):
                                'prev': prev,
                                'next': next,
                                'code': True if request.GET.has_key('code')\
-                                   and this.author == request.user else False,
+                                   else False,
+                               'show_transcription': show_transcription,
                                'random': random,
                                'lj': request.GET['lj'] if \
                                    request.GET.has_key('lj') \
