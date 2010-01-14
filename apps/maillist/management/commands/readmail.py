@@ -5,6 +5,9 @@ import datetime
 import hashlib
 import logging
 import traceback
+import os.path
+import glob
+from optparse import make_option
 
 from django.core.management.base import NoArgsCommand
 from django.conf import settings
@@ -28,10 +31,12 @@ def import_mail(f):
         if match:
             message_hash = hashlib.sha1(message.as_string())
             if settings.MAILLIST_DIR:
-                tf = open("%s/%s.msg" % (settings.MAILLIST_DIR,
-                                     message_hash.hexdigest()), 'w')
-                tf.write(message.as_string())
-                tf.close()
+                tfn = "%s/%s.msg" % (settings.MAILLIST_DIR,
+                                     message_hash.hexdigest())
+                if not os.path.exists(tfn):
+                    tf = open(tfn, 'w')
+                    tf.write(message.as_string())
+                    tf.close()
             comics = match.group(1)
             name, address = email.utils.getaddresses([message['from']])[0]
             name, encoding  = email.header.decode_header(name)[0]
@@ -45,20 +50,23 @@ def import_mail(f):
             if message.is_multipart():
                 for part in message.walk():
                     if part.get_content_type() == 'text/plain':
-                        text = part.get_payload(decode=True)
+                        text = part.get_payload(decode=True).\
+                            decode(part.get_content_charset('utf-8'))
                         break
                 else:
                     logging.debug('No text/plain in multipart message.')
                     for part in message.walk():
                         if part.get_content_type() == 'text/html':
-                            text = part.get_payload(decode=True)
+                            text = part.get_payload(decode=True).\
+                                decode(part.get_content_charset('utf-8'))
                             text = strip_entities(strip_tags(text))
                             break
                     else:
                         logging.warning('No text/html in message %s.' %
                                             message_hash.hexdigest())
             else:
-                text = message.get_payload(decode=True)
+                text = message.get_payload(decode=True).\
+                    decode(message.get_content_charset('utf-8'))
                 if message.get_content_type() == 'text/html':
                     logging.debug('No text/plain in message.')
                     text = strip_entities(strip_tags(text))
@@ -76,10 +84,19 @@ def import_mail(f):
 
 class Command(NoArgsCommand):
     help = "Import incoming mail (from stdin) to database."
+    option_list = NoArgsCommand.option_list + (
+        make_option('--allmsg', action='store_true', dest='all',
+                    default=False,
+                    help='Import all .msg files from directory.'),
+    )
 
     def handle_noargs(self, **options):
         try:
-            import_mail(sys.stdin)
+            if options.get('all'):
+                for fn in glob.glob('*.msg'):
+                    import_mail(open(fn))
+            else:
+                import_mail(sys.stdin)
         except:
             exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
             logging.error(
