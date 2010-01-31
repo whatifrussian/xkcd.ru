@@ -1,18 +1,39 @@
 # *- coding: utf-8 *-
 from PIL import Image
 from cStringIO import StringIO
+from os.path import exists, normpath, basename
 
 from django.db import models
 from django.db.models import permalink
 from django.contrib.auth.models import User
 from django.forms import ModelForm, ValidationError
 
+from settings import MEDIA_ROOT
+
+
+def upload_to_v(upload_to):
+    def this_upload_to(instance, filename):
+        try:
+            extension = basename(filename).split('.')[-1].lower()
+        except:
+            raise ValidationError(u'Не указано расширение.')
+        v = 1
+        while True:
+            name = normpath(
+                '%s/%d_v%d.%s' % (upload_to, instance.cid, v, extension))
+            if not exists('%s/%s' % (MEDIA_ROOT, name)):
+                return name
+            else:
+                v += 1
+    return this_upload_to
 
 class Comics(models.Model):
     cid = models.IntegerField("Номер", unique=True)
     title = models.CharField("Название", max_length=255)
-    image = models.ImageField("Изображение", upload_to='xkcd_img/')
-    thumbnail = models.ImageField("Миниатюра", upload_to='xkcd_thumb/')
+    image = models.ImageField("Изображение",
+                              upload_to=upload_to_v('i/'))
+    thumbnail = models.ImageField("Миниатюра",
+                                  upload_to=upload_to_v('t/'))
     text = models.TextField("Подпись")
     comment = models.TextField("Комментарий", blank=True)
     transcription = models.TextField("Транскрипция", blank=True)
@@ -42,7 +63,6 @@ class Comics(models.Model):
 
     image_preview.allow_tags = True
     image_preview.short_description = 'Preview'
-
 
 class ComicsForm(ModelForm):
     class Meta:
