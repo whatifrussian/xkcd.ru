@@ -70,10 +70,11 @@ def import_mail(f):
                 if message.get_content_type() == 'text/html':
                     logging.debug('No text/plain in message.')
                     text = strip_entities(strip_tags(text))
-            try:
-                text = text.split(settings.MAILLIST_FOOTER)[0]
-            except:
-                pass
+            for footer in settings.MAILLIST_FOOTER:
+                try:
+                    text = text.split(footer)[0]
+                except:
+                    pass
             try:
                 m = Mail(sender="%s <%s>" % (name, address), message=text,
                          date=date, comics=Comics.objects.get(cid=comics))
