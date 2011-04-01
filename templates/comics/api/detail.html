@@ -6,8 +6,8 @@
     "comment": "{{ comics.comment|escapejs }}",
     "original_url": "http://xkcd.com/{{comics.cid}}/",
     "url": "http://{{host}}{{ comics.get_absolute_url }}",
-    "next": "http://{{ host }}{{ next.get_absolute_url }}",
-    "previous": "http://{{ host }}{{ prev.get_absolute_url }}",
+    "next": "{% if next %}http://{{ host }}{{ next.get_absolute_url }}{% endif %}",
+    "previous": "{% if prev %}http://{{ host }}{{ prev.get_absolute_url }}{% endif %}",
     "first": "http://{{ host }}{{ first.get_absolute_url }}",
     "last": "http://{{ host }}{{ last.get_absolute_url }}",
     "random": "http://{{ host }}{{ random }}"
