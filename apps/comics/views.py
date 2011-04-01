@@ -34,7 +34,10 @@ def last(request):
         last_comics = Comics.objects.filter(visible=True).order_by('-published')[0]
     except IndexError:
         return HttpResponseRedirect(reverse(index_numbers))
-    return HttpResponseRedirect(last_comics.get_absolute_url())
+    if request.GET.has_key('json'):
+        return HttpResponseRedirect(last_comics.get_absolute_url() + '?json')
+    else:
+        return HttpResponseRedirect(last_comics.get_absolute_url())
 
 
 def index_numbers(request): 
@@ -108,25 +111,38 @@ def detail(request, comics_id):
 
     random = reverse('comics.views.random', args=(comics_id, ))
 
-    return render_to_response('comics/detail.html',
-                              {'comics': this,
-                               'first': first,
-                               'last': last,
-                               'prev': prev,
-                               'next': next,
-                               'code': True if request.GET.has_key('code')\
-                                   else False,
-                               'show_transcription': show_transcription,
-                               'random': random,
-                               'lj': request.GET['lj'] if \
-                                   request.GET.has_key('lj') \
-                                   else False,
-                               'msg': request.GET['msg'] if \
-                                   request.GET.has_key('msg') \
-                                   else False,
-                               'unapproved': unapproved,
-                               'lj_post': lj_post},
-                               context_instance=RequestContext(request))
+    if request.GET.has_key('json'):
+        return render_to_response('comics/api/detail.html',
+                                  {'comics': this,
+                                   'first': first,
+                                   'last': last,
+                                   'prev': prev,
+                                   'next': next,
+                                   'random': random,
+                                   'host': request.META['HTTP_HOST'],
+                                   },
+                                  context_instance=RequestContext(request),
+                                  mimetype='application/json')
+    else:
+        return render_to_response('comics/detail.html',
+                                  {'comics': this,
+                                   'first': first,
+                                   'last': last,
+                                   'prev': prev,
+                                   'next': next,
+                                   'code': True if request.GET.has_key('code')\
+                                       else False,
+                                   'show_transcription': show_transcription,
+                                   'random': random,
+                                   'lj': request.GET['lj'] if \
+                                       request.GET.has_key('lj') \
+                                       else False,
+                                   'msg': request.GET['msg'] if \
+                                       request.GET.has_key('msg') \
+                                       else False,
+                                   'unapproved': unapproved,
+                                   'lj_post': lj_post},
+                                  context_instance=RequestContext(request))
 
 
 def detail_unpublished(request, comics_id, timestamp):
@@ -154,7 +170,10 @@ def random(request,comics_id = -1):
     try:
         random = Comics.objects.filter(visible=True).exclude(cid=comics_id).\
             order_by('?')[0]
-        return HttpResponseRedirect(random.get_absolute_url())
+        if request.GET.has_key('json'):
+            return HttpResponseRedirect(random.get_absolute_url() + '?json')
+        else:
+            return HttpResponseRedirect(random.get_absolute_url())
     except IndexError:
         raise Http404
 
