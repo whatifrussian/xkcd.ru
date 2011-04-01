@@ -1,0 +1,13 @@
+[
+{% for comics in comics_list %}    {
+        "id": "{{ comics.cid }}",
+        "title": "{{ comics.title|escapejs }}",
+        "image": "{{ comics.image.url }}",
+        "thumbnail": "{{ comics.thumbnail.url }}",
+        "text": "{{ comics.text|escapejs }}",
+        "comment": "{{ comics.comment|escapejs }}",
+        "original_url": "http://xkcd.com/{{comics.cid}}/",
+        "url": "http://{{host}}{{ comics.get_absolute_url }}",
+    },
+{% endfor %}]
+

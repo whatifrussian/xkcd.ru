@@ -53,9 +53,16 @@ def index_numbers(request):
             comics_list[comics.cid - 1] = comics
     except IndexError:
         comics_list = None
-    return render_to_response('comics/index_numbers.html',
-                              {'comics_list': comics_list},
-                              context_instance=RequestContext(request))
+    if request.GET.has_key('json'):
+        return render_to_response('comics/api/index.html',
+                                  {'comics_list': tmp_comics_list,
+                                   'host': request.META['HTTP_HOST']},
+                                  context_instance=RequestContext(request),
+                                  mimetype='application/json')
+    else:
+        return render_to_response('comics/index_numbers.html',
+                                  {'comics_list': comics_list},
+                                  context_instance=RequestContext(request))
 
 
 def index_thumbnail(request):
