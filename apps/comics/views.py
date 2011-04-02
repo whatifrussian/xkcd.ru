@@ -56,6 +56,7 @@ def index_numbers(request):
     if request.GET.has_key('json'):
         return render_to_response('comics/api/index.html',
                                   {'comics_list': tmp_comics_list,
+                                   'last_cid': last_id,
                                    'host': request.META['HTTP_HOST']},
                                   context_instance=RequestContext(request),
                                   mimetype='application/json')

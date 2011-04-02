@@ -5,6 +5,6 @@
             "title": "{{ comics.title|escapejs }}",
             "thumbnail": "{{ comics.thumbnail.url }}",
             "url": "http://{{host}}{{ comics.get_absolute_url }}"
-        },
+        }{% ifnotequal last_cid comics.cid %},{% endifnotequal %}
 {% endfor %}    ]
 }
