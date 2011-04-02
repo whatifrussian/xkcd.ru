@@ -3,4 +3,4 @@ Disallow: /img/
 Disallow: /random/
 Disallow: /login/
 Disallow: /transcript
-
+Host: xkcd.ru

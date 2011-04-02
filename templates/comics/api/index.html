@@ -1,9 +1,10 @@
-[
-{% for comics in comics_list %}    {
-        "id": "{{ comics.cid }}",
-        "title": "{{ comics.title|escapejs }}",
-        "thumbnail": "{{ comics.thumbnail.url }}",
-        "url": "http://{{host}}{{ comics.get_absolute_url }}",
-    },
-{% endfor %}]
-
+{
+    "list": [
+{% for comics in comics_list %}        {
+            "id": "{{ comics.cid }}",
+            "title": "{{ comics.title|escapejs }}",
+            "thumbnail": "{{ comics.thumbnail.url }}",
+            "url": "http://{{host}}{{ comics.get_absolute_url }}"
+        },
+{% endfor %}    ]
+}
