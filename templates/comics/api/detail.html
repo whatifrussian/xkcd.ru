@@ -1,4 +1,4 @@
-{
+{% autoescape off %}{
     "title": "{{ comics.title|addslashes }}",
     "image": "{{ comics.image.url }}",
     "thumbnail": "{{ comics.thumbnail.url }}",
@@ -11,4 +11,4 @@
     "first": "http://{{ host }}{{ first.get_absolute_url }}",
     "last": "http://{{ host }}{{ last.get_absolute_url }}",
     "random": "http://{{ host }}{{ random }}"
-}
+}{% endautoescape %}

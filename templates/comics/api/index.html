@@ -1,4 +1,4 @@
-{
+{% autoescape off %}{
     "list": [
 {% for comics in comics_list %}        {
             "id": "{{ comics.cid }}",
@@ -7,4 +7,4 @@
             "url": "http://{{host}}{{ comics.get_absolute_url }}"
         }{% ifnotequal last_cid comics.cid %},{% endifnotequal %}
 {% endfor %}    ]
-}
+}{% endautoescape %}
