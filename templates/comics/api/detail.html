@@ -1,9 +1,9 @@
 {
-    "title": "{{ comics.title|escapejs }}",
+    "title": "{{ comics.title|addslashes }}",
     "image": "{{ comics.image.url }}",
     "thumbnail": "{{ comics.thumbnail.url }}",
-    "text": "{{ comics.text|escapejs }}",
-    "comment": "{{ comics.comment|escapejs }}",
+    "text": "{{ comics.text|addslashes }}",
+    "comment": "{{ comics.comment|addslashes }}",
     "original_url": "http://xkcd.com/{{comics.cid}}/",
     "url": "http://{{host}}{{ comics.get_absolute_url }}",
     "next": "{% if next %}http://{{ host }}{{ next.get_absolute_url }}{% endif %}",
