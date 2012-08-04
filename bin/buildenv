@@ -1,0 +1,12 @@
+#!/bin/sh
+echo Creating environment
+virtualenv --no-site-packages .env
+
+echo Update setuptools.
+./.env/bin/easy_install -U setuptools
+
+echo Install PIP inside virtual environment
+./.env/bin/easy_install pip
+
+echo Installing dependencies
+./.env/bin/pip install -r pipreq.txt
