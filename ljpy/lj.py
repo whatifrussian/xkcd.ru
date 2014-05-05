@@ -17,9 +17,9 @@
 
 import time
 import logging
-import md5
-import xmlrpclib
-import urllib2
+import hashlib
+import xmlrpc.client
+import urllib.request, urllib.error, urllib.parse
 from xml.etree.ElementTree import ElementTree
 
 USER_AGENT = 'lj.py (http://bitbucket.org/Davydov/ljpy)'
@@ -27,19 +27,19 @@ USER_AGENT = 'lj.py (http://bitbucket.org/Davydov/ljpy)'
 LJ_TIME_FORMAT = r"%Y-%m-%d %H:%M:%S"
 
 class Server:
-        def __init__(self, user, password, user_agent=USER_AGENT,
+	def __init__(self, user, password, user_agent=USER_AGENT,
 		     server='www.livejournal.com'):
-                self.username = user
-                self.hpassword = md5.md5(password).hexdigest()
-		self.transport = xmlrpclib.Transport()
+		self.username = user
+		self.hpassword = hashlib.md5(password).hexdigest()
+		self.transport = xmlrpc.client.Transport()
 		self.user_agent = user_agent
 		self.transport.user_agent = self.user_agent
 		self.server_name = server
-		self.server = xmlrpclib.ServerProxy(
+		self.server = xmlrpc.client.ServerProxy(
 			"http://%s/interface/xmlrpc:80" % self.server_name,
 			self.transport)
 
-        def get_challenge(self):
+	def get_challenge(self):
 		logging.debug('requesting new challenge')
 		result = self.server.LJ.XMLRPC.getchallenge()
 		logging.debug('got challenge: %s' % str(result))
@@ -50,10 +50,10 @@ class Server:
 		try:
 			auth = {'auth_method': 'challenge',
 				'auth_challenge': challenge['challenge'],
-				'auth_response': md5.md5(
+				'auth_response': hashlib.md5(
 					challenge['challenge'] +
 					self.hpassword).hexdigest()}
-		except KeyError, inst:
+		except KeyError as inst:
 			raise UnexpectedReply('Server didn\'t returned %s.' %
 					      inst.message)      
 		logging.debug('auth: %s' % str(auth))
@@ -67,7 +67,7 @@ class Server:
 			   'expiration': 'short'}
 		request.update(self.get_auth())
 		logging.debug('sending sessiongenerate: %s' % str(request))
-                result = self.server.LJ.XMLRPC.sessiongenerate(request)
+		result = self.server.LJ.XMLRPC.sessiongenerate(request)
 		logging.debug('got result: %s' % str(result))
 		try:
 			return result['ljsession']
@@ -75,7 +75,7 @@ class Server:
 			raise UnexpectedReply(
 				'Server didn\'t returned ljsession.')
 
-        def get_last(self):
+	def get_last(self):
 		request = {'username': self.username,
 			   'ver': '1',
 			   'lineendings': '0x0A',
@@ -84,27 +84,27 @@ class Server:
 			   "howmany": 1}
 		request.update(self.get_auth())
 		logging.debug('sending getevents: %s' % str(request))
-                result = self.server.LJ.XMLRPC.getevents(request)
+		result = self.server.LJ.XMLRPC.getevents(request)
 		logging.debug('got result: %s' % str(result))
-                return result['events'][0]
+		return result['events'][0]
 
-        def del_event(self, itemid):
+	def del_event(self, itemid):
 		request = {'username': self.username,
 			   'ver': '1',
 			   "itemid": itemid}
 		request.update(self.get_auth())
 		logging.debug('sending editevent: %s' % str(request))
-                result = self.server.LJ.XMLRPC.editevent(request)
+		result = self.server.LJ.XMLRPC.editevent(request)
 		logging.debug('got result: %s' % str(result))
 		return result
 
-        # post is Post or dict with subj, text and tags
-        def post(self, post, eventtime=None, journal=None,
+	# post is Post or dict with subj, text and tags
+	def post(self, post, eventtime=None, journal=None,
 		 raise_on_premod=False):
-                if eventtime == None:
-                        moment = time.localtime()
-                else:
-                        moment = time.strptime(eventtime, LJ_TIME_FORMAT)
+		if eventtime == None:
+			moment = time.localtime()
+		else:
+			moment = time.strptime(eventtime, LJ_TIME_FORMAT)
 
 		request = {'username': self.username,
 			   'clientversion': 'Zapys/0.8',
@@ -123,7 +123,7 @@ class Server:
 			request.update({'usejournal': journal})
 		request.update(self.get_auth())
 		logging.debug('sending postevent: %s' % str(request))
-                result = self.server.LJ.XMLRPC.postevent(request)
+		result = self.server.LJ.XMLRPC.postevent(request)
 		logging.debug('got result: %s' % str(result))
 		try:
 			result['itemid']
@@ -139,9 +139,9 @@ class Server:
 					'Server didn\'t returned message.')
 		return result
 
-        # post is Post or dict {subj, tags, text}
-        def edit(self, itemid, eventtime, post, journal=None):
-                moment = time.strptime(eventtime, LJ_TIME_FORMAT)
+	# post is Post or dict {subj, tags, text}
+	def edit(self, itemid, eventtime, post, journal=None):
+		moment = time.strptime(eventtime, LJ_TIME_FORMAT)
 
 		request = {'username': self.username,
 			   'ver': '1',
@@ -155,11 +155,11 @@ class Server:
 			   'day': moment[2],
 			   'hour' : moment[3],
 			   'min': moment[4]}
-                if journal:
+		if journal:
 			request.update({'usejournal': journal})
 		request.update(self.get_auth())
 		logging.debug('sending editevent: %s' % str(request))
-                result = self.server.LJ.XMLRPC.editevent(request)
+		result = self.server.LJ.XMLRPC.editevent(request)
 		logging.debug('got result: %s' % str(result))
 		return result
 
@@ -176,8 +176,8 @@ class Server:
 			url += '&authas=%s' % journal
 		logging.debug('sending get_comments: %s (%s)' % (
 				url, str(headers)))
-		request = urllib2.Request(url, None, headers)
-		response =  urllib2.urlopen(request)
+		request = urllib.request.Request(url, None, headers)
+		response =  urllib.request.urlopen(request)
 		result = {}
 		tree = ElementTree()
 		tree.parse(response)
@@ -214,8 +214,8 @@ class Server:
 			url += '&authas=%s' % journal
 		logging.debug('sending get_comments: %s (%s)' % (
 				url, str(headers)))
-		request = urllib2.Request(url, None, headers)
-		response =  urllib2.urlopen(request)
+		request = urllib.request.Request(url, None, headers)
+		response =  urllib.request.urlopen(request)
 		result = {}
 		tree = ElementTree()
 		tree.parse(response)

@@ -16,6 +16,6 @@
 </table>
 
 <input type="submit" value="Войти" />
-<input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{% url comics.views.index_unpublished %}{% endif %}" />
+<input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{% url "comics.views.index_unpublished" %}{% endif %}" />
 </form>
 {% endblock %}

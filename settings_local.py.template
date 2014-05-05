@@ -33,7 +33,7 @@ DATABASE_PORT = ''             # Set to empty string for default. Not used with 
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = '/home/django/www-xkcd-ru/media/'
 
-FILE_UPLOAD_PERMISSIONS = 0644
+FILE_UPLOAD_PERMISSIONS = 0o644
 
 # URL that handles the media served from MEDIA_ROOT.
 # Example: "http://media.lawrence.com"

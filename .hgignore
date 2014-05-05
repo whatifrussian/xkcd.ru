@@ -10,3 +10,6 @@ dev/*
 fcgi
 *_local.py
 .env/
+*.swp
+TODO
+www-xkcd-ru

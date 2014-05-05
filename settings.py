@@ -1,18 +1,20 @@
 from settings_local import *
 
+PROJECT_DIR = os.path.dirname(__file__)
+
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-#     'django.template.loaders.eggs.load_template_source',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.messages.context_processors.messages',
+    'django.contrib.auth.context_processors.auth'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -20,25 +22,25 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
-)
-
-ROOT_URLCONF = 'urls'
-
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.admin',
-    'comics'
+    'django.contrib.messages.middleware.MessageMiddleware'
 )
 
 AUTH_PROFILE_MODULE = "profile.profile"
 
+ROOT_URLCONF = 'urls'
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_DIR, "static").replace('\\', '/'),
+)
+
+
 INSTALLED_APPS = (
+    'django.contrib.staticfiles',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.sitemaps',
@@ -49,4 +51,3 @@ INSTALLED_APPS = (
     'statistics',
     'maillist'
 )
-

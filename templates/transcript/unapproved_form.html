@@ -5,7 +5,7 @@
 <h1>Транскрипция: {{comics.title}}</h1>
 <img src="{{ comics.image.url }}" border="0"  alt="{{comics.title}}">
 {% include "transcript/sample.html" %}
-<form class="transcription_edit" action="{% url transcript.views.add comics.cid %}" method="post">
+<form class="transcription_edit" action="{% url "transcript.views.add" comics.cid %}" method="post">
 <table cellspacing=0 align="center">{{ form }}
 <tr><th></th><td class="save">
 <input type="submit" value="Отправить">

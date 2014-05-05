@@ -34,7 +34,7 @@ def last(request):
         last_comics = Comics.objects.filter(visible=True).order_by('-published')[0]
     except IndexError:
         return HttpResponseRedirect(reverse(index_numbers))
-    if request.GET.has_key('json'):
+    if 'json' in request.GET:
         return HttpResponseRedirect(last_comics.get_absolute_url() + '?json')
     else:
         return HttpResponseRedirect(last_comics.get_absolute_url())
@@ -48,12 +48,12 @@ def index_numbers(request):
         else:
             tmp_comics_list = Comics.objects.filter(visible=True).order_by('cid')
             last_id = Comics.objects.filter(visible=True).order_by('-cid')[0].cid
-        comics_list=[NoComics(i) for i in xrange(1, last_id + 1)]
+        comics_list=[NoComics(i) for i in range(1, last_id + 1)]
         for comics in tmp_comics_list:
             comics_list[comics.cid - 1] = comics
     except IndexError:
         comics_list = None
-    if request.GET.has_key('json'):
+    if 'json' in request.GET:
         return render_to_response('comics/api/index.html',
                                   {'comics_list': tmp_comics_list,
                                    'last_cid': last_id,
@@ -84,13 +84,13 @@ def detail(request, comics_id):
         else:
             raise Http404
     # Do we need this? 
-    if request.POST.has_key('code'):
+    if 'code' in request.POST:
         return HttpResponseRedirect(this.get_absolute_url() + '?code')
-    if request.POST.has_key('show_transcription'):
+    if 'show_transcription' in request.POST:
         return HttpResponseRedirect(this.get_absolute_url() + '?transcription')
-    if request.POST.has_key('hide_transcription'):
+    if 'hide_transcription' in request.POST:
         return HttpResponseRedirect(this.get_absolute_url())
-    if request.GET.has_key('transcription'):
+    if 'transcription' in request.GET:
         show_transcription = True
     else:
         show_transcription = False
@@ -119,7 +119,7 @@ def detail(request, comics_id):
 
     random = reverse('comics.views.random', args=(comics_id, ))
 
-    if request.GET.has_key('json'):
+    if 'json' in request.GET:
         return render_to_response('comics/api/detail.html',
                                   {'comics': this,
                                    'first': first,
@@ -138,15 +138,15 @@ def detail(request, comics_id):
                                    'last': last,
                                    'prev': prev,
                                    'next': next,
-                                   'code': True if request.GET.has_key('code')\
+                                   'code': True if 'code' in request.GET\
                                        else False,
                                    'show_transcription': show_transcription,
                                    'random': random,
                                    'lj': request.GET['lj'] if \
-                                       request.GET.has_key('lj') \
+                                       'lj' in request.GET \
                                        else False,
                                    'msg': request.GET['msg'] if \
-                                       request.GET.has_key('msg') \
+                                       'msg' in request.GET \
                                        else False,
                                    'unapproved': unapproved,
                                    'lj_post': lj_post},
@@ -159,9 +159,9 @@ def detail_unpublished(request, comics_id, timestamp):
     if this.visible:
         return HttpResponseRedirect(this.get_absolute_url())
     if request.user.is_staff:
-        if request.POST.has_key('no'):
+        if 'no' in request.POST:
             return HttpResponseRedirect(this.get_absolute_url())
-        elif request.POST.has_key('publish'):
+        elif 'publish' in request.POST:
             return HttpResponseRedirect(this.get_absolute_url() + '?publish')
     if this.created.strftime('%s') != timestamp:
         raise Http404
@@ -170,7 +170,7 @@ def detail_unpublished(request, comics_id, timestamp):
                               {'comics': this,
                                'mail_set': mail_set,
                                'publish': True if \
-                                   request.GET.has_key('publish') \
+                                   'publish' in request.GET \
                                    else False},
                               context_instance=RequestContext(request))
 
@@ -178,7 +178,7 @@ def random(request,comics_id = -1):
     try:
         random = Comics.objects.filter(visible=True).exclude(cid=comics_id).\
             order_by('?')[0]
-        if request.GET.has_key('json'):
+        if 'json' in request.GET:
             return HttpResponseRedirect(random.get_absolute_url() + '?json')
         else:
             return HttpResponseRedirect(random.get_absolute_url())
@@ -202,7 +202,7 @@ def edit(request, comics_id):
     this = get_object_or_404(Comics, cid=comics_id)
     if request.user != this.author:
         raise Http404
-    elif request.POST.has_key('edit'):
+    elif 'edit' in request.POST:
         return HttpResponseRedirect(reverse(edit, args=(this.cid, )) + '#edit')
     elif request.method == 'POST':
         form = ComicsForm(request.POST, request.FILES, instance=this)
@@ -211,7 +211,7 @@ def edit(request, comics_id):
                 this.reviewed = False
                 this.ready = False
                 this = form.save()
-                if not request.POST.has_key('continue'):
+                if 'continue' not in request.POST:
                     return HttpResponseRedirect(this.get_absolute_url())
         except IntegrityError:
             form.errors['cid'] = ['Этот перевод уже есть']
@@ -227,7 +227,7 @@ def edit(request, comics_id):
 @login_required
 def add(request):
     if request.method == 'POST':
-        if request.POST.has_key('cancel'):
+        if 'cancel' in request.POST:
             return HttpResponseRedirect(reverse(index_unpublished))
         this = Comics(author=request.user)
         form = ComicsForm(request.POST, request.FILES, instance=this)
@@ -255,7 +255,7 @@ def publish(request, comics_id):
             ping_google()
         except:
             pass
-    if request.POST.has_key('lj'):
+    if 'lj' in request.POST:
         return HttpResponseRedirect(reverse('livejournal.views.post', args=(comics_id, )))
     return HttpResponseRedirect(this.get_absolute_url())
 
@@ -263,7 +263,7 @@ def publish(request, comics_id):
 def review(request, comics_id):
     comics_id = int(comics_id)
     this = get_object_or_404(Comics, cid=comics_id)
-    if request.POST.has_key('ready'):
+    if 'ready' in request.POST:
         this.ready = True
     else:
         this.ready = False

@@ -18,4 +18,4 @@ class UnapprovedTranscription(models.Model):
 class UnapprovedTranscriptionForm(ModelForm):
     class Meta:
         model = UnapprovedTranscription
-        exclude = ('comics')
+        exclude = ['comics']

@@ -7,7 +7,7 @@
 <ul class="transcriptions">
 {% for comics in comics_list %}
 <li>
-<a href="{% url transcript.views.show_form comics.cid %}">
+<a href="{% url "transcript.views.show_form" comics.cid %}">
 <img border=0 src="{{comics.thumbnail.url}}" width=48 height=48 title="{{comics.cid}}: {{comics.title}}" alt="{{comics.title}}">
  {{comics.cid}}: {{comics.title}} ({{comics.repeats}})</a>
 {% endfor %}

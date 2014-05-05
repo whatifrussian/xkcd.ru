@@ -45,7 +45,7 @@ def edit(request, comics_id):
         if form.cleaned_data['transcription'] != comics.transcription:
             form.save()
             UnapprovedTranscription.objects.filter(comics=comics).delete()
-        if request.POST.has_key('next'):
+        if 'next' in request.POST:
             return HttpResponseRedirect(reverse(random, args=(comics_id,)))
         else:
             return HttpResponseRedirect(comics.get_absolute_url())
@@ -111,7 +111,7 @@ def list_unapproved(request):
     comics_map = {}
     for transcription in unapproved_list:
         comics = transcription.comics
-        if comics_map.has_key(comics.cid):
+        if comics.cid in comics_map:
             comics_map[comics.cid][1]+=1
         else:
             comics_map[comics.cid]=[comics, 1]

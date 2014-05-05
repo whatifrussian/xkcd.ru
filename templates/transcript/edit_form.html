@@ -13,12 +13,12 @@
 </li>
 {% endfor %}
 </ul>
-<form class="clear" action="{% url transcript.views.clear_unapproved comics.cid %}" method="post">
+<form class="clear" action="{% url "transcript.views.clear_unapproved" comics.cid %}" method="post">
 <input type="submit" value="Очистить неподтверждённые">
 </form>
 {% endif %}
 {% include "transcript/sample.html" %}
-<form class="transcription_edit" action="{% url transcript.views.edit comics.cid %}" method="post">
+<form class="transcription_edit" action="{% url "transcript.views.edit" comics.cid %}" method="post">
 <table cellspacing=0 align="center">{{ form }}
 <tr><th></th><td class="save">
 <input type="submit" value="Сохранить">

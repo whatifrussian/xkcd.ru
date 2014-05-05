@@ -7,7 +7,7 @@
 <input type=submit value="Вернуться">
 </form>
 {% if untranscribed %}
-<form class="inline" action="{% url transcript.views.random comics.cid %}" method="get">
+<form class="inline" action="{% url "transcript.views.random" comics.cid %}" method="get">
 <input type=submit value="Добавить ещё одну">
 </form>
 {% endif %}
