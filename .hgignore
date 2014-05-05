@@ -13,3 +13,4 @@ fcgi
 *.swp
 TODO
 www-xkcd-ru
+static/js/jquery-2.1.0.min.js

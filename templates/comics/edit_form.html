@@ -15,7 +15,13 @@
 <img alt="thumbnail" src="{{ comics.thumbnail.url }}" align="right">
 <h1>{{ comics.title }}</h1>
 
-<img border=0 src="{{comics.image.url}}" alt="{{ comics.title }}" title="{{ comics.text|safe }}">
+<figure>
+    <img class="illustration" border=0 src="{{comics.image.url}}" alt="{{ comics.title }}" title="{{ comics.text|safe }}">
+    <figcaption>
+        <em>{{ comics.text|safe }}</em>
+    </figcaption>
+</figure>
+
 <div class="original">
 <a href="http://xkcd.com/{{comics.cid}}/" target=_blank>Оригинал</a>
 </div>

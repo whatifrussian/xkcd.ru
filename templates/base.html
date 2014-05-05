@@ -5,6 +5,8 @@
 <link rel="shortcut icon" href="/static/xkcd.ico" type="image/x-icon">
 <link rel="icon" href="/static/xkcd.ico" type="image/x-icon">
 <link rel="alternate" title="New on ru_xkcd" href="{% url "django.contrib.syndication.views.Feed" "xkcd" %}" type="application/rss+xml">
+<script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
 {% if user.is_authenticated %}

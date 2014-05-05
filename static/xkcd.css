@@ -156,7 +156,34 @@ div.comment a {
   text-decoration: underline;
 }
 
+/* Figures */
 
+figure {
+	margin: 0;
+}
+
+figcaption {
+	height: 0px;
+	overflow: hidden;
+	opacity: 0;
+	text-align: center;
+	color: #7ab130;
+	font-style: italic;
+	
+	display: block;
+	position: relative;
+	left: 0;
+	top: 0;
+
+	transition: opacity 500ms;
+	-webkit-transition: opacity 500ms;
+}
+
+figure.active figcaption {
+	height: auto;
+	opacity: 1;
+	padding-bottom: 1em;
+}
 
 /* Utility */
 
