@@ -77,7 +77,11 @@ def index_thumbnail(request):
 
 def detail(request, comics_id):
     comics_id = int(comics_id)
-    this = get_object_or_404(Comics, cid=comics_id)
+    try:
+        this = Comics.objects.get(cid=comics_id)
+    except Comics.DoesNotExist:
+        # TODO: add note and link to the original
+        raise Http404
     if not this.visible:
         if request.user.is_authenticated():
            return HttpResponseRedirect(this.get_absolute_url())
