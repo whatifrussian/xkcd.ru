@@ -1,14 +1,14 @@
-<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>
-<img border=0 src="{{comics.image.url}}" alt="{{ comics.title }}">
-</a>
+<img border=0 src="{{comics.image.url}}" alt="{{ comics.title }}" title="{{ comics.text|safe }}">
+
+<div class="original">
+<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>Оригинал</a>
+</div>
 
 {% if comics.transcription %}
 <div {% if not show_transcription %}style="display:none" {% endif %}class="transcription" id="transcription">
 {{ comics.transcription|linebreaks }}
 </div>
 {% endif %}
-
-<div class="comics_text">{{ comics.text|safe }}</div>
 
 {% if comics.comment %}
 <div class="comment">

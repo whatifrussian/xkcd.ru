@@ -14,11 +14,11 @@
 <div class="preview">
 <img alt="thumbnail" src="{{ comics.thumbnail.url }}" align="right">
 <h1>{{ comics.title }}</h1>
-<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>
-<img border=0 alt="{{comics.title}}"src="{{ comics.image.url }}">
-</a>
 
-<div class="comics_text">{{ comics.text|safe }}</div>
+<img border=0 src="{{comics.image.url}}" alt="{{ comics.title }}" title="{{ comics.text|safe }}">
+<div class="original">
+<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>Оригинал</a>
+</div>
 
 {% if comics.comment %}
 <div class="comment">
