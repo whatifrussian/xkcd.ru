@@ -16,15 +16,11 @@
 <h1>{{ comics.title }}</h1>
 
 <figure>
-    <img class="illustration" border=0 src="{{comics.image.url}}" alt="{{ comics.title }}" title="{{ comics.text|safe }}">
+    <img class="illustration" src="{{comics.image.url}}" alt="{{ comics.title }}" title="{{ comics.text|safe }}">
     <figcaption>
         <em>{{ comics.text|safe }}</em>
     </figcaption>
 </figure>
-
-<div class="original">
-<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>Оригинал</a>
-</div>
 
 {% if comics.comment %}
 <span id="comment_button">{{ comics.comment_title|safe }}</span>
@@ -32,6 +28,10 @@
 {{ comics.comment|safe }}
 </div>
 {% endif %}
+
+<div class="original">
+<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>Оригинал</a>
+</div>
 
 </div>
 {% endif %}

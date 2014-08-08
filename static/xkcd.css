@@ -153,13 +153,18 @@ span#comment_button {
     padding-bottom: 0.4em;
     padding-left: 0.7em;
     padding-right: 0.7em;
+    border-radius: 7px;
 }
 
 div#comment.active {
 	height: auto;
     width: 60%;
-    border: 1px solid gray;
-    padding: 5px;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+    border-radius: 7px;
+    background-color: #d0d0f0;
 }
 
 div#comment {
@@ -177,8 +182,13 @@ div#comment a {
 
 /* Figures */
 
+.illustration {
+    border: 0px;
+    margin-bottom: 0px;
+}
+
 figure {
-	margin: 0;
+	margin: 0px;
 }
 
 figcaption {
@@ -193,6 +203,7 @@ figcaption {
 	position: relative;
 	left: 0;
 	top: 0;
+	padding-bottom: 1em;
 
 	transition: opacity 500ms;
 	-webkit-transition: opacity 500ms;
@@ -201,7 +212,6 @@ figcaption {
 figure.active figcaption {
 	height: auto;
 	opacity: 1;
-	padding-bottom: 1em;
 }
 
 /* Utility */
