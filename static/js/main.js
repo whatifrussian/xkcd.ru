@@ -8,6 +8,7 @@ $(document).ready(function(){
 	// Spoiler (comment)
 	$("#comment_button").click(function(e) {
 		$("#comment").toggleClass("active");
+		return false;
 	});
 
 });

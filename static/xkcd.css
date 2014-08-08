@@ -145,7 +145,10 @@ div.original a {
     text-decoration: underline;
 }
 
-span#comment_button {
+a#comment_button {
+    text-decoration: none;
+    user-select: none;
+    outline: none;
     background-color: #d0d0d0;
     color: #808080;
     padding-top: 0.4em;
@@ -157,6 +160,9 @@ span#comment_button {
     display: inline-block;
     margin-top: 1em;
 }
+
+a#comment_button:hover  { background-color: #dfdfdf; }
+a#comment_button:active { background-color: #dfdfdf; }
 
 div#comment.active {
 	height: auto;
@@ -175,7 +181,6 @@ div#comment {
   width: 0px;
   overflow: hidden;
   text-align: left;
-  border: none;
 }
 
 div#comment a {
