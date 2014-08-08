@@ -10,6 +10,7 @@
 {% endif %}
 
 <form method="post" class="login" action=".">
+{% csrf_token %}
 <table align = "center">
 <tr><td><label for="id_username">Имя:</label></td><td>{{ form.username }}</td></tr>
 <tr><td><label for="id_password">Пароль:</label></td><td>{{ form.password }}</td></tr>
