@@ -146,14 +146,14 @@ div.original a {
 }
 
 span#comment_button {
-    border: 1px solid gray;
-    background-color: #4040d0;
-    color: #fff;
+    background-color: #d0d0d0;
+    color: #808080;
     padding-top: 0.4em;
     padding-bottom: 0.4em;
     padding-left: 0.7em;
     padding-right: 0.7em;
     border-radius: 7px;
+    border: 1px solid darkgray;
     display: inline-block;
     margin-top: 1em;
 }
