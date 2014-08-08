@@ -5,4 +5,9 @@ $(document).ready(function(){
 		$(this).parent().toggleClass("active");
 	});
 
+	// Spoiler (comment)
+	$("#comment_button").click(function(e) {
+		$("#comment").toggleClass("active");
+	});
+
 });

@@ -27,7 +27,8 @@
 </div>
 
 {% if comics.comment %}
-<div class="comment">
+<span id="comment_button">{{ comics.comment_title|safe }}</span>
+<div id="comment">
 {{ comics.comment|safe }}
 </div>
 {% endif %}

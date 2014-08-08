@@ -35,6 +35,8 @@ class Comics(models.Model):
     thumbnail = models.ImageField("Миниатюра",
                                   upload_to=upload_to_v('t/'))
     text = models.TextField("Подпись")
+    comment_title = models.TextField("Заголовок комментария", blank=True,
+        default="От переводчиков")
     comment = models.TextField("Комментарий", blank=True)
     transcription = models.TextField("Транскрипция", blank=True)
     visible = models.BooleanField("Виден", default=False)
