@@ -135,7 +135,7 @@ ul.nav li a:hover {
 
 div.original {
     display: block;
-    margin-bottom: 1.5em;
+    margin-bottom: 1em;
     margin-top: 0.5em;
 }
 
@@ -154,6 +154,8 @@ span#comment_button {
     padding-left: 0.7em;
     padding-right: 0.7em;
     border-radius: 7px;
+    display: inline-block;
+    margin-top: 1em;
 }
 
 div#comment.active {
@@ -164,6 +166,7 @@ div#comment.active {
     padding-left: 0.7em;
     padding-right: 0.7em;
     border-radius: 7px;
+    margin-top: 15px;
     background-color: #d0d0f0;
 }
 
@@ -171,7 +174,6 @@ div#comment {
   height: 0px;
   width: 0px;
   overflow: hidden;
-  margin-top: 15px;
   text-align: left;
   border: none;
 }
@@ -203,7 +205,6 @@ figcaption {
 	position: relative;
 	left: 0;
 	top: 0;
-	padding-bottom: 1em;
 
 	transition: opacity 500ms;
 	-webkit-transition: opacity 500ms;
