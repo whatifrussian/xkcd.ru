@@ -5,6 +5,7 @@ import sys
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "apps"))
 
+# Change it for deploy
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -30,28 +31,23 @@ SITE_ID = 1
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/path/to/this/dir/www-xkcd-ru/xkcd.db'
+        'NAME': os.path.join(PROJECT_ROOT, "xkcd.db")
     }
 }
 
 SECRET_KEY = 'SECRET_KEY'
 
 # Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/path/to/this/dir/www-xkcd-ru/media/'
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 # URL that handles the media served from MEDIA_ROOT.
-# Example: "http://media.lawrence.com"
-#MEDIA_URL = 'http://www.xkcd.ru/'
-# For local tests:
-MEDIA_URL = 'http://localhost:8000/'
+MEDIA_URL = '/'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates".
     # Always use forward slashes, even on Windows.
-    '/path/to/this/dir/templates',
+    os.path.join(PROJECT_ROOT, "templates")
 )
 
 #FORCE_SCRIPT_NAME = ''

@@ -3,7 +3,7 @@ media/
 site/specific
 *.pyc
 *~
-db
+*.db
 dev/*
 \#*\#
 *.orig
@@ -11,4 +11,4 @@ fcgi
 *_local.py
 .env/
 *.swp
-www-xkcd-ru
+static/admin

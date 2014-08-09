@@ -1,6 +1,7 @@
+import os
 from settings_local import *
 
-PROJECT_DIR = os.path.dirname(__file__)
+PROJECT_ROOT = os.path.dirname(__file__)
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
@@ -29,11 +30,13 @@ AUTH_PROFILE_MODULE = "profile.profile"
 
 ROOT_URLCONF = 'urls'
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, "static").replace('\\', '/'),
-)
-
+# Yes, it's different specially. Django broke
+# url rewriting in DEBUG mode if URL starts with
+# STATIC_URL.
+# Note: with external webserver /admin page will
+# refer to files via /static/, not /s/.
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
+STATIC_URL = '/s/'
 
 INSTALLED_APPS = (
     'django.contrib.staticfiles',
@@ -51,3 +54,5 @@ INSTALLED_APPS = (
     'statistics',
     'maillist'
 )
+
+WSGI_APPLICATION = "wsgi.application"
