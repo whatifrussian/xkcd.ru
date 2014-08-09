@@ -1,22 +1,25 @@
 ## Prepare
 
 ```
-git clone git@github.com:whatifrussian/xkcd.ru.git
+git clone https://github.com/whatifrussian/xkcd.ru.git
 cd xkcd.ru
 cp settings_local.py.template settings_local.py
-./manage startapp       # generates SECRET_KEY
-edit settings_local.py  # change ADMINS
+./bin/random_key.py     # generate SECRET_KEY
+edit settings_local.py  # change ADMINS and SECRET_KEY
 cp urls_local.py.template urls_local.py
+./manage.py syncdb
 ```
 
 ## Update from old versions
 
 Database scheme changed, so if you have not clean installation, you need to
-perform:
+perform (for sqlite3):
 
 ```
 sqlite3 xkcd.db < 'ALTER TABLE main.comics_comics ADD comment_title text NOT NULL DEFAULT "";'
 ```
+
+Maybe Django can update database scheme itself, but I don’t try.
 
 ## Run
 
@@ -26,7 +29,11 @@ For debug and testing purposes:
 ./manage.py runserver
 ```
 
-Look at http://localhost:8000
+Look at:
+- [http://localhost:8000]
+- [http://localhost:8000/login]
+- [http://localhost:8000/admin]
+- [http://localhost:8000/add]
 
 ## Deploy
 
@@ -40,7 +47,7 @@ as all needed packages installed info system.
 ### xkcd.ru settings
 
 Move repo root to `/var/www/xkcd.ru`. Recursively change directory owner to
-your webserver user ('nginx' in my case).
+your webserver user:group ('nginx:nginx' in my case).
 
 Keep im mind set `DEBUG` in `settings_local.py` to `False` after testing your
 deployment.
