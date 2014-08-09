@@ -10,5 +10,5 @@ dev/*
 fcgi
 *_local.py
 .env/
-*.swp
+*.sw[a-z]
 static/admin
