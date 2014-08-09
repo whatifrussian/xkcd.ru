@@ -73,20 +73,9 @@
 {% endif %}
 
 {% include "comics/comment.html" %}
-<a href="http://xkcd.com/{{comics.cid}}/" id="original" target=_blank>Оригинал</a>
-
-<div class="lnk_block">
-<ul class="lnk2">
-    <li><a href="http://chtoes.li/about">О нас</a>
-    <li><a href="mailto:contact@chtoes.li">Почта</a>
-    <li><a href="http://vk.com/xkcdrussian">ВКонтакте</a>
-    <li><a href="http://twitter.com/xkcdrussian">Twitter</a>
-    <li><a href="http://ru-xkcd.livejournal.com">LiveJournal</a>
-</ul>
+<div id="original_block">
+    <a href="http://xkcd.com/{{comics.cid}}/" class="original" target=_blank>Оригинал</a>
 </div>
-
-<div class="bookmark">
-{% include "comics/bookmark.html" %}
-</div>
+{% include "comics/footer.html" %}
 
 {% endblock %}

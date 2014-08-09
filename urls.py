@@ -12,7 +12,7 @@ except ImportError:
 admin.autodiscover()
 
 feeds = {
-'xkcd': LatestComics,
+    'xkcd': LatestComics,
 }
 
 sitemaps = {
@@ -69,3 +69,5 @@ urlpatterns = patterns(
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap',
      {'sitemaps': sitemaps}),
     ) + urlpatterns_local
+
+handler404 = 'comics.views.custom404'

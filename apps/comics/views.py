@@ -1,6 +1,7 @@
 # *- coding: utf-8 *-
 from datetime import datetime
 
+import re
 import lj
 
 from django.template import RequestContext
@@ -77,11 +78,7 @@ def index_thumbnail(request):
 
 def detail(request, comics_id):
     comics_id = int(comics_id)
-    try:
-        this = Comics.objects.get(cid=comics_id)
-    except Comics.DoesNotExist:
-        # TODO: add note and link to the original
-        raise Http404
+    this = get_object_or_404(Comics, cid=comics_id)
     if not this.visible:
         if request.user.is_authenticated():
            return HttpResponseRedirect(this.get_absolute_url())
@@ -265,3 +262,15 @@ def review(request, comics_id):
     this.reviewed = True
     this.save()
     return HttpResponseRedirect(reverse(index_unpublished))
+
+def custom404(request):
+    m = re.search("^/(\d+)/?$", request.path)
+    comics_request = bool(m)
+    if comics_request:
+        comics_id = m.group(1)
+    else:
+        comics_id = -1
+    return render_to_response('404.html', {
+        'comics_request' : comics_request,
+        'comics_id' : comics_id},
+        context_instance = RequestContext(request))
