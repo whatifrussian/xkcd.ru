@@ -1,6 +1,6 @@
 import os
 from django.conf.urls import patterns, url
-from settings import DEBUG, STATIC_ROOT, MEDIA_ROOT
+from settings import STATIC_ROOT, MEDIA_ROOT
 
 urlpatterns = patterns(
     'django.views.static',
