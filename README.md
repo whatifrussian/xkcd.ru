@@ -30,10 +30,10 @@ For debug and testing purposes:
 ```
 
 Look at:
-- [http://localhost:8000]
-- [http://localhost:8000/login]
-- [http://localhost:8000/admin]
-- [http://localhost:8000/add]
+- http://localhost:8000/
+- http://localhost:8000/login/
+- http://localhost:8000/admin/
+- http://localhost:8000/add/
 
 ## Deploy
 
