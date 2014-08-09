@@ -34,7 +34,8 @@ ROOT_URLCONF = 'urls'
 # url rewriting in DEBUG mode if URL starts with
 # STATIC_URL.
 # Note: with external webserver /admin page will
-# refer to files via /static/, not /s/.
+# refer to files via /static/ (Django 1.6.5) or
+# to /s/ (Django 1.6.3).
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
 STATIC_URL = '/s/'
 
