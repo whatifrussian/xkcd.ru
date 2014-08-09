@@ -45,6 +45,10 @@ your webserver user ('nginx' in my case).
 Keep im mind set `DEBUG` in `settings_local.py` to `False` after testing your
 deployment.
 
+Run `./manage.py collectstatic` in repo directory for collecting Django static
+files into `static` directory (virtually now only `static/admin` directory
+will be added). Nginx will be directly serve it.
+
 ### Nginx settings
 
 Let’s see `deploy/nginx.conf` file in this repo. This is slighly edited
