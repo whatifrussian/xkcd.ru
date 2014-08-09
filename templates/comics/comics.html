@@ -1,6 +1,9 @@
-<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>
-<img border=0 src="{{comics.image.url}}" alt="{{ comics.title }}">
-</a>
+<figure>
+    <img class="illustration" src="{{comics.image.url}}" alt="{{ comics.title }}" title="{{ comics.text|safe }}">
+    <figcaption>
+        <em>{{ comics.text|safe }}</em>
+    </figcaption>
+</figure>
 
 {% if comics.transcription %}
 <div {% if not show_transcription %}style="display:none" {% endif %}class="transcription" id="transcription">
@@ -8,10 +11,13 @@
 </div>
 {% endif %}
 
-<div class="comics_text">{{ comics.text|safe }}</div>
-
 {% if comics.comment %}
-<div class="comment">
+<a href="#" id="comment_button">{{ comics.comment_title }}</a>
+<div id="comment">
 {{ comics.comment|safe }}
 </div>
 {% endif %}
+
+<div class="original">
+<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>Оригинал</a>
+</div>

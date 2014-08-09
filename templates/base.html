@@ -1,24 +1,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>{% block title %}{% endblock %} - xkcd по-русски</title>
+<html><head><title>{% block title %}{% endblock %} — xkcd по-русски</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 <link rel="stylesheet" type="text/css" href="/static/xkcd.css" media="screen">
 <link rel="shortcut icon" href="/static/xkcd.ico" type="image/x-icon">
 <link rel="icon" href="/static/xkcd.ico" type="image/x-icon">
-<link rel="alternate" title="New on ru_xkcd" href="{% url django.contrib.syndication.views.feed "xkcd" %}" type="application/rss+xml">
+<link rel="alternate" title="New on ru_xkcd" href="{% url "django.contrib.syndication.views.Feed" "xkcd" %}" type="application/rss+xml">
+<script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
 {% if user.is_authenticated %}
 <div class="sys">
 <ul>
-<li><a href="{% url comics.views.add %}">add</a>
-<li><a href="{% url comics.views.index_unpublished %}">unpublished</a>
-<li><a href="{% url transcript.views.list_unapproved %}">transcriptions</a>
-<li><a href="{% url profile.views.edit %}">profile</a>
+<li><a href="{% url "comics.views.add" %}">add</a>
+<li><a href="{% url "comics.views.index_unpublished" %}">unpublished</a>
+<li><a href="{% url "transcript.views.list_unapproved" %}">transcriptions</a>
+<li><a href="{% url "profile.views.edit" %}">profile</a>
 {% if user.is_staff %}
-<li><a href="{% url admin-root "" %}">admin</a>
+<li><a href="{% url "admin:index" %}">admin</a>
 {% endif %}
-<li><a href="{% url statistics.views.show %}">statistics</a>
-<li><a href="{% url logout %}">logout</a>
+<li><a href="{% url "statistics.views.show" %}">statistics</a>
+<li><a href="{% url "logout" %}">logout</a>
 </ul>
 <div class="clearer"></div>
 </div>
@@ -31,11 +33,11 @@
 <div class="main" align="center">
 
 <ul class="lnk">
-<li><a href="{% url comics.views.last %}">last</a>
-<li><a href="{% url comics.views.index_numbers %}">nums</a>
-<li><a href="{% url comics.views.index_thumbnail %}">imgs</a>
-<li><a href="{% url django.contrib.syndication.views.feed "xkcd" %}">RSS</a>
-<li><a href="http://community.livejournal.com/ru_xkcd/profile/">lj</a>
+<li><a href="{% url "comics.views.last" %}">last</a>
+<li><a href="{% url "comics.views.index_numbers" %}">nums</a>
+<li><a href="{% url "comics.views.index_thumbnail" %}">imgs</a>
+<li><a href="{% url "django.contrib.syndication.views.Feed" "xkcd" %}">RSS</a>
+<li><a href="http://ru-xkcd.livejournal.com">lj</a>
 <li><a href="http://xkcd.com/">xkcd</a>
 <li><a rel="license" href="http://creativecommons.org/licenses/by-nc/2.5/">CC-by-nc</a>
 </ul>

@@ -34,7 +34,7 @@ def post(request, comics_id):
                                  'xkcd.ru (contact dav03 at xkcd.ru)')
         t = loader.get_template('livejournal/code.html')
         c = {'comics': comics, 'user': comics.author}
-        to_post = lj.Post(comics.title, unicode(t.render(Context(c))))
+        to_post = lj.Post(comics.title, str(t.render(Context(c))))
         time = comics.published.strftime(lj.LJ_TIME_FORMAT)
         if lj_post:
             result = lj_server.edit(lj_post.pid, time, to_post,
@@ -49,7 +49,7 @@ def post(request, comics_id):
             post.save()
             return HttpResponseRedirect(comics.get_absolute_url() +
                                         '?lj=published')
-    except Exception, e:
+    except Exception as e:
             return HttpResponseRedirect(comics.get_absolute_url() +
                                         iri_to_uri('?lj=error&msg=%s:%s' %
                                                    (sys.exc_info()[:2])))

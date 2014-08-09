@@ -1,6 +1,6 @@
 # *- coding: utf-8 *-
 from PIL import Image
-from cStringIO import StringIO
+from io import BytesIO
 from os.path import exists, normpath, basename
 
 from django.db import models
@@ -16,7 +16,7 @@ def upload_to_v(upload_to):
         try:
             extension = basename(filename).split('.')[-1].lower()
         except:
-            raise ValidationError(u'Не указано расширение.')
+            raise ValidationError('Не указано расширение.')
         v = 1
         while True:
             name = normpath(
@@ -35,6 +35,8 @@ class Comics(models.Model):
     thumbnail = models.ImageField("Миниатюра",
                                   upload_to=upload_to_v('t/'))
     text = models.TextField("Подпись")
+    comment_title = models.TextField("Заголовок комментария", blank=True,
+        default="От переводчиков")
     comment = models.TextField("Комментарий", blank=True)
     transcription = models.TextField("Транскрипция", blank=True)
     visible = models.BooleanField("Виден", default=False)
@@ -72,9 +74,9 @@ class ComicsForm(ModelForm):
     def clean_thumbnail(self):
        thumbnail = self.cleaned_data['thumbnail']
        try:
-           image = Image.open(StringIO(thumbnail.read()))
+           image = Image.open(BytesIO(thumbnail.read()))
            if image.size != (48, 48):
-               raise ValidationError(u'Должно быть 48x48.')
+               raise ValidationError('Должно быть 48x48.')
            return thumbnail
        # This means that image is string.
        except AttributeError:
@@ -83,4 +85,4 @@ class ComicsForm(ModelForm):
 class TranscriptionForm(ModelForm):
     class Meta:
         model = Comics
-        fields = ('transcription',)
+        fields = ['transcription']

@@ -1,8 +1,9 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url, include
 from django.contrib import admin
 
 from comics.feeds import LatestComics
 from comics.sitemap import ComicsSitemap
+
 try:
     from urls_local import urlpatterns as urlpatterns_local
 except ImportError:
@@ -20,8 +21,8 @@ sitemaps = {
 
 urlpatterns = patterns(
     '',
-    url(r'^admin/(.*)',
-        admin.site.root, name='admin-root'),
+    url(r'^admin/',
+        include(admin.site.urls, app_name='index')),
     (r'^$', 'comics.views.last'),
     (r'^num/$', 'comics.views.index_numbers'),
     (r'^img/$', 'comics.views.index_thumbnail'),
@@ -34,7 +35,7 @@ urlpatterns = patterns(
      'transcript.views.random'),
     (r'^random/untranscribed/$', 'transcript.views.random'),
     (r'^feeds/(?P<url>.*)/$',
-     'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+     'django.contrib.syndication.views.Feed', {'feed_dict': feeds}),
     # For users.
     (r'^login/$',
      'django.contrib.auth.views.login',

@@ -85,7 +85,7 @@ li.real, li.fake, li.invisible {
 li.fake, li.fake a {
   color: #D0D0D0;
 }
-  
+ 
 li.real a {
   color:#96A8C8;
   font-weight:bold;
@@ -107,12 +107,12 @@ ul.nav {
   height: 1.4em;
 }
 
-ul.nav li{
+ul.nav li {
   display:block;
   float: left;
 }
 
-ul.nav li a{
+ul.nav li a {
   display: block;
   margin: 0px 4px 0px 4px;
   width:70px;
@@ -126,30 +126,99 @@ ul.nav li a{
   font-weight:600;
 }
 
-ul.nav li a:hover{
+ul.nav li a:hover {
 	background-color:#FFF;
 	color:#6E7B91;
 }
 
 /* Comics */
 
-div.comics_text {
-  margin-top: 1em;
-  margin-bottom: 1em;
+div.original {
+    display: block;
+    margin-bottom: 1em;
+    margin-top: 0.5em;
 }
 
-div.comment {
-  border-top: 1px solid gray;
-  padding-top: 15px;
+div.original a {
+    color: #999;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+a#comment_button {
+    text-decoration: none;
+    user-select: none;
+    outline: none;
+    background-color: #d0d0d0;
+    color: #808080;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+    border-radius: 7px;
+    border: 1px solid darkgray;
+    display: inline-block;
+    margin-top: 1em;
+}
+
+a#comment_button:hover  { background-color: #dfdfdf; }
+a#comment_button:active { background-color: #dfdfdf; }
+
+div#comment.active {
+	height: auto;
+    width: 60%;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+    border-radius: 7px;
+    margin-top: 15px;
+    background-color: #d0d0f0;
+}
+
+div#comment {
+  height: 0px;
+  width: 0px;
+  overflow: hidden;
   text-align: left;
-  width: 60%;
 }
 
-div.comics_text a, div.comment a {
+div#comment a {
   text-decoration: underline;
 }
 
+/* Figures */
 
+.illustration {
+    border: 0px;
+    margin-bottom: 0px;
+}
+
+figure {
+	margin: 0px;
+}
+
+figcaption {
+	height: 0px;
+	overflow: hidden;
+	opacity: 0;
+	text-align: center;
+	color: #7ab130;
+	font-style: italic;
+	
+	display: block;
+	position: relative;
+	left: 0;
+	top: 0;
+
+	transition: opacity 500ms;
+	-webkit-transition: opacity 500ms;
+}
+
+figure.active figcaption {
+	height: auto;
+	opacity: 1;
+}
 
 /* Utility */
 

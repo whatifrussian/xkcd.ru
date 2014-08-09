@@ -8,10 +8,10 @@ class Profile(models.Model):
     user = models.ForeignKey(User, unique=True)
 
     nick = models.CharField('Ник', max_length=100, blank=True)
-    url = models.URLField('URL', verify_exists=False, blank=True)
+    url  = models.CharField('URL', max_length=200, blank=True)
     city = models.CharField('Город', max_length=100, blank=True)
 
 class ProfileForm(ModelForm):
     class Meta:
         model = Profile
-        exclude = ('user')
+        exclude = ['user']

@@ -10,12 +10,13 @@
 {% endif %}
 
 <form method="post" class="login" action=".">
+{% csrf_token %}
 <table align = "center">
 <tr><td><label for="id_username">Имя:</label></td><td>{{ form.username }}</td></tr>
 <tr><td><label for="id_password">Пароль:</label></td><td>{{ form.password }}</td></tr>
 </table>
 
 <input type="submit" value="Войти" />
-<input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{% url comics.views.index_unpublished %}{% endif %}" />
+<input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{% url "comics.views.index_unpublished" %}{% endif %}" />
 </form>
 {% endblock %}

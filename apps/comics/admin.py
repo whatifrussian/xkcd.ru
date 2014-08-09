@@ -6,17 +6,17 @@ from transcript.models import UnapprovedTranscription
 
 
 class PostInline(admin.StackedInline):
-	model = Post
+        model = Post
 
 class UnapprovedTranscriptionInline(admin.StackedInline):
-	model = UnapprovedTranscription
+        model = UnapprovedTranscription
 
 class ComicsAdmin(admin.ModelAdmin):
         list_display = ('cid', 'title', 'image_preview', 'visible', 'author')
         ordering = ('visible', )
         list_per_page = 10
 
-	inlines = [PostInline, UnapprovedTranscriptionInline]
+        inlines = [PostInline, UnapprovedTranscriptionInline]
 
 
 

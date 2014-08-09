@@ -14,7 +14,7 @@
 {% if user.is_staff and publish %}
   <div class="buttons">
     Вы уверены, что хотите опубликовать?<br>
-    <form action="{% url comics.views.publish comics.cid %}" method="post">
+    <form action="{% url "comics.views.publish" comics.cid %}" method="post">
       <input type="submit" name="publish" value="Да">
       <input type="submit" name="lj" value="и в ЖЖ">
     </form>
@@ -28,7 +28,7 @@
       <form action="" method="post">
         <input type="submit" name="publish" value="Опубликовать">
       </form>
-      <form action="{% url comics.views.review comics.cid %}" method="post">
+      <form action="{% url "comics.views.review" comics.cid %}" method="post">
         {% if not comics.reviewed or not comics.ready %}
           <input type="submit" name="ready" value="Готов">
         {% endif %}
@@ -40,7 +40,7 @@
   {% endif %}
   {% ifequal comics.author user %}
     <div class="buttons">
-      <form action="{% url comics.views.edit comics.cid %}" method="post">
+      <form action="{% url "comics.views.edit" comics.cid %}" method="post">
         <input type="submit" name="edit" value="Редактировать">
       </form>
     </div>

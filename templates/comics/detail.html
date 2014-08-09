@@ -30,7 +30,7 @@
 
 {% ifequal comics.author user %}
 <div class="buttons">
-<form action="{% url comics.views.edit comics.cid %}" method="post">
+<form action="{% url "comics.views.edit" comics.cid %}" method="post">
 <input type="submit" name="edit" value="Редактировать">
 </form>
 </div>
@@ -39,11 +39,11 @@
 {% if user.is_staff %}
 <div class="buttons">
 {% if lj_post %}
-<form action="{% url livejournal.views.post comics.cid %}" method="post">
+<form action="{% url "livejournal.views.post" comics.cid %}" method="post">
 <input type="submit" name="update_lj" value="Обновить ЖЖ">
 </form>
 {% else %}
-<form action="{% url livejournal.views.post comics.cid %}" method="post">
+<form action="{% url "livejournal.views.post" comics.cid %}" method="post">
 <input type="submit" name="post_lj" value="Публиковать в ЖЖ">
 </form>
 {% endif %}
@@ -58,7 +58,7 @@
 <div class="clearer"></div>
 
 {% if user.is_authenticated %}
-<form action="{% url transcript.views.show_form comics.cid %}" method="get">
+<form action="{% url "transcript.views.show_form" comics.cid %}" method="get">
 {% if comics.transcription %}
 <input type="submit" value="Транскрипция">
 {% else %}
@@ -92,7 +92,7 @@
 <input type="submit" value={% if show_transcription %}"Скрыть транскрипцию"{% else %}"Показать транскрипцию"{% endif %} onclick="javascript:return toggle_transcription()" id="transcription_button">
 </form>
 {% else %}
-<a href="{% url transcript.views.show_form comics.cid %}" target="_blank">
+<a href="{% url "transcript.views.show_form" comics.cid %}" target="_blank">
 <img border=0 src="/static/transcribe.png" alt="Добавить транскрипцию">
 </a>
 {% endif %}

@@ -16,7 +16,7 @@ def format_mail(value, autoescape=None):
     result = ""
     if autoescape:
         value = conditional_escape(value)
-    value = simple_email_re.sub(u'\\1…@\\2', value)
+    value = simple_email_re.sub('\\1…@\\2', value)
     value = value.split('\n-- \n')[0]
     value = value.strip()
     for line in value.split('\n'):

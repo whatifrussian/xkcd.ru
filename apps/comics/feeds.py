@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.contrib.syndication.feeds import Feed
+from django.contrib.syndication.views import Feed
 
 from comics.models import Comics
 

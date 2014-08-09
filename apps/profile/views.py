@@ -22,7 +22,7 @@ def edit(request):
 
     return render_to_response('profile/edit.html',
                               {'form': form,
-                               'saved': True if request.GET.has_key('saved')\
+                               'saved': True if 'saved' in request.GET\
                                    else False},
                               context_instance = RequestContext(request))
 

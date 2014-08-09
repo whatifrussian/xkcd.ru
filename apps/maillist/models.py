@@ -18,4 +18,4 @@ class Mail(models.Model):
     def safe_sender(self):
         m = sender_re.match(self.sender)
         if m:
-            return u'%s <%s…@%s>' % (m.group(1), m.group(2)[0], m.group(3))
+            return '%s <%s…@%s>' % (m.group(1), m.group(2)[0], m.group(3))
