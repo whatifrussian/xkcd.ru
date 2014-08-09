@@ -1,0 +1,8 @@
+<div id="comment_block">
+    {% if comics.comment %}
+        <a href="#" id="comment_button">{{ comics.comment_title }}</a>
+        <div id="comment">
+            {{ comics.comment|safe }}
+        </div>
+    {% endif %}
+</div>

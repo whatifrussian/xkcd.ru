@@ -90,14 +90,6 @@ def detail(request, comics_id):
     # Do we need this? 
     if 'code' in request.POST:
         return HttpResponseRedirect(this.get_absolute_url() + '?code')
-    if 'show_transcription' in request.POST:
-        return HttpResponseRedirect(this.get_absolute_url() + '?transcription')
-    if 'hide_transcription' in request.POST:
-        return HttpResponseRedirect(this.get_absolute_url())
-    if 'transcription' in request.GET:
-        show_transcription = True
-    else:
-        show_transcription = False
 
     # Get transcription.
     unapproved = UnapprovedTranscription.objects.filter(comics=this).\
@@ -144,7 +136,6 @@ def detail(request, comics_id):
                                    'next': next,
                                    'code': True if 'code' in request.GET\
                                        else False,
-                                   'show_transcription': show_transcription,
                                    'random': random,
                                    'lj': request.GET['lj'] if \
                                        'lj' in request.GET \

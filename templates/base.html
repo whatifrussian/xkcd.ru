@@ -32,15 +32,16 @@
 </div-->
 <div class="main" align="center">
 
+<div class="lnk_block">
 <ul class="lnk">
-<li><a href="{% url "comics.views.last" %}">last</a>
-<li><a href="{% url "comics.views.index_numbers" %}">nums</a>
-<li><a href="{% url "comics.views.index_thumbnail" %}">imgs</a>
+<li><a href="{% url "comics.views.last" %}">LAST</a>
+<li><a href="{% url "comics.views.index_numbers" %}">NUMS</a>
+<li><a href="{% url "comics.views.index_thumbnail" %}">IMGS</a>
 <li><a href="{% url "django.contrib.syndication.views.Feed" "xkcd" %}">RSS</a>
-<li><a href="http://ru-xkcd.livejournal.com">lj</a>
-<li><a href="http://xkcd.com/">xkcd</a>
-<li><a rel="license" href="http://creativecommons.org/licenses/by-nc/2.5/">CC-by-nc</a>
+<li><a href="http://xkcd.com/">XKCD</a>
+<li><a rel="license" href="http://creativecommons.org/licenses/by-nc/2.5/">CC BY-NC</a>
 </ul>
+</div>
 <div class="clearer"></div>
 {% block content %}{% endblock %}
 </div>

@@ -50,7 +50,6 @@
 </div>
 {% endif %}
 
-
 {% include "comics/comics.html" %}
 
 {% include "comics/navigation.html" %}
@@ -58,49 +57,36 @@
 <div class="clearer"></div>
 
 {% if user.is_authenticated %}
-<form action="{% url "transcript.views.show_form" comics.cid %}" method="get">
-{% if comics.transcription %}
-<input type="submit" value="Транскрипция">
+    <form action="{% url "transcript.views.show_form" comics.cid %}" method="get" class="one_button">
+    {% if comics.transcription %}
+        <input type="submit" value="Транскрипция">
+    {% else %}
+        <input type="submit" value="Задать транскрипцию ({{ unapproved }})">
+    {% endif %}
+    </form>
 {% else %}
-<input type="submit" value="Задать транскрипцию ({{ unapproved }})">
-{% endif %}
-</form>
-{% else %}
-{% if comics.transcription %}
-<script type="text/javascript">
-  function toggle_transcription() {
-    var transcription = document.getElementById('transcription');
-    var transcription_button = document.getElementById('transcription_button');
-    if ( transcription.style.display == "none" ) {
-      transcription.style.display = "block";
-      transcription_button.value = "Скрыть транскрипцию";
-    } else {
-      transcription.style.display = "none";
-      transcription_button.value = "Показать транскрипцию";
-    }
-    return false;
-  }
-</script> 
-
-<form action="" method="post">
-{% if not show_transcription %}
-<input name="show_transcription" type="hidden">
-{% else %}
-<input name="hide_transcription" type="hidden">
+    {% if not comics.transcription %}
+    <a href="{% url "transcript.views.show_form" comics.cid %}" target="_blank">
+        <img border=0 src="/static/transcribe.png" alt="Добавить транскрипцию">
+    </a>
+    {% endif %}
 {% endif %}
 
-<input type="submit" value={% if show_transcription %}"Скрыть транскрипцию"{% else %}"Показать транскрипцию"{% endif %} onclick="javascript:return toggle_transcription()" id="transcription_button">
-</form>
-{% else %}
-<a href="{% url "transcript.views.show_form" comics.cid %}" target="_blank">
-<img border=0 src="/static/transcribe.png" alt="Добавить транскрипцию">
-</a>
-{% endif %}
-{% endif %}
+{% include "comics/comment.html" %}
+<a href="http://xkcd.com/{{comics.cid}}/" id="original" target=_blank>Оригинал</a>
+
+<div class="lnk_block">
+<ul class="lnk2">
+    <li><a href="http://chtoes.li/about">О нас</a>
+    <li><a href="mailto:contact@chtoes.li">Почта</a>
+    <li><a href="http://vk.com/xkcdrussian">ВКонтакте</a>
+    <li><a href="http://twitter.com/xkcdrussian">Twitter</a>
+    <li><a href="http://ru-xkcd.livejournal.com">LiveJournal</a>
+</ul>
+</div>
 
 <div class="bookmark">
 {% include "comics/bookmark.html" %}
 </div>
 
-<div class="clearer"></div>
 {% endblock %}

@@ -15,27 +15,11 @@
 <img alt="thumbnail" src="{{ comics.thumbnail.url }}" align="right">
 <h1>{{ comics.title }}</h1>
 
-<figure>
-    <img class="illustration" src="{{comics.image.url}}" alt="{{ comics.title }}" title="{{ comics.text|safe }}">
-    <figcaption>
-        <em>{{ comics.text|safe }}</em>
-    </figcaption>
-</figure>
-
-{% if comics.comment %}
-<span id="comment_button">{{ comics.comment_title|safe }}</span>
-<div id="comment">
-{{ comics.comment|safe }}
-</div>
-{% endif %}
-
-<div class="original">
-<a href="http://xkcd.com/{{comics.cid}}/" target=_blank>Оригинал</a>
-</div>
+{% include "comics/comics.html" %}
+{% include "comics/comment.html" %}
 
 </div>
 {% endif %}
-
 
 <h1><a name="edit">
 {% if edit %}
@@ -54,6 +38,5 @@
 </td></tr>
 </table>
 </form>
-
 
 {% endblock %}
