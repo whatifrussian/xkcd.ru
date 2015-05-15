@@ -48,7 +48,7 @@ MEDIA_URL = '/'
 
 TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
-    os.path.join(PROJECT_ROOT, "templates")
+    os.path.join(PROJECT_ROOT, "templates"),
 )
 
 #FORCE_SCRIPT_NAME = ''
